@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第3章 高斯定理与电势</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,25 +48,64 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第3章 高斯定理与电势</h1>
+            <p class="dek">把库仑定律改写成“通量”与“源”的语言，就得到高斯定理；再把静电场是保守场这一事实改写成标量，就得到电势。本章围绕这两条主线，说明对称性为何是解题的关键。</p>
+        </header>
 
         <p>大家好，我是你们的讲师。上一章我们用库仑定律计算了几个经典电荷分布的电场。如果你的手算能力足够强，你可以对任意电荷分布做积分求出电场。但是——说真的，谁想每次碰到一个带电球壳就要做三重积分？高斯定理就是我们的"捷径"，它告诉我们：在某些对称性条件下，求电场不过是小学代数。</p>
 
         <h2>电通量</h2>
         <p>在正式引入高斯定理之前，我们需要先理解一个重要的概念——<strong>电通量</strong>（Electric Flux）。电通量描述了电场"穿过"一个曲面的多少。定义如下：</p>
-        <p><strong>Φ<sub>E</sub> = ∫<sub>S</sub> <strong>E</strong> · d<strong>S</strong></strong></p>
+        <div class="math-equation" role="group" aria-label="电通量的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电通量定义式，可横向滚动">
+            <math display="block" aria-label="电通量等于电场 E 在曲面 S 上的面积分，被积函数为 E 点乘面积元矢量 dS"><mrow><msub><mi>Φ</mi><mi>E</mi></msub><mo>=</mo><msub><mo>∫</mo><mi>S</mi></msub><mi>E</mi><mo>·</mo><mi>d</mi><mi>S</mi></mrow></math>
+        </div></div>
         <p>其中 d<strong>S</strong> 是面积元矢量，方向为曲面在该点的法线方向。对于闭合曲面，法线指向外为正。</p>
         <p>类比水流可以帮助理解：如果你把一张网放在河流中，流过网的水量就是"水通量"。同样地，电通量测的是电场线"穿过"曲面的总量。电场线越密、曲面面积越大、电场方向越垂直于曲面，电通量就越大。如果电场线与曲面平行，电通量为零——因为没有电场线"穿过"。</p>
         <p>这里有一个微妙的概念——<strong>立体角</strong>（Solid Angle）。从点电荷发出的电场线在空间中是放射状的，穿过空间某个曲面的电场线数量与曲面相对于点电荷所张的立体角成正比。想象一个点电荷被一个任意形状的闭合曲面包围——无论曲面如何变形，只要它包住了电荷，穿过曲面的总电通量都不变。这正是高斯定理的几何根源。</p>
 
+        <figure aria-labelledby="fig-gauss-title">
+            <svg viewBox="0 0 420 420" role="img" aria-labelledby="fig-gauss-title fig-gauss-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-gauss-title">点电荷被任意闭合曲面包围时的电通量</title>
+                <desc id="fig-gauss-desc">中心正电荷向外发出放射状电场线，穿过一个虚线球面与一个不规则闭合曲面。无论闭合曲面形状如何，只要包住电荷，穿过的净电通量都等于内部电荷除以真空介电常数。</desc>
+                <rect width="420" height="420" rx="18" fill="#f3f7fb"/>
+                <defs><marker id="gauss-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#b45309"/></marker></defs>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <text x="20" y="34" font-size="14" font-weight="700" fill="#1e3a5f">任意闭合曲面包围电荷，通量只由内部电荷决定</text>
+                    <g stroke="#b45309" stroke-width="1.6" marker-end="url(#gauss-arrow)">
+                        <line x1="210" y1="210" x2="380" y2="210"/><line x1="210" y1="210" x2="357" y2="295"/>
+                        <line x1="210" y1="210" x2="295" y2="357"/><line x1="210" y1="210" x2="210" y2="380"/>
+                        <line x1="210" y1="210" x2="125" y2="357"/><line x1="210" y1="210" x2="63" y2="295"/>
+                        <line x1="210" y1="210" x2="40" y2="210"/><line x1="210" y1="210" x2="63" y2="125"/>
+                        <line x1="210" y1="210" x2="125" y2="63"/><line x1="210" y1="210" x2="210" y2="40"/>
+                        <line x1="210" y1="210" x2="295" y2="63"/><line x1="210" y1="210" x2="357" y2="125"/>
+                    </g>
+                    <circle cx="210" cy="210" r="95" fill="none" stroke="#1d4ed8" stroke-dasharray="7 5"/>
+                    <path d="M210 55 C310 60 385 140 360 235 C340 320 250 385 165 358 C85 333 45 245 68 150 C88 75 140 50 210 55 Z" fill="none" stroke="#0f766e" stroke-width="2.4"/>
+                    <line x1="210" y1="115" x2="210" y2="78" stroke="#1d4ed8" stroke-width="2.2" marker-end="url(#gauss-arrow)"/>
+                    <text x="220" y="100" font-size="12" fill="#1d4ed8">dS（外法向）</text>
+                    <circle cx="210" cy="210" r="9" fill="#b91c1c"/>
+                    <text x="224" y="204" font-size="14" fill="#b91c1c">+q</text>
+                    <text x="20" y="400" font-size="12" fill="#475569">球面（蓝虚线）与不规则曲面（青实线）得到相同的净通量</text>
+                </g>
+            </svg>
+            <figcaption>高斯定理的几何根源：点电荷发出的场线向外放射，在同一个立体角内穿过任意闭合曲面。曲面即使被拉长、扭变（青色），只要仍完整包围电荷 +q，穿过的净电通量不变；若曲面把电荷挡在外面，净通量为零。</figcaption>
+        </figure>
+
         <h2>高斯定理</h2>
         <p>高斯定理（Gauss's Law）是电磁学中最核心的定理之一。它的积分形式为：</p>
-        <p><strong>∮<sub>S</sub> <strong>E</strong> · d<strong>S</strong> = q<sub>enclosed</sub> / ε₀</strong></p>
+        <div class="math-equation" role="group" aria-label="高斯定理的积分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="高斯定理积分形式，可横向滚动">
+            <math display="block" aria-label="穿过闭合曲面的电通量等于曲面内包围的总电荷除以真空介电常数"><mrow><msub><mo>∮</mo><mi>S</mi></msub><mi>E</mi><mo>·</mo><mi>d</mi><mi>S</mi><mo>=</mo><mfrac><msub><mi>q</mi><mtext>enc</mtext></msub><msub><mi>ε</mi><mn>0</mn></msub></mfrac></mrow></math>
+        </div></div>
         <p>其含义是：穿过任意闭合曲面 S 的电通量，等于该曲面内所包围的总电荷量除以 ε₀。</p>
         <p>高斯定理可以从库仑定律严格推导出来。关键在于：点电荷产生的电场 <strong>E</strong> ∝ <strong>r̂</strong>/r²，而面积元 dS 在球坐标系中 ∝ r²，两者相乘恰好消去 r² 依赖，得到与距离无关的常数。因此，无论闭合曲面距离点电荷多远、形状多么复杂，只要包围了该电荷，电通量都是一样的。</p>
         <p>微分形式的高斯定理更是言简意赅：</p>
-        <p><strong>∇ · <strong>E</strong> = ρ / ε₀</strong></p>
+        <div class="math-equation" role="group" aria-label="高斯定理的微分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="高斯定理微分形式，可横向滚动">
+            <math display="block" aria-label="电场 E 的散度等于体电荷密度 ρ 除以真空介电常数"><mrow><mo>∇</mo><mo>·</mo><mi>E</mi><mo>=</mo><mfrac><mi>ρ</mi><msub><mi>ε</mi><mn>0</mn></msub></mfrac></mrow></math>
+        </div></div>
         <p>电荷密度 ρ 是电场散度的"源"——这就是第一章中我们反复强调的散度的物理意义。</p>
 
         <div class="highlight">
@@ -116,11 +162,15 @@
 
         <h2>电势与电势差</h2>
         <p>再来看看电磁学中另一个核心概念——<strong>电势</strong>（Electric Potential）。回想一下，静电场是<strong>保守场</strong>（Conservative Field），也就是说，将试探电荷在电场中沿闭合回路移动一圈，电场力做功为零。用数学语言表示：</p>
-        <p><strong>∮<sub>C</sub> <strong>E</strong> · d<strong>l</strong> = 0</strong></p>
+        <div class="math-equation" role="group" aria-label="静电场是保守场"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="静电场环量为零，可横向滚动">
+            <math display="block" aria-label="电场 E 沿任意闭合路径 C 的线积分等于零"><mrow><msub><mo>∮</mo><mi>C</mi></msub><mi>E</mi><mo>·</mo><mi>d</mi><mi>l</mi><mo>=</mo><mn>0</mn></mrow></math>
+        </div></div>
         <p>这意味着我们可以为静电场定义一个<strong>标量势函数</strong>——电势 φ。电场力从 A 到 B 移动电荷 q 所做的功等于电势能减少：</p>
         <p><strong>W<sub>A→B</sub> = q(V<sub>A</sub> − V<sub>B</sub>) = −q∫<sub>A</sub><sup>B</sup> <strong>E</strong> · d<strong>l</strong></strong></p>
         <p>电势 V 的单位是伏特（V），1 V = 1 J/C。一个点电荷 q 在距离 r 处的电势为：</p>
-        <p><strong>V(r) = (1/4πε₀) · q / r</strong></p>
+        <div class="math-equation" role="group" aria-label="点电荷的电势"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="点电荷电势公式，可横向滚动">
+            <math display="block" aria-label="点电荷 q 在距离 r 处的电势等于四派伊普西陇零分之一乘以 q 除以 r"><mrow><mi>V</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>4</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow></mfrac><mfrac><mi>q</mi><mi>r</mi></mfrac></mrow></math>
+        </div></div>
         <p>注意电势是<strong>标量</strong>——这是它的巨大优势。计算多个点电荷在某点的电势时，只需做<strong>代数加法</strong>（带正负号），而不是矢量加法。对于连续电荷分布，也是一个标量积分：V(<strong>r</strong>) = (1/4πε₀) ∫ ρ(<strong>r'</strong>) / |<strong>r</strong> − <strong>r'</strong>| dV'。</p>
         <p>标量 vs 矢量的巨大差异体现在：标量积分比矢量积分少了一个维度（不需要分解方向分量），计算量大幅减少。这也是为什么电磁学的标准解题策略是：<strong>"先求电势 V，再通过梯度求电场 E"</strong>。</p>
         <p><strong>等势面</strong>（Equipotential Surface）是电势相等的点构成的面。等势面与电力线处处正交——因为沿等势面移动电荷时电场力不做功，所以 E 必须垂直于等势面。地形的等高线就是一个很好的类比：沿着等高线走，重力不做功。</p>
@@ -132,7 +182,9 @@
 
         <h2>电场与电势的关系</h2>
         <p>电场与电势通过梯度联系起来：</p>
-        <p><strong>E</strong> = −∇V</p>
+        <div class="math-equation" role="group" aria-label="电场与电势的梯度关系"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电场等于电势的负梯度，可横向滚动">
+            <math display="block" aria-label="电场强度等于电势的负梯度"><mrow><mi>E</mi><mo>=</mo><mo>−</mo><mo>∇</mo><mi>V</mi></mrow></math>
+        </div></div>
         <p>即电场是电势的<strong>负梯度</strong>。这个关系是第一章中梯度概念的完美应用。在笛卡尔坐标系中：</p>
         <p><strong>E</strong> = −(∂V/∂x, ∂V/∂y, ∂V/∂z)</p>
         <p>反过来，电势可以通过对电场积分（沿任意路径）得到：</p>
@@ -170,13 +222,24 @@ plt.show()
         <p>高斯定理和电势是静电学中两个最强大的工具。高斯定理从"通量"的角度给出了电场的积分约束；电势从"能量"的角度提供了标量求解路径。两者相辅相成，构成了静电分析的完整工具箱。</p>
         <p>有了这些工具，我们终于可以应对一个非常实际的问题：<strong>导体在静电场中会发生什么？</strong>当你把一个导体放入外部电场中，导体内部的自由电子会迅速重新分布，直到内部电场为零——这就是静电平衡。这个过程发生在皮秒（10⁻¹² s）量级，却决定了从电缆屏蔽到避雷针的全部工作原理。<strong>下一章</strong>，我们将深入探讨导体与静电平衡，包括那个著名的法拉第笼效应——为什么坐在车里被雷劈是安全的。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Carl Friedrich Gauss, <em>Theoria attractionis corporum sphaeroidicorum ellipticorum homogeneorum</em> (1813)：散度定理（高斯定理）的最早陈述之一。见《高斯全集》卷五。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 2 章对电通量、高斯定理、电势与等势面的系统推导。</li>
+                <li>James Clerk Maxwell, <em>A Treatise on Electricity and Magnetism</em> (1873)：把“通量—源”与“环量—旋度”两套对偶思想体系化的经典著作。其 1865 年的前作见 <a href="https://doi.org/10.1098/rstl.1865.0008">DOI:10.1098/rstl.1865.0008</a>。</li>
+            </ol>
+            <p class="depth-note">本章图与公式均为教学用的标准推导；其中“球壳内部场为零”与“无限大平面场为匀强”均为理想化模型的严格结论（假设严格对称、无边效应），并非近似实验数据。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="02.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="04.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
-</body>
+</body>>
 </html>
