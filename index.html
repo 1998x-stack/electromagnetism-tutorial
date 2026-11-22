@@ -268,22 +268,109 @@
             border-radius: 20px;
             margin: 1rem 0;
         }
+        .chapter-fallback { margin-top: 1.5rem; }
+        .chapter-fallback h2 {
+            font-size: 1.2rem; color: #1f4d33; margin-bottom: 0.6rem;
+        }
+        .chapter-fallback ol { columns: 2; column-gap: 2rem; margin-left: 1.2rem; }
+        .chapter-fallback li { margin-bottom: 0.35rem; break-inside: avoid; }
+        .chapter-fallback a { color: #1d4ed8; }
+        .chapter-fallback[hidden] { display: none; }
+        @media (max-width: 640px) { .chapter-fallback ol { columns: 1; } }
+        .skip-link:focus { left: 0.8rem; }
     </style>
 </head>
 <body>
-<div class="container">
+<a class="skip-link" href="#content">跳转至正文</a>
+<main class="container" id="content">
     <div class="header">
-        <h1><span class="emoji"></span><span class="title-text"></span></h1>
-        <div class="sub"></div>
+        <h1><span class="emoji">⚡</span><span class="title-text">电磁学 · 从入门到精通</span></h1>
+        <div class="sub">28 章 实战体系</div>
     </div>
 
+    <section id="how-to-use" aria-labelledby="howto-heading">
+        <h2 id="howto-heading">如何使用这门课程</h2>
+        <p>本课程把电磁学从数学工具讲到工程与前沿，共 28 章。它不假设你已经熟悉向量分析，但要求你愿意从“看得见”的图与公式开始，而不是背结论：每一章都尽量给出物理图像、对应的数学表达，以及它会在后续哪一章被用到。</p>
+        <p>建议按顺序学习：<strong>第 1 章</strong>提供梯度、散度、旋度这套“场论语言”，后面所有方程都用它书写；<strong>第 2–7 章</strong>讲静电场与稳恒电流，<strong>第 8–10 章</strong>讲静磁场，<strong>第 11–14 章</strong>把两者在时变情形下统一为麦克斯韦方程组；之后进入电磁波与工程应用，最后是相对论、超构材料与 AI 建模等前沿专题。若你只想复习某个主题，也可直接用下面的章节卡片跳转。</p>
+    </section>
+
+    <figure aria-labelledby="fig-map-title">
+        <svg viewBox="0 0 420 600" role="img" aria-labelledby="fig-map-title fig-map-desc" xmlns="http://www.w3.org/2000/svg">
+            <title id="fig-map-title">课程知识地图：从矢量场论到工程与前沿</title>
+            <desc id="fig-map-desc">六个阶段自上而下依次为：矢量场论、静电场与稳恒电流、静磁场、动态电磁场与麦克斯韦方程组、电磁波与工程、前沿与综合。每个阶段是下一阶段的数学与物理前提，箭头表示依赖方向。</desc>
+            <rect width="420" height="600" rx="18" fill="#f3f7fb"/>
+            <g font-family="system-ui, 'PingFang SC', sans-serif">
+                <rect x="20" y="20" width="380" height="72" rx="14" fill="#e2edf9"/>
+                <text x="40" y="50" font-size="16" font-weight="700" fill="#1e3a5f">场论与矢量分析 · 第 1 章</text>
+                <text x="40" y="74" font-size="13" fill="#475569">梯度 · 散度 · 旋度 · 亥姆霍兹定理</text>
+                <rect x="20" y="116" width="380" height="72" rx="14" fill="#e4f2e8"/>
+                <text x="40" y="146" font-size="16" font-weight="700" fill="#1e4d33">静电场与稳恒电流 · 第 2–7 章</text>
+                <text x="40" y="170" font-size="13" fill="#475569">库仑 → 高斯 → 导体/介质 → 电容 → 电路</text>
+                <rect x="20" y="212" width="380" height="72" rx="14" fill="#fdeede"/>
+                <text x="40" y="242" font-size="16" font-weight="700" fill="#7a4a1a">静磁场 · 第 8–10 章</text>
+                <text x="40" y="266" font-size="13" fill="#475569">毕奥-萨伐尔 · 安培环路 · 磁介质</text>
+                <rect x="20" y="308" width="380" height="72" rx="14" fill="#efe9fb"/>
+                <text x="40" y="338" font-size="16" font-weight="700" fill="#4b3a86">动态电磁场 · 第 11–14 章</text>
+                <text x="40" y="362" font-size="13" fill="#475569">法拉第感应 · 位移电流 · 麦克斯韦方程组</text>
+                <rect x="20" y="404" width="380" height="72" rx="14" fill="#e0f0f5"/>
+                <text x="40" y="434" font-size="16" font-weight="700" fill="#155e75">电磁波与工程 · 第 15–25 章</text>
+                <text x="40" y="458" font-size="13" fill="#475569">传播/反射 · 传输线 · 天线 · EMC · 仿真</text>
+                <rect x="20" y="500" width="380" height="72" rx="14" fill="#f7e6ef"/>
+                <text x="40" y="530" font-size="16" font-weight="700" fill="#7a2e58">前沿与综合 · 第 26–28 章</text>
+                <text x="40" y="554" font-size="13" fill="#475569">超构材料 · AI for EM · 综合项目</text>
+                <g stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)">
+                    <line x1="210" y1="92" x2="210" y2="114"/>
+                    <line x1="210" y1="188" x2="210" y2="210"/>
+                    <line x1="210" y1="284" x2="210" y2="306"/>
+                    <line x1="210" y1="380" x2="210" y2="402"/>
+                    <line x1="210" y1="476" x2="210" y2="498"/>
+                </g>
+                <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#94a3b8"/></marker></defs>
+            </g>
+        </svg>
+        <figcaption>课程依赖地图：先掌握矢量场论，再依次进入静电场、静磁场、动态电磁场，最后到电磁波、工程应用与前沿专题。每一层都以前一层为工具，因此建议按顺序学习。</figcaption>
+    </figure>
+
     <div id="cardContainer" class="course-grid"></div>
+
+    <section id="chapterFallback" class="chapter-fallback" aria-labelledby="fallback-heading">
+        <h2 id="fallback-heading" class="visually-plain">章节目录</h2>
+        <ol>
+            <li><a href="01.html">第1章 向量分析与场论基础</a></li>
+            <li><a href="02.html">第2章 库仑定律与电场</a></li>
+            <li><a href="03.html">第3章 高斯定理与电势</a></li>
+            <li><a href="04.html">第4章 导体与静电平衡</a></li>
+            <li><a href="05.html">第5章 电介质与极化</a></li>
+            <li><a href="06.html">第6章 静电能量与电容</a></li>
+            <li><a href="07.html">第7章 恒定电流与电路</a></li>
+            <li><a href="08.html">第8章 静磁场与毕奥-萨伐尔定律</a></li>
+            <li><a href="09.html">第9章 安培环路定理与磁高斯定理</a></li>
+            <li><a href="10.html">第10章 磁介质与磁化</a></li>
+            <li><a href="11.html">第11章 电磁感应——法拉第定律</a></li>
+            <li><a href="12.html">第12章 电感与磁场能量</a></li>
+            <li><a href="13.html">第13章 位移电流与麦克斯韦方程组</a></li>
+            <li><a href="14.html">第14章 电磁场的边界条件</a></li>
+            <li><a href="15.html">第15章 电磁波——平面波传播</a></li>
+            <li><a href="16.html">第16章 电磁波的反射与折射</a></li>
+            <li><a href="17.html">第17章 传输线与波导</a></li>
+            <li><a href="18.html">第18章 天线基础与辐射</a></li>
+            <li><a href="19.html">第19章 趋肤效应与涡流</a></li>
+            <li><a href="20.html">第20章 电磁兼容（EMC）基础</a></li>
+            <li><a href="21.html">第21章 电磁场数值方法</a></li>
+            <li><a href="22.html">第22章 相对论与电磁学</a></li>
+            <li><a href="23.html">第23章 COMSOL电磁仿真实战</a></li>
+            <li><a href="24.html">第24章 Ansys HFSS天线与射频仿真</a></li>
+            <li><a href="25.html">第25章 EMC设计与测试实战</a></li>
+            <li><a href="26.html">第26章 超构材料与超表面</a></li>
+            <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
+            <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
+        </ol>
+    </section>
 
     <div style="text-align:center;">
         <div class="footer"></div>
     </div>
-</div>
-
+</main>
 <script>
     (function() {
         var container = document.getElementById('cardContainer');
@@ -354,9 +441,14 @@
 
                     container.appendChild(card);
                 });
+                var fallback = document.getElementById('chapterFallback');
+                if (fallback) fallback.hidden = true;
             })
             .catch(function(err) {
-                showError('课程数据加载失败: ' + err.message + '。请刷新页面重试。');
+                var note = document.createElement('p');
+                note.className = 'state-msg';
+                note.textContent = '章节卡片加载失败（' + err.message + '），已显示静态章节目录。';
+                container.parentNode.insertBefore(note, container.nextSibling);
             });
     })();
 </script>
