@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第2章 库仑定律与电场</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第2章 库仑定律与电场</h1>
+            <p class="dek">从摩擦起电到平方反比律，再到“场”的观念——本章交代静电学的起点：电荷、库仑力与电场强度，并把标量库仑定律重新写成可叠加的矢量形式。</p>
+        </header>
 
         <p>大家好，我是你们的讲师。"电"这个字，中文来自"闪电"，而在希腊语中它叫 <em>ηλεκτρον</em>（elektron），意思是<strong>琥珀</strong>。古希腊哲学家泰勒斯在公元前600年左右发现，用毛皮摩擦过的琥珀能吸引羽毛、木屑等轻小物体。这是人类最早关于电现象的记载。两千多年后，我们终于系统性地理解了这种神秘的力量——从库仑定律开始。</p>
 
@@ -55,7 +67,9 @@
             <li><strong>半导体（Semiconductor）</strong>：如硅、锗——导电能力介于导体和绝缘体之间，可通过掺杂精确调控。</li>
         </ul>
         <p>电荷有一个极其重要的性质：<strong>电荷是量子化的</strong>。任何带电体的电荷量都是元电荷 <em>e</em> 的整数倍：</p>
-        <p><strong>q = ne, &emsp; n = 0, ±1, ±2, ...</strong></p>
+        <div class="math-equation" role="group" aria-label="电荷量子化"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电荷量子化公式，可横向滚动">
+            <math display="block" aria-label="任意带电体的电荷量 q 等于元电荷 e 的整数倍"><mrow><mi>q</mi><mo>=</mo><mi>n</mi><mi>e</mi><mo>,</mo><mspace width="0.5em"/><mi>n</mi><mo>=</mo><mn>0</mn><mo>,</mo><mo>±</mo><mn>1</mn><mo>,</mo><mo>±</mo><mn>2</mn><mo>,</mo><mo>…</mo></mrow></math>
+        </div></div>
         <p>其中元电荷 <em>e</em> = 1.602 × 10⁻¹⁹ C（库仑）。这是罗伯特·密立根在1909年通过著名的油滴实验测定的。质子的电荷为 +e，电子的电荷为 −e。一个库仑大约对应 6.24 × 10¹⁸ 个电子的总电荷量——这个数字大到难以想象，这也是为什么我们日常中很少感受到静电的惊人力量：你身上的静电荷通常只有微库仑（µC）量级，但其中已经包含了天文数字般的电子数量。</p>
 
         <div class="highlight">
@@ -65,9 +79,13 @@
 
         <h2>库仑定律</h2>
         <p>1785年，法国物理学家<strong>查尔斯-奥古斯丁·库仑</strong>（Charles-Augustin de Coulomb）用他发明的<strong>扭秤</strong>（Torsion Balance）精确测量了两个带电小球之间的作用力。实验原理非常巧妙：将一个小球固定在扭秤的一端，另一个带电小球靠近它，通过测量悬丝扭转的角度来推算力的大小。库仑发现：</p>
-        <p><strong>F = k · |q₁q₂| / r²</strong></p>
+        <div class="math-equation" role="group" aria-label="库仑定律的标量形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="库仑定律标量形式，可横向滚动">
+            <math display="block" aria-label="库仑力大小等于常数 k 乘以两电荷量乘积的绝对值除以距离平方"><mrow><mi>F</mi><mo>=</mo><mi>k</mi><mfrac><mrow><mo>|</mo><msub><mi>q</mi><mn>1</mn></msub><msub><mi>q</mi><mn>2</mn></msub><mo>|</mo></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac></mrow></math>
+        </div></div>
         <p>其中比例常数 <em>k</em> ≈ 8.988 × 10⁹ N·m²/C²。在SI单位制中，我们通常将 <em>k</em> 写作 1/(4πε₀)，其中 ε₀ = 8.854 × 10⁻¹² C²/(N·m²) 称为<strong>真空介电常数</strong>。所以库仑定律最常见的写法是：</p>
-        <p><strong>F = (1/4πε₀) · q₁q₂ / r² · <strong>r̂</strong></strong></p>
+        <div class="math-equation" role="group" aria-label="库仑定律的矢量形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="库仑定律矢量形式，可横向滚动">
+            <math display="block" aria-label="库仑力矢量等于四派伊普西陇零分之一乘以两电荷量乘积除以距离平方，再乘以单位矢量 r 帽"><mrow><mi>F</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>4</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow></mfrac><mfrac><mrow><msub><mi>q</mi><mn>1</mn></msub><msub><mi>q</mi><mn>2</mn></msub></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac><mover><mi>r</mi><mo>^</mo></mover></mrow></math>
+        </div></div>
         <p>其中 <strong>r̂</strong> 是从 q₁ 指向 q₂ 的单位矢量，方向决定力的方向——同号电荷相斥，异号电荷相吸。</p>
         <p>库仑定律的形式与万有引力定律 F = G·m₁m₂/r² 惊人地相似，都是<strong>平方反比律</strong>。但两者有本质区别：</p>
 
@@ -104,6 +122,38 @@
             </tr>
         </table>
 
+        <figure aria-labelledby="fig-coulomb-title">
+            <svg viewBox="0 0 420 340" role="img" aria-labelledby="fig-coulomb-title fig-coulomb-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-coulomb-title">异号电荷相吸、同号电荷相斥的矢量关系</title>
+                <desc id="fig-coulomb-desc">上格：左侧正电荷与右侧负电荷，两者受力箭头相向，表示吸引力，两电荷间距标为 r。下格：两个正电荷，受力箭头背向，表示排斥力。力沿两电荷连线，方向由单位矢量 r̂ 给出。</desc>
+                <rect width="420" height="340" rx="18" fill="#f3f7fb"/>
+                <defs>
+                    <marker id="cf-red" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#b91c1c"/></marker>
+                    <marker id="cf-blue" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#1d4ed8"/></marker>
+                </defs>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <text x="20" y="34" font-size="14" font-weight="700" fill="#1e3a5f">异号电荷：相吸</text>
+                    <circle cx="110" cy="96" r="18" fill="#fde2e2" stroke="#b91c1c" stroke-width="2"/>
+                    <text x="103" y="102" font-size="14" fill="#b91c1c">+q₁</text>
+                    <circle cx="310" cy="96" r="18" fill="#e0e8fb" stroke="#1d4ed8" stroke-width="2"/>
+                    <text x="303" y="102" font-size="14" fill="#1d4ed8">−q₂</text>
+                    <line x1="128" y1="96" x2="176" y2="96" stroke="#b91c1c" stroke-width="2.6" marker-end="url(#cf-red)"/>
+                    <line x1="292" y1="96" x2="244" y2="96" stroke="#1d4ed8" stroke-width="2.6" marker-end="url(#cf-blue)"/>
+                    <line x1="110" y1="150" x2="310" y2="150" stroke="#64748b" stroke-width="1.4" stroke-dasharray="5 4"/>
+                    <text x="200" y="170" font-size="13" fill="#475569" text-anchor="middle">间距 r，方向沿单位矢量 r̂</text>
+                    <line x1="20" y1="200" x2="400" y2="200" stroke="#dbe3ec"/>
+                    <text x="20" y="228" font-size="14" font-weight="700" fill="#1e4d33">同号电荷：相斥</text>
+                    <circle cx="110" cy="288" r="18" fill="#fde2e2" stroke="#b91c1c" stroke-width="2"/>
+                    <text x="103" y="294" font-size="14" fill="#b91c1c">+q₁</text>
+                    <circle cx="310" cy="288" r="18" fill="#fde2e2" stroke="#b91c1c" stroke-width="2"/>
+                    <text x="303" y="294" font-size="14" fill="#b91c1c">+q₂</text>
+                    <line x1="92" y1="288" x2="44" y2="288" stroke="#b91c1c" stroke-width="2.6" marker-end="url(#cf-red)"/>
+                    <line x1="328" y1="288" x2="376" y2="288" stroke="#b91c1c" stroke-width="2.6" marker-end="url(#cf-red)"/>
+                </g>
+            </svg>
+            <figcaption>库仑力总是沿两电荷连线：异号电荷相互吸引（上方），同号电荷相互排斥（下方）。力的方向由从施力电荷指向受力电荷的单位矢量决定，这是下文矢量写法中 r̂ 的几何含义。</figcaption>
+        </figure>
+
         <p>这里有一个至关重要的原理——<strong>叠加原理</strong>（Superposition Principle）：多个点电荷对某一个点电荷的作用力，等于每个点电荷单独作用时的矢量之和。也就是说，静电力满足线性叠加：</p>
         <p><strong>F_total</strong> = <strong>F₁</strong> + <strong>F₂</strong> + ... + <strong>F_N</strong></p>
         <p>叠加原理看似简单，但它是整个电磁学大厦的基石之一。有了它，我们可以从两个点电荷的简单情况出发，逐步构建任意复杂电荷分布产生的电场。</p>
@@ -111,9 +161,13 @@
         <h2>电场强度</h2>
         <p>库仑定律描述的是两个电荷之间的"超距作用"。但法拉第提出了一个革命性的概念：<strong>电场</strong>（Electric Field）。电荷并不直接作用于远处的另一个电荷，而是在它周围的空间中产生电场，电场再对进入其中的电荷施力。这个观点被称作"近距作用"（Action at a distance through field），它彻底改变了物理学的思维方式。</p>
         <p>电场强度 <strong>E</strong> 的定义是：单位正电荷在电场中所受的力：</p>
-        <p><strong>E</strong> = <strong>F</strong> / q₀</p>
+        <div class="math-equation" role="group" aria-label="电场强度的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电场强度定义式，可横向滚动">
+            <math display="block" aria-label="电场强度等于试探电荷所受的力除以试探电荷量"><mrow><mi>E</mi><mo>=</mo><mfrac><mi>F</mi><msub><mi>q</mi><mn>0</mn></msub></mfrac></mrow></math>
+        </div></div>
         <p>单位是 N/C 或 V/m。有了电场的概念，库仑定律可以重新表述为：一个点电荷 <em>q</em> 在距离 <em>r</em> 处产生的电场为：</p>
-        <p><strong>E</strong> = (1/4πε₀) · q / r² · <strong>r̂</strong></p>
+        <div class="math-equation" role="group" aria-label="点电荷的电场"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="点电荷电场公式，可横向滚动">
+            <math display="block" aria-label="点电荷 q 在距离 r 处产生的电场等于四派伊普西陇零分之一乘以 q 除以 r 平方，再乘以单位矢量 r 帽"><mrow><mi>E</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>4</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow></mfrac><mfrac><mi>q</mi><msup><mi>r</mi><mn>2</mn></msup></mfrac><mover><mi>r</mi><mo>^</mo></mover></mrow></math>
+        </div></div>
         <p>注意这是一个<strong>矢量场</strong>——空间中每一点都有一个矢量，其大小随距离平方衰减，方向从正电荷指向外（或指向负电荷）。</p>
         <p>对于连续分布的电荷，我们需要将电荷分布离散化，然后积分：</p>
         <p><strong>E</strong>(<strong>r</strong>) = (1/4πε₀) ∫ (ρ(<strong>r'</strong>) / |<strong>r</strong> − <strong>r'</strong>|²) · <strong>r̂</strong> dV'</p>
@@ -191,12 +245,23 @@ plt.show()</code></pre>
         <p>库仑定律是静电学的基础，但它有一个实际困难：对复杂电荷分布做矢量积分往往极其繁琐。回想一下，即使是一个简单的均匀带电圆盘，我们需要在圆盘上做二重积分。对于具有对称性的问题，是否有更简洁的方法？</p>
         <p>答案是肯定的。<strong>高斯定理</strong>（Gauss's Law）是库仑定律的积分形式，它把电通量与闭合曲面内的总电荷量联系起来。在某些对称性条件下，高斯定理能将三维积分简化为简单的代数运算。<strong>下一章</strong>，我们将深入探讨高斯定理以及与之密切相关的电势概念——从"力"的视角转向"能量"的视角，你会发现电磁学的风景截然不同。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>C.-A. de Coulomb, <em>Premier mémoire sur l'électricité et le magnétisme</em>, <em>Histoire de l'Académie Royale des Sciences</em> (1785), 569–577：扭秤实验与平方反比律的原始记载。</li>
+                <li>R. A. Millikan, <em>On the Elementary Electrical Charge and the Avogadro Constant</em>, <em>Physical Review</em> 2 (1913), 109–143. <a href="https://doi.org/10.1103/PhysRev.2.109">DOI:10.1103/PhysRev.2.109</a>（油滴实验，元电荷 e 的测定。）</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 2 章对库仑定律、叠加原理与连续电荷分布场积分的系统处理。</li>
+            </ol>
+            <p class="depth-note">本章用到的数值常数（元电荷 e = 1.602×10⁻¹⁹ C、ε₀ = 8.854×10⁻¹² C²/(N·m²) 等）取自 CODATA 推荐值；文中“1 C 电荷间作用力相当于 90 万吨重”为便于理解的量级估算（教学示意），并非实验测量。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="01.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="03.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
