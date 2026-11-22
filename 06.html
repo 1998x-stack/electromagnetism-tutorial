@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第6章 静电能量与电容</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第6章 静电能量与电容</h1>
+            <p class="dek">静电能到底存在哪里：电荷上还是场中？本章从电荷系的相互作用能出发，引入电容与能量密度，并说明两种能量写法在数学上等价、在物理图像上却天差地别。</p>
+        </header>
 
         <p>大家好，我是你们的讲师。今天我想先问一个看似简单、实则深刻的问题：<strong>静电能量储存在哪里？</strong>直觉可能会告诉你：能量储存在电荷上，就像水储存在水库里一样。但法拉第和麦克斯韦告诉我们：不——能量储存在<strong>电场中</strong>。这个观念的转变是物理学史上的一次革命，它直接催生了电磁波的概念：如果能量在电场中，那么它就能以光速在空间中传播。这就是为什么手机信号不需要电线——信息以电磁波的形式携带着能量穿过空气。</p>
 
@@ -58,17 +70,23 @@
 
         <h2>电容器</h2>
         <p><strong>电容器</strong>（Capacitor）是储存静电能量的器件，也是电子电路中最基本的无源元件之一。电容的定义是：</p>
-        <p><strong>C = Q / V</strong></p>
+        <div class="math-equation" role="group" aria-label="电容的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电容定义式，可横向滚动">
+            <math display="block" aria-label="电容 C 等于极板电荷量 Q 除以两极板电势差 V"><mrow><mi>C</mi><mo>=</mo><mfrac><mi>Q</mi><mi>V</mi></mfrac></mrow></math>
+        </div></div>
         <p>其中 Q 是一个极板上的电荷量（另一个极板为 −Q），V 是两极板之间的电势差。电容的单位是<strong>法拉</strong>（F），1 F = 1 C/V。通常我们遇到的电容器值在皮法（pF, 10⁻¹² F）到毫法（mF, 10⁻³ F）之间。</p>
 
         <h3>平行板电容器</h3>
         <p>两块面积为 A、间距为 d 的平行导电极板，中间填充相对介电常数为 ε<sub>r</sub> 的介质：</p>
-        <p><strong>C = ε₀ ε<sub>r</sub> A / d</strong></p>
+        <div class="math-equation" role="group" aria-label="平行板电容器的电容"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="平行板电容公式，可横向滚动">
+            <math display="block" aria-label="平行板电容器电容等于真空介电常数乘以相对介电常数乘以极板面积 A 除以间距 d"><mrow><mi>C</mi><mo>=</mo><mfrac><mrow><msub><mi>ε</mi><mn>0</mn></msub><msub><mi>ε</mi><mi>r</mi></msub><mi>A</mi></mrow><mi>d</mi></mfrac></mrow></math>
+        </div></div>
         <p>增大面积 A、减小间距 d、使用高 ε<sub>r</sub> 的介质，都能提高电容值。</p>
 
         <h3>圆柱电容器</h3>
         <p>同轴圆柱电容器（如电缆），内筒半径 a、外筒半径 b、长度 L：</p>
-        <p><strong>C = 2πε₀ ε<sub>r</sub> L / ln(b/a)</strong></p>
+        <div class="math-equation" role="group" aria-label="圆柱电容器的电容"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="同轴圆柱电容公式，可横向滚动">
+            <math display="block" aria-label="同轴圆柱电容器电容等于 2 派 ε0 εr L 除以 b 与 a 之比的自然对数"><mrow><mi>C</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub><msub><mi>ε</mi><mi>r</mi></msub><mi>L</mi></mrow><mrow><mi>ln</mi><mo>(</mo><mi>b</mi><mo>/</mo><mi>a</mi><mo>)</mo></mrow></mfrac></mrow></math>
+        </div></div>
 
         <h3>球形电容器</h3>
         <p>两个同心球壳，内球半径 a、外球半径 b：</p>
@@ -82,12 +100,40 @@
 
         <h2>电场能量密度</h2>
         <p>能量密度的概念是电磁学中最优美的观念之一。在真空中，静电能量密度为：</p>
-        <p><strong>u<sub>E</sub> = ½ ε₀ E²</strong></p>
+        <div class="math-equation" role="group" aria-label="静电能量密度"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="真空静电能量密度，可横向滚动">
+            <math display="block" aria-label="真空中的静电能量密度等于二分之一乘以真空介电常数再乘以电场强度的平方"><mrow><msub><mi>u</mi><mi>E</mi></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>ε</mi><mn>0</mn></msub><msup><mi>E</mi><mn>2</mn></msup></mrow></math>
+        </div></div>
         <p>在介质中，考虑到极化的贡献：</p>
-        <p><strong>u<sub>E</sub> = ½ <strong>D</strong> · <strong>E</strong></strong></p>
+        <div class="math-equation" role="group" aria-label="介质中的静电能量密度"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="介质中静电能量密度，可横向滚动">
+            <math display="block" aria-label="介质中的静电能量密度等于二分之一乘以电位移 D 点乘电场 E"><mrow><msub><mi>u</mi><mi>E</mi></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>D</mi><mo>·</mo><mi>E</mi></mrow></math>
+        </div></div>
         <p>总静电能为能量密度在全空间的积分：</p>
         <p><strong>U = ∫<sub>V</sub> ½ <strong>D</strong> · <strong>E</strong> dV</strong></p>
         <p>这个公式与 U = ½ ∫ ρV dV 完全等价（可以通过矢量恒等式和边界条件证明），但从物理观念上有着天壤之别：一个说能量在电荷上，一个说能量在电场中。后者才是正确的物理图景。</p>
+
+        <figure aria-labelledby="fig-energy-title">
+            <svg viewBox="0 0 420 300" role="img" aria-labelledby="fig-energy-title fig-energy-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-energy-title">平行板电容器中能量储存在电场里</title>
+                <desc id="fig-energy-desc">上下两块带电极板之间是均匀分布的竖直电场箭头，淡黄色阴影区域表示能量储存在这一带电场中，而非储存在极板电荷上。能量密度随电场强度的平方增大。</desc>
+                <rect width="420" height="300" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <rect x="90" y="90" width="240" height="120" fill="#fef3c7"/>
+                    <line x1="90" y1="90" x2="330" y2="90" stroke="#b91c1c" stroke-width="4"/>
+                    <line x1="90" y1="210" x2="330" y2="210" stroke="#1d4ed8" stroke-width="4"/>
+                    <text x="90" y="80" font-size="14" fill="#b91c1c">+Q</text>
+                    <text x="90" y="234" font-size="14" fill="#1d4ed8">−Q</text>
+                    <defs><marker id="en-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#334155"/></marker></defs>
+                    <g stroke="#334155" stroke-width="1.8" marker-end="url(#en-arrow)">
+                        <line x1="120" y1="108" x2="120" y2="190"/><line x1="160" y1="108" x2="160" y2="190"/>
+                        <line x1="200" y1="108" x2="200" y2="190"/><line x1="240" y1="108" x2="240" y2="190"/>
+                        <line x1="280" y1="108" x2="280" y2="190"/><line x1="320" y1="108" x2="320" y2="190"/>
+                    </g>
+                    <text x="20" y="265" font-size="13" fill="#1e3a5f" font-weight="700">淡黄色区域即储能区域：u = ½ ε₀ E²（介质中为 ½ D·E）</text>
+                    <text x="20" y="286" font-size="12" fill="#475569">E 越强或体积越大，储存的能量越多</text>
+                </g>
+            </svg>
+            <figcaption>平行板电容器内部是近似匀强电场（箭头）。把能量写成 u = ½ ε₀ E² 后，它就分布在整个有场存在的空间里；极板分离、电场消失时能量随之释放。这是下文“能量在电场中”与 U = ½ CV² 两种算法的几何依据。</figcaption>
+        </figure>
 
         <p>让我们验证一下：对于平行板电容器，E = V/d（均匀电场），体积为 A·d，所以：</p>
         <p>U = u<sub>E</sub> · 体积 = (½ ε₀ E²)(A·d) = ½ ε₀ (V/d)² A d = ½ (ε₀ A/d) V² = ½ CV²</p>
@@ -194,12 +240,23 @@ plt.show()
         <p>静电能量的研究让我们认识到：电场本身携带着能量，电容是这个能量的存储容器。但到目前为止，我们讨论的都是<strong>静止</strong>的电荷——它们不会运动。从下一章开始，我们要让电荷动起来。</p>
         <p>当你把电容器的两个极板用导线连接起来，储存的能量就会释放——电荷通过导线移动，形成<strong>电流</strong>。但是等一等：在导线中，电荷移动的速度非常慢（漂移速度只有 mm/s 量级），为什么灯一打开就亮了呢？为什么电场能长距离传播？这引出了<strong>下一章</strong>的主题——恒定电流与电路：欧姆定律的微观本质是什么？基尔霍夫定律如何从电磁场理论中导出？以及那个让你第一次接触到"指数"数学之美的 RC 电路充放电。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 2 章第 5 节与第 4 章对静电能、能量密度与电容的系统讨论。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+                <li>James Clerk Maxwell, <em>A Treatise on Electricity and Magnetism</em>, Vol. 1 (1873)：最早明确提出把静电能量归因于<em>场</em>而非电荷的论述之一。</li>
+                <li>E. M. Purcell &amp; D. J. Morin, <em>Electricity and Magnetism</em>, 3rd ed., Cambridge University Press, 2013：对“能量储存在场中”这一观念演变的通俗阐释。</li>
+            </ol>
+            <p class="depth-note">本章“超级电容能量密度约为锂电池的 1/5~1/10”为文献中常见的量级区间（教学示意），实际数值随电极材料与工艺差异很大；文中的应力张量与虚功法的具体推导从略。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="05.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="07.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
