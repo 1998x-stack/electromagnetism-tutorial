@@ -383,6 +383,10 @@
             container.innerHTML = '<div class="state-msg error">' + msg + '</div>';
         }
 
+        if (location.protocol === 'file:') {
+            return; // 本地直开时 fetch 不可用，保留上方静态章节目录
+        }
+
         fetch('courses.json')
             .then(function(res) {
                 if (!res.ok) throw new Error('HTTP ' + res.status);
