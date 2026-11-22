@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第4章 导体与静电平衡</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第4章 导体与静电平衡</h1>
+            <p class="dek">导体中的自由电子会在极短时间内重新分布，直到内部电场为零。本章用这一条结论解释静电屏蔽、唯一性定理与镜像法，并说明雷雨天为何车内安全。</p>
+        </header>
 
         <p>大家好，我是你们的讲师。这里有一个有趣的问题：<strong>为什么雷雨天躲在车里是安全的？</strong>很多人以为是因为橡胶轮胎绝缘——但轮胎那么薄，闪电的电压高达数亿伏，绝缘根本不顶用。真正的原因是车体是一个金属外壳，构成了<strong>法拉第笼</strong>（Faraday Cage）。当闪电击中车体时，电流沿金属外壳表面流过，车内的人员处于零电场区域，毫发无损。这就是导体静电平衡最生动的应用。</p>
 
@@ -125,11 +137,44 @@
 
         <h3>点电荷与接地导电平面的镜像</h3>
         <p>一个点电荷 q 位于距接地无限大导电平面的距离 d 处。感应电荷在平面上方的空间产生的电场，等价于在平面下方对称位置放置一个镜像电荷 −q 产生的电场<strong>（但仅考虑平面上方区域）</strong>。于是问题变成了两个点电荷的问题——库仑定律直接求解。</p>
-        <p>电势分布：V(x,y,z) = (1/4πε₀) [q / √(x²+y²+(z−d)²) − q / √(x²+y²+(z+d)²)]</p>
+        <p>上半空间（z&gt;0）的电势分布为：</p>
+        <div class="math-equation" role="group" aria-label="镜像法的电势分布"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="点电荷与接地平面的镜像法电势，可横向滚动">
+            <math display="block" aria-label="电势等于四派伊普西陇零分之 q 乘以括号内两项之差，两项分别是到真实电荷与到镜像电荷距离的倒数"><mrow><mi>V</mi><mo>=</mo><mfrac><mi>q</mi><mrow><mn>4</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow></mfrac><mrow><mo>[</mo><mfrac><mn>1</mn><msqrt><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>z</mi><mo>−</mo><mi>d</mi><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></mfrac><mo>−</mo><mfrac><mn>1</mn><msqrt><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>z</mi><mo>+</mo><mi>d</mi><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></mfrac><mo>]</mo></mrow></mrow></math>
+        </div></div>
         <p>注意在 z = 0 的平面上 V = 0，满足接地导电平面的边界条件。</p>
 
+        <figure aria-labelledby="fig-image-title">
+            <svg viewBox="0 0 420 340" role="img" aria-labelledby="fig-image-title fig-image-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-image-title">镜像法：点电荷与接地导电平面的等效代替</title>
+                <desc id="fig-image-desc">接地导体平面位于中部，真实点电荷 +q 在平面上方距离 d 处；平面下方对称位置有一个虚设的镜像电荷 −q。上半空间的电场等于这两个点电荷共同产生的场，下半空间没有实体电荷。</desc>
+                <rect width="420" height="340" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="20" y1="170" x2="400" y2="170" stroke="#0f172a" stroke-width="4"/>
+                    <g stroke="#0f172a" stroke-width="2">
+                        <line x1="50" y1="170" x2="38" y2="186"/><line x1="120" y1="170" x2="108" y2="186"/>
+                        <line x1="190" y1="170" x2="178" y2="186"/><line x1="260" y1="170" x2="248" y2="186"/>
+                        <line x1="330" y1="170" x2="318" y2="186"/>
+                    </g>
+                    <text x="300" y="164" font-size="12" fill="#0f172a">接地导体平面 V=0</text>
+                    <line x1="150" y1="90" x2="150" y2="250" stroke="#64748b" stroke-width="1.3" stroke-dasharray="5 4"/>
+                    <circle cx="150" cy="90" r="16" fill="#fde2e2" stroke="#b91c1c" stroke-width="2"/>
+                    <text x="143" y="96" font-size="14" fill="#b91c1c">+q</text>
+                    <circle cx="150" cy="250" r="16" fill="#e2e8f0" stroke="#64748b" stroke-width="2" stroke-dasharray="4 3"/>
+                    <text x="143" y="256" font-size="14" fill="#475569">−q</text>
+                    <text x="158" y="128" font-size="12" fill="#475569">d（上方）</text>
+                    <text x="158" y="228" font-size="12" fill="#475569">d（镜像）</text>
+                    <text x="20" y="300" font-size="13" fill="#1e3a5f" font-weight="700">上半空间（z&gt;0）的电场 = 真实电荷 + 镜像电荷</text>
+                    <text x="20" y="322" font-size="12" fill="#475569">镜像电荷是数学构造，平面上的感应电荷才是真实电荷</text>
+                </g>
+            </svg>
+            <figcaption>点电荷 +q 位于接地导体平面上方 d 处时，平面上感应电荷的效果等价于在平面下方对称位置放置镜像电荷 −q。该等效只在上半空间内成立；虚线圆强调镜像电荷是数学构造，并非真实电荷。</figcaption>
+        </figure>
+
         <h3>点电荷与接地导体球</h3>
-        <p>对于半径为 R、接地的导体球外距离球心 d 处有一点电荷 q，可以证明：感应电荷的效应等价于在球内距离球心 R²/d 处放置一个镜像电荷 q' = −qR/d。这个结果可以通过在球面上 V = 0 的边界条件推导出来。</p>
+        <p>对于半径为 R、接地的导体球，球外距球心 d 处有一点电荷 q：感应电荷的效应等价于在球内距球心 R²/d 处放一个镜像电荷 q′。这个结果可由球面上 V = 0 的边界条件推出。</p>
+        <div class="math-equation" role="group" aria-label="接地导体球的镜像电荷"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="接地导体球的镜像电荷公式，可横向滚动">
+            <math display="block" aria-label="镜像电荷 q 撇等于负的 q 乘以 R 除以 d"><mrow><msup><mi>q</mi><mo>′</mo></msup><mo>=</mo><mo>−</mo><mfrac><mrow><mi>q</mi><mi>R</mi></mrow><mi>d</mi></mfrac></mrow></math>
+        </div></div>
 
         <div class="tip">
             <strong>💡 镜像法的直觉</strong><br>
@@ -171,12 +216,23 @@ print(f"z=0 处电场: Ex={E[0]:.2f}, Ey={E[1]:.2f}, Ez={E[2]:.2f} V/m")
         <p>导体的核心特征是存在大量自由电子，它们在电场中移动直到内部电场为零。但如果材料中<strong>没有</strong>自由电子呢？比如玻璃、塑料、纯水——这些材料中的电荷被束缚在原子或分子周围，不能自由移动。当外电场作用于这类材料时，会发生什么？</p>
         <p>答案是<strong>极化</strong>（Polarization）。分子中的正负电荷中心会发生微小偏移，形成一个个微小的电偶极矩。虽然材料内部没有净电荷移动，但表面会产生束缚电荷，从而影响整个空间的电场分布。<strong>下一章</strong>，我们将深入探讨电介质——为什么电容器里要插一层塑料膜？为什么水的介电常数特别大？以及那个困扰许多学生的问题：D 场（电位移）和 E 场到底有什么区别？</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Michael Faraday, <em>Experimental Researches in Electricity</em>, Phil. Trans. R. Soc. (1838–1843)：包括“冰桶实验”在内的一系列静电屏蔽实验记录。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 3 章对静电平衡、唯一性定理与镜像法的证明。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+                <li>Edward M. Purcell &amp; David J. Morin, <em>Electricity and Magnetism</em>, 3rd ed., Cambridge University Press, 2013：对导体表面电荷分布与尖端放电的讨论。</li>
+            </ol>
+            <p class="depth-note">本章中的载流子密度（铜自由电子约 8.5×10²⁸ m⁻³）、响应时间（~10⁻¹⁶ s）与空气击穿场强（约 3×10⁶ V/m）为常见教科书量级值，随温度、材料与条件而变，属教学示意。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="03.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="05.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
