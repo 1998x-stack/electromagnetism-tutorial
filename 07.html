@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第7章 恒定电流与电路</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,32 +48,68 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第7章 恒定电流与电路</h1>
+            <p class="dek">电荷动起来之后，第一个问题不是“多快”，而是“什么是恒定的”：截面电流 I、电流密度 J、漂移速度与电场传播速度的关系。本章把欧姆定律、焦耳定律与基尔霍夫定律放回场论的语境中。</p>
+        </header>
 
         <p>大家好，我是你们的讲师。前面六章我们一直在研究<strong>静止</strong>的电荷。但现在，是时候让它们动起来了——不过别急，我们讨论的还只是<strong>恒定电流</strong>（Steady Current），即电荷在慢慢地、匀速地流动。就像你在高速公路上开车，虽然是运动状态，但如果速度恒定，物理规律和静止时的差别也没有那么大。真正的"加速度"（变化的电流）要等到电磁感应那一章才会出现。</p>
 
         <h2>电流与电流密度</h2>
         <p><strong>电流</strong>（Electric Current）定义为通过某一截面的电荷量随时间的变化率：</p>
-        <p><strong>I = dq / dt</strong></p>
+        <div class="math-equation" role="group" aria-label="电流的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电流定义式，可横向滚动">
+            <math display="block" aria-label="电流 I 等于通过截面的电荷量 q 对时间 t 的导数"><mrow><mi>I</mi><mo>=</mo><mfrac><mrow><mi>d</mi><mi>q</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow></math>
+        </div></div>
         <p>单位是<strong>安培</strong>（A），1 A = 1 C/s。电流是一个<strong>标量</strong>——尽管我们常说电流"从正极流向负极"，但这指的只是一种约定方向（正电荷运动的方向）。实际上在金属导体中，运动的是<strong>电子</strong>（负电荷），所以电子的运动方向与电流方向相反。</p>
         <p>更精细的描述需要<strong>电流密度</strong>（Current Density）<strong>J</strong>，它是一个矢量：</p>
-        <p><strong>J</strong> = n q <strong>v</strong><sub>drift</sub></p>
+        <div class="math-equation" role="group" aria-label="电流密度与漂移速度"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电流密度与漂移速度的关系，可横向滚动">
+            <math display="block" aria-label="电流密度 J 等于载流子数密度 n 乘以载流子电荷 q 乘以漂移速度 v 漂移"><mrow><mi>J</mi><mo>=</mo><mi>n</mi><mi>q</mi><msub><mi>v</mi><mtext>drift</mtext></msub></mrow></math>
+        </div></div>
         <p>其中 n 是载流子数密度（单位：m⁻³），q 是每个载流子的电荷量，<strong>v</strong><sub>drift</sub> 是<strong>漂移速度</strong>（Drift Velocity）。通过任意截面 S 的电流为：</p>
         <p><strong>I = ∫<sub>S</sub> <strong>J</strong> · d<strong>S</strong></strong></p>
         <p>电流密度 J 才是描述电荷输运的"真主角"——它是微观量，不依赖于截面形状；而 I 是积分量，取决于你选择多大的截面。</p>
+        <figure aria-labelledby="fig-j-title">
+            <svg viewBox="0 0 420 220" role="img" aria-labelledby="fig-j-title fig-j-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-j-title">同一电流通过宽窄不同的导体时电流密度的变化</title>
+                <desc id="fig-j-desc">导体从左端较宽变为右端较窄。通过任一截面的总电流 I 相同，但窄处的电流密度 J 更大，表现为密度更高、长度更短的箭头。</desc>
+                <rect width="420" height="220" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <path d="M40 60 L200 60 L280 110 L380 110 L380 150 L280 150 L200 140 L40 140 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                    <defs><marker id="j-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1e3a5f"/></marker></defs>
+                    <g stroke="#1e3a5f" stroke-width="2" marker-end="url(#j-arrow)">
+                        <line x1="70" y1="78" x2="70" y2="122"/><line x1="110" y1="78" x2="110" y2="122"/><line x1="150" y1="78" x2="150" y2="122"/>
+                        <line x1="300" y1="118" x2="300" y2="142"/><line x1="320" y1="118" x2="320" y2="142"/><line x1="340" y1="118" x2="340" y2="142"/><line x1="360" y1="118" x2="360" y2="142"/>
+                    </g>
+                    <text x="40" y="46" font-size="13" fill="#1e3a5f">宽截面（A 大）</text>
+                    <text x="286" y="98" font-size="13" fill="#1e3a5f">窄截面（A 小）</text>
+                    <text x="20" y="180" font-size="13" fill="#1e3a5f" font-weight="700">通过任一截面的总电流 I 相同；J = I / A，所以窄处 J 更大</text>
+                    <text x="20" y="202" font-size="12" fill="#475569">电荷守恒（∇·J = 0）要求电流线不中断</text>
+                </g>
+            </svg>
+            <figcaption>电流 I 是截面上的积分量，电流密度 J 才是微观量。导体变窄时，同一电流必须挤过更小的面积，因此窄处 J 更大、漂移速度也更大。这就是保险丝细颈处、接触点容易过热的原因。</figcaption>
+        </figure>
+
         <p><strong>连续性方程</strong>（Continuity Equation）是电荷守恒的数学表达：</p>
-        <p><strong>∇ · <strong>J</strong> = −∂ρ / ∂t</strong></p>
+        <div class="math-equation" role="group" aria-label="连续性方程"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电荷守恒的连续性方程，可横向滚动">
+            <math display="block" aria-label="电流密度 J 的散度等于负的电荷体密度 ρ 对时间 t 的偏导"><mrow><mo>∇</mo><mo>·</mo><mi>J</mi><mo>=</mo><mo>−</mo><mfrac><mrow><mo>∂</mo><mi>ρ</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow></math>
+        </div></div>
         <p>对恒定电流来说，∂ρ/∂t = 0，所以 ∇·<strong>J</strong> = 0——这意味着电流线是连续的，没有源也没有汇。换句话说，在恒定电流下，流入任意闭合曲面的电流等于流出的电流，电荷不会在任何一点积累。</p>
 
         <h2>欧姆定律的微观本质</h2>
         <p>中学就学过的欧姆定律 V = IR，在微观层面有着丰富的物理内涵。<strong>微分形式的欧姆定律</strong>是：</p>
-        <p><strong>J</strong> = σ <strong>E</strong></p>
+        <div class="math-equation" role="group" aria-label="欧姆定律的微分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="欧姆定律微分形式，可横向滚动">
+            <math display="block" aria-label="电流密度 J 等于电导率 σ 乘以电场 E"><mrow><mi>J</mi><mo>=</mo><mi>σ</mi><mi>E</mi></mrow></math>
+        </div></div>
         <p>其中 σ 是<strong>电导率</strong>（Conductivity），单位 S/m（西门子/米）。这个式子告诉我们：电流密度正比于电场强度，比例系数就是电导率。为什么？</p>
         <p>在金属导体中，自由电子像气体一样在晶格之间做无规则热运动。加上外电场 E 后，电子在热运动的基础上获得一个"定向漂移"的增量。这个漂移速度由电场力和碰撞阻力平衡决定：</p>
         <p><strong>v</strong><sub>drift</sub> = −(eτ / m<sub>e</sub>) <strong>E</strong></p>
         <p>其中 τ 是<strong>弛豫时间</strong>（Relaxation Time），即电子两次碰撞之间的平均自由时间。代入 J = nqv<sub>drift</sub> 可得电导率：</p>
-        <p><strong>σ = n e² τ / m<sub>e</sub></strong></p>
+        <div class="math-equation" role="group" aria-label="德鲁德模型的电导率"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="德鲁德模型电导率公式，可横向滚动">
+            <math display="block" aria-label="电导率 σ 等于载流子数密度 n 乘以元电荷平方 e 平方乘以弛豫时间 τ 除以电子质量 me"><mrow><mi>σ</mi><mo>=</mo><mfrac><mrow><mi>n</mi><msup><mi>e</mi><mn>2</mn></msup><mi>τ</mi></mrow><msub><mi>m</mi><mi>e</mi></msub></mfrac></mrow></math>
+        </div></div>
         <p>这就是<strong>德鲁德模型</strong>（Drude Model）的结果。虽然简单，但它成功解释了金属导电的基本规律。</p>
 
         <table>
@@ -126,9 +169,13 @@
 
         <h2>焦耳定律与功率耗散</h2>
         <p>电流通过导体时，电子与晶格不断碰撞，将定向动能转化为晶格振动（热能）。这就是<strong>焦耳热</strong>（Joule Heating）的微观机制。宏观上的焦耳定律为：</p>
-        <p><strong>P = I² R = V² / R</strong></p>
+        <div class="math-equation" role="group" aria-label="焦耳定律"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="焦耳定律功率公式，可横向滚动">
+            <math display="block" aria-label="功率 P 等于电流 I 平方乘以电阻 R，也等于电压 V 平方除以电阻 R"><mrow><mi>P</mi><mo>=</mo><msup><mi>I</mi><mn>2</mn></msup><mi>R</mi><mo>=</mo><mfrac><msup><mi>V</mi><mn>2</mn></msup><mi>R</mi></mfrac></mrow></math>
+        </div></div>
         <p>单位：瓦特（W），1 W = 1 J/s。单位体积内的功率耗散（功率密度）为：</p>
-        <p><strong>p = <strong>J</strong> · <strong>E</strong> = σ E²</strong></p>
+        <div class="math-equation" role="group" aria-label="功率密度"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="单位体积功率耗散公式，可横向滚动">
+            <math display="block" aria-label="单位体积功率 p 等于电流密度 J 点乘电场 E，也等于电导率 σ 乘以 E 的平方"><mrow><mi>p</mi><mo>=</mo><mi>J</mi><mo>·</mo><mi>E</mi><mo>=</mo><mi>σ</mi><msup><mi>E</mi><mn>2</mn></msup></mrow></math>
+        </div></div>
         <p>焦耳热的应用无处不在——电热水器、白炽灯、电炉都是利用电阻发热。但更多的时候，焦耳热是我们要避免的负面效应：CPU 芯片因为焦耳热需要散热、输电线路的焦耳损耗能导致数兆瓦的功率浪费。</p>
         <p><strong>保险丝</strong>的原理正是利用焦耳热：当电流超过额定值，保险丝（低熔点合金）的温度达到熔点，熔化断开电路，保护后方设备。保险丝材料的典型选择是铅锡合金，熔点约 200°C，电阻率适中。</p>
 
@@ -220,12 +267,23 @@ print("充电到 5τ 后认为进入稳态")</code></pre>
         <p>奥斯特在 1820 年的一次课堂演示中偶然发现：通电导线旁边的指南针发生了偏转。这个发现震惊了当时的科学界——电和磁不是互不相关的现象，而是<strong>同一个硬币的两面</strong>。电流产生磁场——磁场的源就是运动的电荷。</p>
         <p><strong>下一章</strong>我们将踏上磁学的旅程，从毕奥-萨伐尔定律开始，看看电流如何在空间中激发磁场，以及如何计算各种形状载流导体的磁场分布。准备好迎接右手定则的洗礼吧。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Paul Drude, <em>Zur Elektronentheorie der Metalle</em>, <em>Annalen der Physik</em> 306 (1900)：德鲁德模型的原始论文，见 <a href="https://doi.org/10.1002/andp.19003060312">DOI:10.1002/andp.19003060312</a>。</li>
+                <li>Gustav Kirchhoff, <em>Über den Zusammenhang zwischen der Elektricität und dem Magnetismus</em> (1845/1847)：基尔霍夫电路定律的最早提出。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 7 章对电流密度、欧姆定律微观模型与焦耳热的讨论。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">表中金属电阻率为室温常见值（教学示意），随温度和杂质含量变化；文中的漂移速度与热运动速度均为量级估算，不代表某一具体导体。德鲁德模型的推导为经典近似，未涉及量子效应。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="06.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="08.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
