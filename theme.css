@@ -159,6 +159,10 @@ th {
     .main-content { padding: 20px; }
 }
 
+/* === Overflow guards for grid/flex columns === */
+.main-content { min-width: 0; }
+.main-content pre { max-width: 100%; }
+
 /* === Article structure (long-form chapters) === */
 .skip-link {
     position: absolute; left: -999px; top: 0; z-index: 50;
