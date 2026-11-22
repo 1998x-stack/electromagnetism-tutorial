@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第5章 电介质与极化</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第5章 电介质与极化</h1>
+            <p class="dek">电介质没有自由电子，却仍能响应电场：分子尺度的极化在表面留下束缚电荷，从而改变空间中的场。本章引出极化强度 P 与电位移 D，并交代介质界面上的边界条件。</p>
+        </header>
 
         <p>大家好，我是你们的讲师。我有一个问题想先问问你：<strong>电容器的两块极板之间为什么要塞一层塑料膜？</strong>如果电容值只取决于极板面积和间距，中间放空气不就行了吗？答案是：中间那层塑料膜（也就是<strong>电介质</strong>，Dielectric）能让电容提高数倍甚至数千倍。真空太"奢侈"了——用上电介质，同样的体积下你可以储存多得多的电荷和能量。但电介质的作用远不止于此，它涉及一个全新的物理过程——极化。</p>
 
@@ -62,16 +74,53 @@
             <li><strong>取向极化</strong>（Orientational Polarization / Langevin）：有极分子在外电场中发生转动，使偶极矩倾向于外场方向。受热运动干扰，需要克服分子间摩擦力，响应较慢（10⁻¹²~10⁻⁸ s），对应于微波频段。</li>
             <li><strong>空间电荷极化</strong>（Space Charge Polarization）：材料中的载流子（杂质离子等）在电场作用下在局部区域积累，形成宏观极化。响应最慢（10⁻⁶ s 以上），对应于低频或直流。</li>
         </ul>
+        <figure aria-labelledby="fig-diel-title">
+            <svg viewBox="0 0 420 300" role="img" aria-labelledby="fig-diel-title fig-diel-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-diel-title">电介质在电容器中被极化后产生束缚电荷</title>
+                <desc id="fig-diel-desc">左右两块带电平行板之间夹着一块电介质。电介质左表面出现负束缚电荷、右表面出现正束缚电荷，方向与极板相反，使介质内部的电场箭头比空气中短，表示场被减弱。</desc>
+                <rect width="420" height="300" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="70" y1="70" x2="70" y2="230" stroke="#b91c1c" stroke-width="4"/>
+                    <line x1="350" y1="70" x2="350" y2="230" stroke="#1d4ed8" stroke-width="4"/>
+                    <text x="58" y="58" font-size="14" fill="#b91c1c">+σ free</text>
+                    <text x="312" y="58" font-size="14" fill="#1d4ed8">−σ free</text>
+                    <rect x="150" y="70" width="120" height="160" rx="8" fill="#e8f5ee" stroke="#0f766e" stroke-width="2"/>
+                    <text x="176" y="252" font-size="13" fill="#0f766e">电介质</text>
+                    <g fill="#1d4ed8" font-size="16" text-anchor="middle">
+                        <text x="158" y="110">−</text><text x="158" y="150">−</text><text x="158" y="190">−</text>
+                    </g>
+                    <g fill="#b91c1c" font-size="16" text-anchor="middle">
+                        <text x="262" y="110">+</text><text x="262" y="150">+</text><text x="262" y="190">+</text>
+                    </g>
+                    <defs><marker id="diel-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#334155"/></marker></defs>
+                    <g stroke="#334155" stroke-width="2.2" marker-end="url(#diel-arrow)">
+                        <line x1="82" y1="150" x2="142" y2="150"/>
+                        <line x1="160" y1="150" x2="205" y2="150"/>
+                        <line x1="215" y1="150" x2="258" y2="150"/>
+                        <line x1="275" y1="150" x2="338" y2="150"/>
+                    </g>
+                    <text x="20" y="286" font-size="12" fill="#475569">介质内电场被束缚电荷削弱：E in &lt; E out</text>
+                </g>
+            </svg>
+            <figcaption>极化使电介质左表面出现与正极板异号的束缚电荷（−）、右表面出现同号的束缚电荷（+）。这些束缚电荷不能自由移动，但它们产生的场与极板场反向，因此介质内部的合电场被减弱——这正是插入电介质后电容增大的原因。</figcaption>
+        </figure>
+
         <p>四种极化机制的响应速度不同，因此电介质的介电常数是<strong>频率相关</strong>的。在高频下，慢速的极化机制跟不上电场变化，对这些机制"没有贡献"，介电常数降低。这就是为什么水的 ε<sub>r</sub> 在微波频段会下降——这也是微波炉能加热食物的原理：水分子在 2.45 GHz 的微波场中不断转向，摩擦生热。</p>
 
         <h2>极化强度 P 与电位移 D</h2>
         <p>为了定量描述极化程度，我们引入<strong>极化强度</strong>（Polarization）<strong>P</strong>，定义为单位体积内的净电偶极矩：</p>
-        <p><strong>P</strong> = lim<sub>ΔV→0</sub> (Σ <strong>p</strong><sub>i</sub>) / ΔV</p>
+        <div class="math-equation" role="group" aria-label="极化强度的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="极化强度定义式，可横向滚动">
+            <math display="block" aria-label="极化强度 P 等于单位体积内电偶极矩的矢量和，取体积趋于零的极限"><mrow><mi>P</mi><mo>=</mo><munder><mo>lim</mo><mrow><mi>Δ</mi><mi>V</mi><mo>→</mo><mn>0</mn></mrow></munder><mfrac><mrow><mo>∑</mo><msub><mi>p</mi><mi>i</mi></msub></mrow><mrow><mi>Δ</mi><mi>V</mi></mrow></mfrac></mrow></math>
+        </div></div>
         <p>单位是 C/m²。在线性、各向同性的电介质中，极化强度与电场成正比：</p>
-        <p><strong>P</strong> = χ<sub>e</sub> ε₀ <strong>E</strong></p>
+        <div class="math-equation" role="group" aria-label="线性介质的极化"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="极化强度与电场的关系，可横向滚动">
+            <math display="block" aria-label="线性各向同性介质中，极化强度 P 等于电极化率 χe 乘以真空介电常数 ε0 再乘以电场 E"><mrow><mi>P</mi><mo>=</mo><msub><mi>χ</mi><mi>e</mi></msub><msub><mi>ε</mi><mn>0</mn></msub><mi>E</mi></mrow></math>
+        </div></div>
         <p>其中 χ<sub>e</sub> 是<strong>电极化率</strong>（Electric Susceptibility），与相对介电常数的关系为 ε<sub>r</sub> = 1 + χ<sub>e</sub>。</p>
         <p>接下来是许多人感到困惑的概念——<strong>电位移</strong>（Electric Displacement）<strong>D</strong>：</p>
-        <p><strong>D</strong> = ε₀ <strong>E</strong> + <strong>P</strong> = ε₀ ε<sub>r</sub> <strong>E</strong></p>
+        <div class="math-equation" role="group" aria-label="电位移的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电位移定义式，可横向滚动">
+            <math display="block" aria-label="电位移 D 等于真空介电常数乘以电场 E 加上极化强度 P，也等于 ε0 乘以相对介电常数 εr 乘以 E"><mrow><mi>D</mi><mo>=</mo><msub><mi>ε</mi><mn>0</mn></msub><mi>E</mi><mo>+</mo><mi>P</mi><mo>=</mo><msub><mi>ε</mi><mn>0</mn></msub><msub><mi>ε</mi><mi>r</mi></msub><mi>E</mi></mrow></math>
+        </div></div>
         <p><strong>D</strong> 场的重要性在于：<strong>它的源只有自由电荷</strong>，不受束缚电荷的影响。介质中的高斯定理写为：</p>
         <p><strong>∮<sub>S</sub> <strong>D</strong> · d<strong>S</strong> = q<sub>free</sub></strong></p>
         <p>这意味着，如果你只知道自由电荷的分布，就可以用 D 场的高斯定理直接求出 D（需要对称性），再通过 D = ε<sub>r</sub>ε₀E 得到 E。比起直接用 E 的高斯定理（需要同时考虑自由电荷和束缚电荷），使用 D 场更方便。</p>
@@ -87,7 +136,9 @@
         <h2>介质中的高斯定理与边界条件</h2>
         <p>介质中的高斯定理与真空中形式相同，只是把 E 换成了 D，电荷取自由电荷：</p>
         <p><strong>∮<sub>S</sub> <strong>D</strong> · d<strong>S</strong> = q<sub>free</sub> &emsp; (积分形式)</strong></p>
-        <p><strong>∇ · <strong>D</strong> = ρ<sub>free</sub> &emsp; (微分形式)</strong></p>
+        <div class="math-equation" role="group" aria-label="介质中的高斯定理"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="介质中的高斯定理微分形式，可横向滚动">
+            <math display="block" aria-label="电位移 D 的散度等于自由电荷体密度 ρ free"><mrow><mo>∇</mo><mo>·</mo><mi>D</mi><mo>=</mo><msub><mi>ρ</mi><mtext>free</mtext></msub></mrow></math>
+        </div></div>
         <p>在两种不同电介质的界面上，D 场和 E 场满足<strong>边界条件</strong>（Boundary Conditions）：</p>
         <ul>
             <li>D 的<strong>法向分量</strong>在界面上连续（如果界面无自由电荷）：D<sub>1n</sub> = D<sub>2n</sub></li>
@@ -199,12 +250,23 @@ print(f"E2 (水)   = {E2/1e6:.2f} MV/m")
         <p>极化现象告诉我们，电介质虽然没有自由电子，但仍然可以通过分子尺度的极化对电场做出响应。极化引入了束缚电荷，改变了空间电场的分布，也改变了电场中储存的能量。事实上，正是由于电介质的极化，电容器的电容量得以大幅提升——介质的存在降低了极板间的电场强度（对于相同的自由电荷量），从而降低了极板间的电势差，提高了 C = Q/V。</p>
         <p>这引出了我们<strong>下一章</strong>的主题：静电能量与电容。我们将深入探讨一个深刻的问题——电场能量究竟储存在哪里？是在电荷上，还是在场中？为什么超级电容器能存储大量能量？以及那个改变了物理学观念的革命性想法——<strong>能量密度 u = ½ ε₀ E²</strong>。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 4 章对极化、束缚电荷、D 场与介质边界条件的系统推导。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+                <li>Edward M. Purcell &amp; David J. Morin, <em>Electricity and Magnetism</em>, 3rd ed., Cambridge University Press, 2013：用微观图像解释电子/离子/取向极化机制。</li>
+                <li>J. Valasek, <em>Piezoelectric and allied phenomena in Rochelle salt</em>, <em>Physical Review</em> 15 (1920)：铁电性/压电性的早期实验发现，见 <a href="https://doi.org/10.1103/PhysRev.15.537">DOI:10.1103/PhysRev.15.537</a>。</li>
+            </ol>
+            <p class="depth-note">文中的介电常数与击穿场强为室温常见量级值（教学示意），实际数值随频率、温度、材料批次和湿度显著变化；水分子偶极矩约 6.2×10⁻³⁰ C·m 为气相氢键环境下的量级值。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="04.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="06.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
