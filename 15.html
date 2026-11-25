@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第15章 电磁波——平面波传播</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第15章 电磁波——平面波传播</h1>
+            <p class="dek">把真空麦克斯韦方程组取旋度，就得到波动方程——位移电流由此变成电磁波的“数学前提”。本章推导平面波解、坡印廷矢量与极化，并走进工程中的损耗介质与电磁波谱。</p>
+        </header>
 
         <h2>开场：从静场到波的飞跃</h2>
         <p>从第1章到第14章，我们一直在研究静态或准静态的电磁场。电场由静止电荷产生，磁场由恒定电流产生。但如果电荷开始加速运动，或者电流随时间变化，会发生什么？答案是——<strong>电磁波</strong>。</p>
@@ -57,11 +69,14 @@
             <li>∇ × <strong>E</strong> = −∂<strong>B</strong>/∂t</li>
             <li>∇ × <strong>B</strong> = μ₀ε₀ ∂<strong>E</strong>/∂t</li>
         </ul>
-        <p>对方程(3)两边取旋度（∇×）：∇ × (∇ × <strong>E</strong>) = −∂(∇ × <strong>B</strong>)/∂t。利用矢量恒等式 ∇ × (∇ × <strong>E</strong>) = ∇(∇·<strong>E</strong>) − ∇²<strong>E</strong>，并代入 ∇·<strong>E</strong>=0：</p>
-        <p>−∇²<strong>E</strong> = −∂(∇ × <strong>B</strong>)/∂t</p>
-        <p>再将(4)式代入：∇²<strong>E</strong> = μ₀ε₀ ∂²<strong>E</strong>/∂t²</p>
-        <p>完全对称地，对 <strong>B</strong> 做同样的推导可得：∇²<strong>B</strong> = μ₀ε₀ ∂²<strong>B</strong>/∂t²</p>
-        <p>这就是三维向量波动方程。最经典的一维标量形式是：∂²u/∂z² = (1/v²)∂²u/∂t²，其中波速 <em>v</em> = 1/√(με)。在真空中，这就是光速 <em>c</em>。</p>
+        <p>对方程(3)两边取旋度（∇×）。利用矢量恒等式 ∇ × (∇ × <strong>E</strong>) = ∇(∇·<strong>E</strong>) − ∇²<strong>E</strong>，并代入 ∇·<strong>E</strong>=0，再把方程(4)代入，最终得到：</p>
+        <div class="math-equation" role="group" aria-label="电场与磁场的三维波动方程"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="三维波动方程，可横向滚动">
+            <math display="block" aria-label="电场 E 的拉普拉斯算符等于 μ0 ε0 乘 E 对时间的二阶偏导；磁场 B 亦然"><mrow><msup><mo>∇</mo><mn>2</mn></msup><mi>E</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>ε</mi><mn>0</mn></msub><mfrac><mrow><msup><mo>∂</mo><mn>2</mn></msup><mi>E</mi></mrow><mrow><mo>∂</mo><msup><mi>t</mi><mn>2</mn></msup></mrow></mfrac><mo>,</mo><mspace width="1.5em"/><msup><mo>∇</mo><mn>2</mn></msup><mi>B</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>ε</mi><mn>0</mn></msub><mfrac><mrow><msup><mo>∂</mo><mn>2</mn></msup><mi>B</mi></mrow><mrow><mo>∂</mo><msup><mi>t</mi><mn>2</mn></msup></mrow></mfrac></mrow></math>
+        </div></div>
+        <p>这就是三维向量波动方程。最经典的一维标量形式是：</p>
+        <div class="math-equation" role="group" aria-label="一维标量波动方程"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="一维波动方程，可横向滚动">
+            <math display="block" aria-label="u 对 z 的二阶偏导等于 1 除以 v 平方乘以 u 对 t 的二阶偏导，波速 v 等于 1 除以根号 με"><mrow><mfrac><mrow><msup><mo>∂</mo><mn>2</mn></msup><mi>u</mi></mrow><mrow><mo>∂</mo><msup><mi>z</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><msup><mi>v</mi><mn>2</mn></msup></mfrac><mfrac><mrow><msup><mo>∂</mo><mn>2</mn></msup><mi>u</mi></mrow><mrow><mo>∂</mo><msup><mi>t</mi><mn>2</mn></msup></mrow></mfrac><mo>,</mo><mspace width="1.5em"/><mi>v</mi><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mi>μ</mi><mi>ε</mi></mrow></msqrt></mfrac></mrow></math>
+        </div></div>
 
         <div class="highlight">
             <strong>🔑 核心洞察</strong><br>
@@ -72,12 +87,13 @@
 
         <h2>平面波解</h2>
         <p>平面波是波动方程最简单、最重要的解，也是最理想的近似。所谓"平面波"，是指等相位面为平面的波。考虑沿 +<em>z</em> 方向传播、电场沿 <em>x</em> 方向偏振的平面波：</p>
-        <p><strong>E</strong>(z,t) = E₀ cos(kz − ωt) <strong>x̂</strong></p>
-        <p><strong>B</strong>(z,t) = B₀ cos(kz − ωt) <strong>ŷ</strong></p>
-        <p>其中 ω = 2πf 是角频率，k = 2π/λ 是波数。代入波动方程可得色散关系：ω = ck（在真空中）。</p>
-        <p>由法拉第定律 ∇×<strong>E</strong> = −∂<strong>B</strong>/∂t 可以推导出电场和磁场的幅度关系：</p>
-        <p>B₀ = E₀/c</p>
-        <p>在非磁性介质（μ≈μ₀）中，更通用的形式是 E₀/H₀ = η，其中 η = √(μ/ε) 为<strong>波阻抗</strong>，在真空中 η₀ ≈ 377Ω。</p>
+        <div class="math-equation" role="group" aria-label="沿 z 方向传播的平面波电场与磁场"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="平面波电场与磁场表达式，可横向滚动">
+            <math display="block" aria-label="E(z,t) 等于 E0 cos(kz 减 ωt) 沿 x 方向；B(z,t) 等于 B0 cos(kz 减 ωt) 沿 y 方向"><mrow><mi>E</mi><mo>(</mo><mi>z</mi><mo>,</mo><mi>t</mi><mo>)</mo><mo>=</mo><msub><mi>E</mi><mn>0</mn></msub><mi>cos</mi><mo>(</mo><mi>k</mi><mi>z</mi><mo>−</mo><mi>ω</mi><mi>t</mi><mo>)</mo><mover accent="true"><mi>x</mi><mo>^</mo></mover><mo>,</mo><mspace width="1em"/><mi>B</mi><mo>(</mo><mi>z</mi><mo>,</mo><mi>t</mi><mo>)</mo><mo>=</mo><msub><mi>B</mi><mn>0</mn></msub><mi>cos</mi><mo>(</mo><mi>k</mi><mi>z</mi><mo>−</mo><mi>ω</mi><mi>t</mi><mo>)</mo><mover accent="true"><mi>y</mi><mo>^</mo></mover></mrow></math>
+        </div></div>
+        <p>其中 ω = 2πf 是角频率，k = 2π/λ 是波数。代入波动方程可得色散关系：ω = ck（在真空中）。由法拉第定律 ∇×<strong>E</strong> = −∂<strong>B</strong>/∂t 可以推导出电场和磁场的幅度关系：</p>
+        <div class="math-equation" role="group" aria-label="平面波中电场与磁场的幅度关系与波阻抗"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="波阻抗与幅度关系，可横向滚动">
+            <math display="block" aria-label="B0 等于 E0 除以 c；E0 比 H0 等于波阻抗 η 等于根号 μ 除以 ε，真空中约 377 欧姆"><mrow><msub><mi>B</mi><mn>0</mn></msub><mo>=</mo><mfrac><msub><mi>E</mi><mn>0</mn></msub><mi>c</mi></mfrac><mo>,</mo><mspace width="1.5em"/><mfrac><msub><mi>E</mi><mn>0</mn></msub><msub><mi>H</mi><mn>0</mn></msub></mfrac><mo>=</mo><mi>η</mi><mo>=</mo><msqrt><mfrac><mi>μ</mi><mi>ε</mi></mfrac></msqrt><mo>≈</mo><mn>377</mn><mtext> Ω</mtext></mrow></math>
+        </div></div>
         <p>平面波的关键性质：</p>
         <ul>
             <li><strong>横波性（TEM）</strong>：E ⊥ B ⊥ k，三个矢量相互正交，属于"横电磁波"（Transverse Electromagnetic Wave）。</li>
@@ -85,16 +101,37 @@
             <li><strong>瞬时关系</strong>：|E| = c|B|，即在空间中任一点任一时刻，电场和磁场的幅度满足比例关系。</li>
         </ul>
 
+        <figure aria-labelledby="fig-pw-title">
+            <svg viewBox="0 0 460 250" role="img" aria-labelledby="fig-pw-title fig-pw-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-pw-title">平面电磁波：E、B、传播方向两两正交</title>
+                <desc id="fig-pw-desc">沿 z 方向传播的平面波，电场沿竖直的 x 方向振荡（蓝），磁场沿指向纸内的 y 方向振荡（橙）。两者同相，且都垂直于传播方向 z。</desc>
+                <rect width="460" height="250" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="pw-arr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#475569"/></marker></defs>
+                    <line x1="40" y1="170" x2="440" y2="170" stroke="#475569" stroke-width="1.6" marker-end="url(#pw-arr)"/>
+                    <text x="416" y="190" font-size="12.5" fill="#475569">z（传播方向）</text>
+                    <line x1="60" y1="170" x2="60" y2="60" stroke="#94a3b8" stroke-width="1.4" marker-end="url(#pw-arr)"/>
+                    <text x="40" y="54" font-size="12.5" fill="#1d4ed8">x</text>
+                    <polyline points="60,170 102,120 145,100 187,120 230,170 272,220 315,240 357,220 400,170" fill="none" stroke="#1d4ed8" stroke-width="2.4"/>
+                    <polyline points="60,170 102,138 145,120 187,123 230,140 272,157 315,160 357,142 400,110" fill="none" stroke="#b45309" stroke-width="2.4" stroke-dasharray="6 3"/>
+                    <text x="150" y="70" font-size="12" fill="#1d4ed8" font-weight="700">E（沿 x）</text>
+                    <text x="188" y="118" font-size="12" fill="#b45309" font-weight="700">B（沿 y，指向纸内）</text>
+                    <text x="24" y="232" font-size="12.5" fill="#1e3a5f" font-weight="700">E ⊥ B ⊥ k，且 B₀ = E₀/c</text>
+                </g>
+            </svg>
+            <figcaption>平面波是横波：电场与磁场都垂直于传播方向，且两者相互垂直。蓝、橙两条曲线同相振荡——同时达到最大值、同时过零。任意时刻电场幅值都是磁场幅值的 c 倍。</figcaption>
+        </figure>
+
         <h2>坡印廷矢量与能量流</h2>
         <p>电磁波携带着能量在空间中传播。描述这一能量流动的关键物理量是<strong>坡印廷矢量</strong>（Poynting Vector）：</p>
-        <p><strong>S</strong> = <strong>E</strong> × <strong>H</strong></p>
-        <p>坡印廷矢量的单位是 W/m²，表示<strong>单位时间内通过单位面积的能量</strong>（能量流密度）。方向就是电磁波传播的方向。</p>
-        <p>对于平面波 E = E₀cos(kz−ωt)x̂，H = H₀cos(kz−ωt)ŷ：</p>
-        <p>S = E₀H₀ cos²(kz−ωt) ẑ</p>
-        <p>由于电磁波的频率极高（例如可见光 ~10¹⁴ Hz），在绝大多数工程应用中我们关心的是<strong>时间平均值</strong>：</p>
-        <p>⟨S⟩ = ½ E₀H₀ = E₀²/(2η)</p>
+        <div class="math-equation" role="group" aria-label="坡印廷矢量与时间平均能流密度"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="坡印廷矢量与平均能流，可横向滚动">
+            <math display="block" aria-label="坡印廷矢量 S 等于 E 叉乘 H；时间平均 S 等于二分之一 E0 H0 等于 E0 平方除以 2η"><mrow><mi>S</mi><mo>=</mo><mi>E</mi><mo>×</mo><mi>H</mi><mo>,</mo><mspace width="1.5em"/><mo>⟨</mo><mi>S</mi><mo>⟩</mo><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>E</mi><mn>0</mn></msub><msub><mi>H</mi><mn>0</mn></msub><mo>=</mo><mfrac><msubsup><mi>E</mi><mn>0</mn><mn>2</mn></msubsup><mrow><mn>2</mn><mi>η</mi></mrow></mfrac></mrow></math>
+        </div></div>
+        <p>坡印廷矢量的单位是 W/m²，表示<strong>单位时间内通过单位面积的能量</strong>（能量流密度）；方向就是电磁波传播的方向。对于平面波，瞬时能流随时间快速振荡（频率可达 10¹⁴ Hz），工程上通常关心其时间平均值 ⟨S⟩——它正比于电场幅值的平方。</p>
         <p>坡印廷定理（Poynting Theorem）是能量守恒定律在电磁场中的体现：</p>
-        <p>−∂u/∂t = ∇·<strong>S</strong> + <strong>J</strong>·<strong>E</strong></p>
+        <div class="math-equation" role="group" aria-label="坡印廷定理"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="坡印廷定理能量守恒，可横向滚动">
+            <math display="block" aria-label="负的 u 对时间偏导等于 S 的散度加 J 点乘 E"><mrow><mo>−</mo><mfrac><mrow><mo>∂</mo><mi>u</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>=</mo><mo>∇</mo><mo>·</mo><mi>S</mi><mo>+</mo><mi>J</mi><mo>·</mo><mi>E</mi></mrow></math>
+        </div></div>
         <p>其中 u = ½(εE² + μH²) 是电磁场能量密度。这个公式告诉我们：<strong>某区域内电磁能量的减少，要么以坡印廷矢量的形式流出了边界，要么被焦耳热消耗掉了</strong>。</p>
 
         <div class="tip">
@@ -109,11 +146,33 @@
         <p>电场矢量始终沿一条直线振荡。例如我们上文的平面波 E=E₀cos(kz−ωt)x̂ 就是 x 方向线极化波。任意方向的线极化波可以分解为 x 和 y 两个正交分量的叠加：<strong>E</strong> = (E_x x̂ + E_y ŷ)cos(kz−ωt)，两个分量相位相同。</p>
         <h3>圆极化</h3>
         <p>当两个正交分量的幅度相等但相位差 ±90° 时，电场矢量末端画出一个圆：</p>
-        <p><strong>E</strong>(z,t) = E₀[cos(kz−ωt)x̂ + sin(kz−ωt)ŷ]  → 右旋圆极化（RHCP）</p>
-        <p><strong>E</strong>(z,t) = E₀[cos(kz−ωt)x̂ − sin(kz−ωt)ŷ]  → 左旋圆极化（LHCP）</p>
+        <div class="math-equation" role="group" aria-label="圆极化的两个正交分量"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="圆极化波表达式，可横向滚动">
+            <math display="block" aria-label="右旋圆极化：E 等于 E0 乘以 cos 沿 x 加 sin 沿 y；左旋圆极化：sin 项取负号"><mrow><msub><mi>E</mi><mrow><mtext>RHCP</mtext></mrow></msub><mo>=</mo><msub><mi>E</mi><mn>0</mn></msub><mrow><mo>[</mo><mi>cos</mi><mo>(</mo><mi>k</mi><mi>z</mi><mo>−</mo><mi>ω</mi><mi>t</mi><mo>)</mo><mover accent="true"><mi>x</mi><mo>^</mo></mover><mo>+</mo><mi>sin</mi><mo>(</mo><mi>k</mi><mi>z</mi><mo>−</mo><mi>ω</mi><mi>t</mi><mo>)</mo><mover accent="true"><mi>y</mi><mo>^</mo></mover><mo>]</mo></mrow><mo>,</mo><mspace width="1em"/><msub><mi>E</mi><mrow><mtext>LHCP</mtext></mrow></msub><mo>=</mo><msub><mi>E</mi><mn>0</mn></msub><mrow><mo>[</mo><mi>cos</mi><mo>(</mo><mi>k</mi><mi>z</mi><mo>−</mo><mi>ω</mi><mi>t</mi><mo>)</mo><mover accent="true"><mi>x</mi><mo>^</mo></mover><mo>−</mo><mi>sin</mi><mo>(</mo><mi>k</mi><mi>z</mi><mo>−</mo><mi>ω</mi><mi>t</mi><mo>)</mo><mover accent="true"><mi>y</mi><mo>^</mo></mover><mo>]</mo></mrow></mrow></math>
+        </div></div>
         <h3>椭圆极化</h3>
         <p>当两个正交分量幅度不等、相位差不等于 0 或 ±90° 时，电场矢量末端画出一个椭圆。椭圆极化是最一般的情况，线极化和圆极化是它的特例。</p>
         <p>极化的数学描述可用<strong>琼斯矢量</strong>（Jones Vector）表示。例如 x 方向线极化可写作 [1, 0]ᵀ，右旋圆极化可写作 [1, −j]ᵀ/√2。</p>
+
+        <figure aria-labelledby="fig-pol-title">
+            <svg viewBox="0 0 460 190" role="img" aria-labelledby="fig-pol-title fig-pol-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-pol-title">三种极化：线极化、圆极化与椭圆极化</title>
+                <desc id="fig-pol-desc">固定空间点观察时，电场矢量末端画出的轨迹：两正交分量同相时为一条直线（线极化）；幅度相等、相位差 90° 时为一个圆（圆极化）；一般情形为一个椭圆（椭圆极化）。</desc>
+                <rect width="460" height="190" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <rect x="30" y="45" width="110" height="100" rx="10" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <line x1="52" y1="128" x2="118" y2="62" stroke="#1d4ed8" stroke-width="2.6"/>
+                    <text x="44" y="30" font-size="12.5" fill="#1e3a5f">线极化</text>
+                    <rect x="175" y="45" width="110" height="100" rx="10" fill="#fef3e6" stroke="#fed7aa"/>
+                    <circle cx="230" cy="95" r="34" fill="none" stroke="#b45309" stroke-width="2.6"/>
+                    <text x="189" y="30" font-size="12.5" fill="#1e3a5f">圆极化</text>
+                    <rect x="320" y="45" width="110" height="100" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/>
+                    <ellipse cx="375" cy="95" rx="42" ry="24" fill="none" stroke="#0f766e" stroke-width="2.6"/>
+                    <text x="334" y="30" font-size="12.5" fill="#1e3a5f">椭圆极化</text>
+                    <text x="30" y="172" font-size="12.5" fill="#1e3a5f" font-weight="700">线、圆极化都是椭圆极化的特例</text>
+                </g>
+            </svg>
+            <figcaption>极化描述的是“电场矢量末端随时间画出的轨迹”。两个正交分量同相→直线；幅度相等且相差 90°→圆；一般幅度、任意相差→椭圆。椭圆极化是最一般的情形，线极化与圆极化都是它的退化特例。</figcaption>
+        </figure>
 
         <table>
             <tr>
@@ -162,11 +221,19 @@
         <h2>电磁波在导电介质中的传播</h2>
         <p>在实际工程中，电磁波很少在真空中传播，更多是在有损耗的介质（如土壤、海水、混凝土、生物组织）中传播。导电介质中，麦克斯韦方程组的解会发生质的变化。</p>
         <h3>复介电常数</h3>
-        <p>引入复介电常数 ε̃ = ε − jσ/ω。这时波数 k 变成复数：k̃ = ω√(μ ε̃) = β − jα。平面波解变为：</p>
-        <p><strong>E</strong> = E₀e^{−αz}cos(ωt − βz)x̂</p>
-        <p>其中 α 称为<strong>衰减常数</strong>（Np/m），β 为<strong>相位常数</strong>（rad/m）。指数衰减因子 e^{−αz} 意味着波的振幅随传播距离指数下降。</p>
+        <div class="math-equation" role="group" aria-label="复介电常数与复波数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="复介电常数与复波数，可横向滚动">
+            <math display="block" aria-label="复介电常数 ε̃ 等于 ε 减 jσ 除以 ω；复波数 k̃ 等于 β 减 jα"><mrow><mover accent="true"><mi>ε</mi><mo>~</mo></mover><mo>=</mo><mi>ε</mi><mo>−</mo><mi>j</mi><mfrac><mi>σ</mi><mi>ω</mi></mfrac><mo>,</mo><mspace width="1.5em"/><mover accent="true"><mi>k</mi><mo>~</mo></mover><mo>=</mo><mi>ω</mi><msqrt><mrow><mi>μ</mi><mover accent="true"><mi>ε</mi><mo>~</mo></mover></mrow></msqrt><mo>=</mo><mi>β</mi><mo>−</mo><mi>j</mi><mi>α</mi></mrow></math>
+        </div></div>
+        <p>其中 α 称为<strong>衰减常数</strong>（Np/m），β 为<strong>相位常数</strong>（rad/m）。平面波解变为：</p>
+        <div class="math-equation" role="group" aria-label="导电介质中的衰减平面波"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="导电介质中的衰减平面波，可横向滚动">
+            <math display="block" aria-label="电场 E 等于 E0 乘 e 的负 αz 次方乘 cos(ωt 减 βz) 沿 x 方向"><mrow><mi>E</mi><mo>=</mo><msub><mi>E</mi><mn>0</mn></msub><msup><mi>e</mi><mrow><mo>−</mo><mi>α</mi><mi>z</mi></mrow></msup><mi>cos</mi><mo>(</mo><mi>ω</mi><mi>t</mi><mo>−</mo><mi>β</mi><mi>z</mi><mo>)</mo><mover accent="true"><mi>x</mi><mo>^</mo></mover></mrow></math>
+        </div></div>
+        <p>指数衰减因子 e<sup>−αz</sup> 意味着波的振幅随传播距离指数下降。</p>
         <h3>损耗角正切</h3>
         <p>定义 tanδ = σ/(ωε)，用于区分介质类型：</p>
+        <div class="math-equation" role="group" aria-label="损耗角正切与趋肤深度"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="损耗角正切与趋肤深度，可横向滚动">
+            <math display="block" aria-label="损耗角正切 tanδ 等于 σ 除以 ωε；趋肤深度 δs 等于 1 除以 α，等于根号 2 除以 ωμσ"><mrow><mi>tan</mi><mspace width="0.2em"/><mi>δ</mi><mo>=</mo><mfrac><mi>σ</mi><mrow><mi>ω</mi><mi>ε</mi></mrow></mfrac><mo>,</mo><mspace width="1.5em"/><msub><mi>δ</mi><mi>s</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>α</mi></mfrac><mo>=</mo><msqrt><mfrac><mn>2</mn><mrow><mi>ω</mi><mi>μ</mi><mi>σ</mi></mrow></mfrac></msqrt></mrow></math>
+        </div></div>
         <ul>
             <li>tanδ ≪ 0.01：<strong>良介质</strong>（低损耗），如纯水、玻璃、聚四氟乙烯（PTFE）。</li>
             <li>tanδ > 1：<strong>良导体</strong>，如铜(σ≈5.8×10⁷)、铝、金。趋肤深度 δ_s = 1/α = √(2/(ωμσ))。</li>
@@ -307,12 +374,24 @@
         </ul>
         <p>平面波是最理想的近似，但真实世界中的电磁波几乎总会遇到两种介质的分界面。<strong>下一章</strong>，我们将研究电磁波在不同介质界面上的行为——反射与折射。你会看到 Fresnel 公式、Brewster 角、全反射等现象，这些都是光纤通信、雷达隐身、光学镀膜等技术的物理基础。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>James Clerk Maxwell, <em>A Dynamical Theory of the Electromagnetic Field</em>, <em>Phil. Trans. R. Soc.</em> 155: 459–512 (1865)：电磁波方程与光速预言。见 <a href="https://doi.org/10.1098/rstl.1865.0008">DOI:10.1098/rstl.1865.0008</a>。</li>
+                <li>John Henry Poynting, <em>On the Transfer of Energy in the Electromagnetic Field</em>, <em>Phil. Trans. R. Soc.</em> 175: 343–361 (1884)：坡印廷矢量的原始论文。见 <a href="https://doi.org/10.1098/rstl.1884.0016">DOI:10.1098/rstl.1884.0016</a>。</li>
+                <li>R. Clark Jones, <em>A New Calculus for the Treatment of Optical Systems</em>, <em>J. Opt. Soc. Am.</em> 31: 488–493 (1941)：用琼斯矢量描述极化。见 <a href="https://doi.org/10.1364/JOSA.31.000488">DOI:10.1364/JOSA.31.000488</a>。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 9 章论述电磁波、坡印廷矢量与极化。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">文中 WiFi 穿墙衰减（木材 1–2 dB、砖墙 4–8 dB、混凝土 10–20 dB、钢筋混凝土 20–35 dB）为典型实测区间（教学示意），随墙体厚度、含水率与频率变化。波阻抗 η₀ = √(μ₀/ε₀) ≈ 376.73 Ω；损耗角正切分类阀值（0.01、1）为常用工程判据。电磁波谱频率/波长范围为国际通用波段划分的近似值。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="14.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="16.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
