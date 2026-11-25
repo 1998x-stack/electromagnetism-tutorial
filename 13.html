@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第13章 位移电流与麦克斯韦方程组</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第13章 位移电流与麦克斯韦方程组</h1>
+            <p class="dek">一个关于电容器充电的曲面选择悖论，逼出了麦克斯韦的位移电流。本章补全四个麦克斯韦方程，展示电场与磁场的对偶，并从方程组直接推出“光速”。</p>
+        </header>
 
         <h2>开场：一个悖论催生的革命</h2>
         <p>1861年，詹姆斯·克拉克·麦克斯韦（James Clerk Maxwell, 1831-1879）正在撰写《论物理力线》。当他仔细审视安培环路定理 ∮B·dl = μ₀ I<sub>enclosed</sub> 时，发现了一个令人不安的矛盾。</p>
@@ -51,6 +63,30 @@
             <li>如果取一个<strong>穿过导线</strong>的曲面——曲面上有电流通过，I<sub>enclosed</sub> = I。</li>
             <li>如果取一个<strong>穿过电容器极板之间</strong>的曲面——曲面上没有电流，I<sub>enclosed</sub> = 0。</li>
         </ul>
+
+        <figure aria-labelledby="fig-disp-title">
+            <svg viewBox="0 0 460 230" role="img" aria-labelledby="fig-disp-title fig-disp-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-disp-title">充电电容器：同一回路 C 的两种曲面给出不同包围电流</title>
+                <desc id="fig-disp-desc">回路 C 环绕左侧导线。若取穿过导线的平面 S1，包围电流为 I；若取脉过两板之间间隙的曲面 S2，包围电流为零。麦克斯韦用位移电流 ε0 dΦE/dt 补上间隙中的那一份，使两者相等。</desc>
+                <rect width="460" height="230" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="dc-arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1d4ed8"/></marker></defs>
+                    <line x1="30" y1="115" x2="160" y2="115" stroke="#1e3a5f" stroke-width="3" marker-end="url(#dc-arr)"/>
+                    <text x="60" y="104" font-size="12.5" fill="#1e3a5f" font-weight="700">I</text>
+                    <line x1="160" y1="65" x2="160" y2="165" stroke="#1e3a5f" stroke-width="3"/>
+                    <line x1="205" y1="65" x2="205" y2="165" stroke="#1e3a5f" stroke-width="3"/>
+                    <line x1="205" y1="115" x2="400" y2="115" stroke="#1e3a5f" stroke-width="3" marker-end="url(#dc-arr)"/>
+                    <text x="330" y="104" font-size="12.5" fill="#1e3a5f" font-weight="700">I</text>
+                    <line x1="168" y1="115" x2="198" y2="115" stroke="#b45309" stroke-width="2.4" marker-end="url(#dc-arr)"/>
+                    <text x="158" y="196" font-size="12" fill="#b45309">位移电流 Jd 补上间隙</text>
+                    <ellipse cx="95" cy="115" rx="52" ry="62" fill="none" stroke="#64748b" stroke-width="1.8" stroke-dasharray="6 4"/>
+                    <text x="86" y="42" font-size="12.5" fill="#475569">回路 C</text>
+                    <text x="286" y="176" font-size="12" fill="#475569">S1（穿导线）：I 包围</text>
+                    <text x="286" y="196" font-size="12" fill="#475569">S2（穿间隙）：⁠0 → 靠 Jd</text>
+                </g>
+            </svg>
+            <figcaption>同一个回路 C 可以张成不同曲面：穿过导线的平面 S1 包住传导电流 I，而鼓过电容器间隙的曲面 S2 一个真实电荷也没包住。要让安培定律对两种曲面都成立，必须在间隙里补上“位移电流” ε₀dΦ<sub>E</sub>/dt——这正是麦克斯韦的修正。</figcaption>
+        </figure>
         <p>Ampère 定律给出的 B 竟然依赖于曲面的选择！这对于任何物理定律都是不可接受的——一个正确的物理定律必须与曲面的选择无关。</p>
         <p>麦克斯韦的解决方案是什么？他做出了一记惊世骇俗的天才之笔：<strong>变化的电场产生的效果相当于一种"电流"</strong>。</p>
 
@@ -58,7 +94,9 @@
         <p>麦克斯韦将安培环路定理中的电流 I<sub>enclosed</sub> 替换为总电流——<strong>传导电流 + 位移电流</strong>：</p>
         <p>I<sub>total</sub> = I<sub>conduction</sub> + I<sub>displacement</sub></p>
         <p>其中<strong>位移电流</strong>（displacement current）定义为：</p>
-        <p><strong>I<sub>d</sub> = ε₀ dΦ<sub>E</sub> / dt</strong>  或  <strong>J<sub>d</sub> = ε₀ ∂E / ∂t</strong></p>
+        <div class="math-equation" role="group" aria-label="位移电流的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="位移电流定义，可横向滚动">
+            <math display="block" aria-label="位移电流 Id 等于 ε0 乘以电场通量 ΦE 对时间的导数，位移电流密度 Jd 等于 ε0 乘以电场对时间的偏导"><mrow><msub><mi>I</mi><mi>d</mi></msub><mo>=</mo><msub><mi>ε</mi><mn>0</mn></msub><mfrac><mrow><mi>d</mi><msub><mi>Φ</mi><mi>E</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>,</mo><mspace width="1.5em"/><msub><mi>J</mi><mi>d</mi></msub><mo>=</mo><msub><mi>ε</mi><mn>0</mn></msub><mfrac><mrow><mo>∂</mo><mi>E</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow></math>
+        </div></div>
 
         <p>在电容器极板之间，虽然没有实际的电荷迁移（没有传导电流），但电场在随时间变化（充电时 E 增大），这个变化产生了位移电流。注意：<strong>位移电流不是真实的电流</strong>——它是变化电场的等效磁效应。</p>
 
@@ -73,8 +111,12 @@
         </div>
 
         <p>修正后的<strong>安培-麦克斯韦定律</strong>：</p>
-        <p><strong>∮<sub>C</sub> B · dl = μ₀ (I<sub>C</sub> + ε₀ dΦ<sub>E</sub>/dt)</strong></p>
-        <p>微分形式：<strong>∇ × B = μ₀ J + μ₀ ε₀ ∂E / ∂t</strong></p>
+        <div class="math-equation" role="group" aria-label="安培-麦克斯韦定律"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="安培-麦克斯韦定律积分与微分形式，可横向滚动">
+            <math display="block" aria-label="B 沿闭合回路的环量等于 μ0 乘以传导电流加 ε0 乘电场通量变化率；微分形式为 B 的旋度等于 μ0 J 加 μ0 ε0 乘电场对时间的偏导"><mrow><msub><mo>∮</mo><mi>C</mi></msub><mi>B</mi><mo>·</mo><mi>d</mi><mi>l</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mrow><mo>(</mo><msub><mi>I</mi><mi>C</mi></msub><mo>+</mo><msub><mi>ε</mi><mn>0</mn></msub><mfrac><mrow><mi>d</mi><msub><mi>Φ</mi><mi>E</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>)</mo></mrow></mrow></math>
+        </div></div>
+        <div class="math-equation" role="group" aria-label="安培-麦克斯韦定律的微分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="安培-麦克斯韦定律微分形式，可横向滚动">
+            <math display="block" aria-label="B 的旋度等于 μ0 J 加 μ0 ε0 乘 E 对时间的偏导"><mrow><mo>∇</mo><mo>×</mo><mi>B</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mi>J</mi><mo>+</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>ε</mi><mn>0</mn></msub><mfrac><mrow><mo>∂</mo><mi>E</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow></math>
+        </div></div>
 
         <h2>麦克斯韦方程组（完整形式）</h2>
         <p>加上位移电流后，电磁学完成了最后的统一。以下是完整的麦克斯韦方程组：</p>
@@ -130,6 +172,28 @@
         <p>观察真空中的麦克斯韦方程组：电场和磁场互换（E → cB, B → −E/c）后，方程形式保持不变（在无源情况下）。这种<strong>电磁对偶性</strong>（Electromagnetic Duality）是物理学中最深刻的对称之一。</p>
         <p>如果存在磁单极子（磁荷 ρ<sub>m</sub> 和磁流 J<sub>m</sub>），这种对偶就会变成完美对称——不过目前物理实验尚未发现磁单极子的存在。</p>
 
+        <figure aria-labelledby="fig-dual-title">
+            <svg viewBox="0 0 420 220" role="img" aria-labelledby="fig-dual-title fig-dual-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-dual-title">变化电场与变化磁场的相互激发形成一个自持循环</title>
+                <desc id="fig-dual-desc">左侧节点为变化的磁场，右侧节点为变化的电场。上弧表示变化的磁场激发涡旋电场（法拉第定律），下弧表示变化的电场激发涡旋磁场（麦克斯韦位移电流）。两者首尾相接，使扰动能在空间中自持传播。</desc>
+                <rect width="420" height="220" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="du-arr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#1d4ed8"/></marker></defs>
+                    <circle cx="90" cy="110" r="40" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                    <text x="62" y="106" font-size="13" fill="#1d4ed8" font-weight="700">∂B/∂t</text>
+                    <text x="66" y="124" font-size="12" fill="#1d4ed8">变化磁场</text>
+                    <circle cx="330" cy="110" r="40" fill="#fed7aa" stroke="#b45309" stroke-width="2"/>
+                    <text x="302" y="106" font-size="13" fill="#b45309" font-weight="700">∂E/∂t</text>
+                    <text x="304" y="124" font-size="12" fill="#b45309">变化电场</text>
+                    <path d="M128 92 C 180 50, 240 50, 292 92" fill="none" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#du-arr)"/>
+                    <path d="M292 128 C 240 170, 180 170, 128 128" fill="none" stroke="#b45309" stroke-width="2.4" marker-end="url(#du-arr)"/>
+                    <text x="176" y="44" font-size="12" fill="#1d4ed8">∇×E = −∂B/∂t（法拉第）</text>
+                    <text x="150" y="196" font-size="12" fill="#b45309">∇×B = μ₀ε₀ ∂E/∂t（麦克斯韦）</text>
+                </g>
+            </svg>
+            <figcaption>变化的磁场在周围激发涡旋电场，变化的电场又在周围激发涡旋磁场。两者互相“接力”，即使没有电荷或电流，扰动也能在真空中一路传播下去——这正是电磁波能脱离场源独立存在的根源。</figcaption>
+        </figure>
+
         <div class="warning">
             <strong>⚠ 常见误区澄清</strong><br>
             一些教科书会说："位移电流就是变化的电场。"这么说容易产生误解。<br>
@@ -141,12 +205,18 @@
         <p>麦克斯韦在完成方程组后不久，做了一个改变世界的推导。他从真空中的四个方程出发，推导出了电磁场的波动方程：</p>
 
         <p>对 ∇ × E = −∂B/∂t 取旋度：</p>
-        <p>∇ × (∇ × E) = −∂(∇ × B)/∂t = −μ₀ ε₀ ∂²E/∂t²</p>
+        <div class="math-equation" role="group" aria-label="真空中的波动方程推导"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="真空波动方程推导，可横向滚动">
+            <math display="block" aria-label="E 的旋度的旋度等于负的 B 的旋度对时间的偏导，等于负 μ0 ε0 乘 E 对时间的二阶偏导"><mrow><mo>∇</mo><mo>×</mo><mo>(</mo><mo>∇</mo><mo>×</mo><mi>E</mi><mo>)</mo><mo>=</mo><mo>−</mo><mfrac><mrow><mo>∂</mo><mo>(</mo><mo>∇</mo><mo>×</mo><mi>B</mi><mo>)</mo></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>ε</mi><mn>0</mn></msub><mfrac><mrow><msup><mo>∂</mo><mn>2</mn></msup><mi>E</mi></mrow><mrow><mo>∂</mo><msup><mi>t</mi><mn>2</mn></msup></mrow></mfrac></mrow></math>
+        </div></div>
         <p>利用矢量恒等式 ∇ × (∇ × E) = ∇(∇·E) − ∇²E，且 ∇·E = 0：</p>
-        <p><strong>∇²E = μ₀ ε₀ ∂²E/∂t²</strong></p>
+        <div class="math-equation" role="group" aria-label="真空中的波动方程"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="真空波动方程，可横向滚动">
+            <math display="block" aria-label="E 的拉普拉斯算符等于 μ0 ε0 乘 E 对时间的二阶偏导"><mrow><msup><mo>∇</mo><mn>2</mn></msup><mi>E</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>ε</mi><mn>0</mn></msub><mfrac><mrow><msup><mo>∂</mo><mn>2</mn></msup><mi>E</mi></mrow><mrow><mo>∂</mo><msup><mi>t</mi><mn>2</mn></msup></mrow></mfrac></mrow></math>
+        </div></div>
 
         <p>这正是标准的波动方程！从波动方程中可以读出电磁波的传播速度：</p>
-        <p><strong>c = 1 / √(μ₀ ε₀) = 2.9979 × 10⁸ m/s</strong></p>
+        <div class="math-equation" role="group" aria-label="电磁波速度"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="光速公式，可横向滚动">
+            <math display="block" aria-label="光速 c 等于 1 除以根号 μ0 ε0，约等于 2.9979×10⁸ 米每秒"><mrow><mi>c</mi><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>ε</mi><mn>0</mn></msub></mrow></msqrt></mfrac><mo>=</mo><mn>2.9979</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup><mtext> m/s</mtext></mrow></math>
+        </div></div>
 
         <p>麦克斯韦当时震惊了：这个速度与当时测量的光速（3.14 × 10⁸ m/s，设备精度有限）高度吻合。他随即宣布：</p>
         <p><strong>"光是一种电磁波。"</strong></p>
@@ -221,12 +291,24 @@ print(f"\nE/B 比值 (应为光速): {E0 / (E0/c):.2f} m/s")</code></pre>
 
         <p>麦克斯韦方程组是电磁学的巅峰。掌握了它，下一步我们看看场在介质界面上如何行为——<strong>电磁场的边界条件</strong>，这是衔接理想模型与现实世界的桥梁。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>James Clerk Maxwell, <em>A Dynamical Theory of the Electromagnetic Field</em>, <em>Phil. Trans. R. Soc.</em> 155: 459–512 (1865)：完整麦克斯韦方程组与“光是电磁波”的预言。见 <a href="https://doi.org/10.1098/rstl.1865.0008">DOI:10.1098/rstl.1865.0008</a>。</li>
+                <li>Heinrich Hertz (1887–1888)：用火花隙实验证实电磁波的存在，验证了麦克斯韦的预言。</li>
+                <li>R. P. Feynman, R. B. Leighton, M. Sands, <em>The Feynman Lectures on Physics</em>, Vol. II (1964)：对位移电流与电磁波物理图像的精彩讲解。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 7.3 节论述位移电流与麦克斯韦方程组。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">文中麦克斯韦当年参考的光速测量值“3.14×10⁸ m/s”为 19 世纪实验水平（教学示意），与当代值存在偏差。现代 SI 中 c 为定义常量（299 792 458 m/s），ε₀ 由 c 与 μ₀ 导出；Python 示例用 ε₀≈8.8541878128×10⁻¹² F/m。文中“31 岁完成预言”“赫兹验证时麦克斯韦已去世”均为史实背景。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="12.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="14.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
