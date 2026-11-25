@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第14章 电磁场的边界条件</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第14章 电磁场的边界条件</h1>
+            <p class="dek">当电磁场跨过两种介质的界面，哪些分量连续、哪些分量跃变？本章用“高斯盒”与“安培回路”把麦克斯韦方程组的积分形式取极限，得到四条边界条件，并连接波导、理想导体与 PCB 回流。</p>
+        </header>
 
         <h2>开场：为什么光会折射？</h2>
         <p>当一束光从空气射入水中，它的方向发生偏折——这是每个中学生都知道的现象。但很少有人追问更深一层的问题：<strong>是什么物理规律决定了电磁波在介质界面上必须如此行为？</strong></p>
@@ -57,31 +69,66 @@
             <li><strong>回路法</strong>（用于切向分量）：取一个跨在界面上的矩形回路，宽度 → 0，应用 ∮ E · dl = −dΦ<sub>B</sub>/dt 和 ∮ H · dl = I<sub>f</sub> + dΦ<sub>D</sub>/dt。</li>
         </ul>
 
+        <figure aria-labelledby="fig-pill-title">
+            <svg viewBox="0 0 440 240" role="img" aria-labelledby="fig-pill-title fig-pill-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-pill-title">边界条件的推导几何：高斯盒（法向）与安培回路（切向）</title>
+                <desc id="fig-pill-desc">两层介质以水平界面分开。左侧的扁圆柱“高斯盒”跨在界面上，高度趋于零，用于法向分量；右侧的矩形回路跨在界面上，宽度趋于零，用于切向分量。</desc>
+                <rect width="440" height="240" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs>
+                        <marker id="p-arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1d4ed8"/></marker>
+                        <marker id="p-arr2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#b45309"/></marker>
+                    </defs>
+                    <rect x="20" y="20" width="400" height="100" fill="#eef6ff"/>
+                    <rect x="20" y="120" width="400" height="100" fill="#fff5e6"/>
+                    <line x1="20" y1="120" x2="420" y2="120" stroke="#475569" stroke-width="2"/>
+                    <text x="30" y="40" font-size="12.5" fill="#1d4ed8">介质 1（ε₁, μ₁）</text>
+                    <text x="30" y="212" font-size="12.5" fill="#b45309">介质 2（ε₂, μ₂）</text>
+                    <rect x="80" y="95" width="60" height="50" rx="6" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.8" stroke-dasharray="5 3"/>
+                    <line x1="110" y1="88" x2="110" y2="68" stroke="#1d4ed8" stroke-width="2" marker-end="url(#p-arr)"/>
+                    <text x="116" y="66" font-size="11.5" fill="#1d4ed8">n̂</text>
+                    <text x="70" y="170" font-size="11.5" fill="#1d4ed8">高斯盒</text>
+                    <rect x="280" y="100" width="100" height="40" fill="none" stroke="#b45309" stroke-width="1.8" stroke-dasharray="5 3"/>
+                    <line x1="300" y1="120" x2="360" y2="120" stroke="#b45309" stroke-width="2" marker-end="url(#p-arr2)"/>
+                    <text x="286" y="170" font-size="11.5" fill="#b45309">安培回路</text>
+                    <text x="266" y="94" font-size="11.5" fill="#b45309">E₁t = E₂t</text>
+                </g>
+            </svg>
+            <figcaption>把麦克斯韦方程组的积分形式用到“无限薄”的几何体上：高斯盒的高度 → 0，体积积分退化为上下两面的通量之差，得到法向条件的跃变关系；安培回路的宽度 → 0，环路积分退化为两侧切向分量之差，得到切向条件。同一套极限技巧同时给出四条边界条件。</figcaption>
+        </figure>
+
         <p>下面我们逐一讨论四种场的边界条件。</p>
 
         <h2>法向分量</h2>
 
         <h3>电位移 D 的法向分量</h3>
         <p>对 D 应用高斯定理（pillbox 法）：</p>
-        <p><strong>D<sub>1n</sub> − D<sub>2n</sub> = σ<sub>f</sub></strong></p>
-        <p>或等价地：<strong>ε₁ E<sub>1n</sub> − ε₂ E<sub>2n</sub> = σ<sub>f</sub></strong></p>
+        <div class="math-equation" role="group" aria-label="电位移 D 的法向边界条件"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="D 法向边界条件，可横向滚动">
+            <math display="block" aria-label="D1n 减 D2n 等于自由面电荷密度 σf，等价于 ε1 E1n 减 ε2 E2n 等于 σf"><mrow><msub><mi>D</mi><mrow><mn>1</mn><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>D</mi><mrow><mn>2</mn><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>σ</mi><mi>f</mi></msub><mspace width="1.5em"/><mo>⇔</mo><mspace width="1.5em"/><msub><mi>ε</mi><mn>1</mn></msub><msub><mi>E</mi><mrow><mn>1</mn><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>ε</mi><mn>2</mn></msub><msub><mi>E</mi><mrow><mn>2</mn><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>σ</mi><mi>f</mi></msub></mrow></math>
+        </div></div>
         <p>物理含义：D 的法向分量在跨越界面时的跃变等于界面上的自由面电荷密度。如果界面上没有自由电荷（σ<sub>f</sub>=0），则 D<sub>1n</sub> = D<sub>2n</sub>（连续）。</p>
 
         <h3>磁感应强度 B 的法向分量</h3>
         <p>对 B 应用高斯定理（pillbox 法，但 ∇·B = 0）：</p>
-        <p><strong>B<sub>1n</sub> − B<sub>2n</sub> = 0</strong> 即 <strong>B<sub>1n</sub> = B<sub>2n</sub></strong></p>
+        <div class="math-equation" role="group" aria-label="磁感应强度 B 的法向边界条件"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="B 法向边界条件，可横向滚动">
+            <math display="block" aria-label="B1n 减 B2n 等于零，即 B 的法向分量连续"><mrow><msub><mi>B</mi><mrow><mn>1</mn><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>B</mi><mrow><mn>2</mn><mi>n</mi></mrow></msub><mo>=</mo><mn>0</mn><mspace width="1.5em"/><mo>⇒</mo><mspace width="1.5em"/><msub><mi>B</mi><mrow><mn>1</mn><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>B</mi><mrow><mn>2</mn><mi>n</mi></mrow></msub></mrow></math>
+        </div></div>
         <p>物理含义：B 的法向分量始终连续——这是磁高斯定理（无磁单极子）的直接推论。磁感线从一种介质进入另一种介质时，法向分量不变。</p>
 
         <h2>切向分量</h2>
 
         <h3>电场强度 E 的切向分量</h3>
         <p>应用法拉第定律于矩形回路：</p>
-        <p><strong>E<sub>1t</sub> = E<sub>2t</sub></strong></p>
+        <div class="math-equation" role="group" aria-label="电场强度 E 的切向边界条件"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="E 切向边界条件，可横向滚动">
+            <math display="block" aria-label="E1t 等于 E2t，即 E 的切向分量连续"><mrow><msub><mi>E</mi><mrow><mn>1</mn><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>E</mi><mrow><mn>2</mn><mi>t</mi></mrow></msub></mrow></math>
+        </div></div>
         <p>物理含义：E 的切向分量在界面上始终连续。这来源于 ∇×E = −∂B/∂t，但即使变化率有限，在回路宽度 → 0 的极限下，右边贡献趋于零。</p>
 
         <h3>磁场强度 H 的切向分量</h3>
         <p>应用安培-麦克斯韦定律：</p>
-        <p><strong>H<sub>1t</sub> − H<sub>2t</sub> = K<sub>f</sub></strong></p>
+        <div class="math-equation" role="group" aria-label="磁场强度 H 的切向边界条件"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="H 切向边界条件，可横向滚动">
+            <math display="block" aria-label="H1t 减 H2t 等于自由面电流密度 Kf"><mrow><msub><mi>H</mi><mrow><mn>1</mn><mi>t</mi></mrow></msub><mo>−</mo><msub><mi>H</mi><mrow><mn>2</mn><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>K</mi><mi>f</mi></msub></mrow></math>
+        </div></div>
         <p>其中 K<sub>f</sub> 是界面上的自由面电流密度（单位：A/m）。如果 K<sub>f</sub> = 0，则 H<sub>1t</sub> = H<sub>2t</sub>（连续）。</p>
 
         <table>
@@ -155,6 +202,31 @@
 
         <p>一图以蔽之：当电磁波斜入射到两种介质的界面时，边界条件要求入射波、反射波和透射波的切向波矢分量匹配——这就是斯涅尔定律 n₁ sin θ₁ = n₂ sin θ₂ 的根源。</p>
 
+        <figure aria-labelledby="fig-snell-title">
+            <svg viewBox="0 0 440 240" role="img" aria-labelledby="fig-snell-title fig-snell-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-snell-title">电磁波在介质界面的折射：切向波矢必须匹配</title>
+                <desc id="fig-snell-desc">入射波以角 θ1 从介质 1 射向界面，透射波以角 θ2 进入介质 2。边界条件要求两侧的切向波矢分量相等（k1 sinθ1 = k2 sinθ2），即斯涅尔定律 n1 sinθ1 = n2 sinθ2。</desc>
+                <rect width="440" height="240" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="s-arr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#1d4ed8"/></marker></defs>
+                    <rect x="20" y="20" width="400" height="95" fill="#eef6ff"/>
+                    <rect x="20" y="115" width="400" height="105" fill="#e6fbf4"/>
+                    <line x1="20" y1="115" x2="420" y2="115" stroke="#475569" stroke-width="2"/>
+                    <line x1="220" y1="20" x2="220" y2="215" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="5 4"/>
+                    <line x1="120" y1="40" x2="220" y2="115" stroke="#1d4ed8" stroke-width="2.6" marker-end="url(#s-arr)"/>
+                    <line x1="220" y1="115" x2="300" y2="205" stroke="#0f766e" stroke-width="2.6" marker-end="url(#s-arr)"/>
+                    <text x="126" y="36" font-size="12" fill="#1d4ed8">入射波 k₁</text>
+                    <text x="286" y="215" font-size="12" fill="#0f766e">透射波 k₂</text>
+                    <text x="228" y="70" font-size="12" fill="#475569">θ₁</text>
+                    <text x="224" y="150" font-size="12" fill="#475569">θ₂</text>
+                    <text x="30" y="40" font-size="12" fill="#1d4ed8">介质 1（n₁）</text>
+                    <text x="30" y="200" font-size="12" fill="#0f766e">介质 2（n₂）</text>
+                    <text x="24" y="234" font-size="12.5" fill="#1e3a5f" font-weight="700">n₁ sin θ₁ = n₂ sin θ₂</text>
+                </g>
+            </svg>
+            <figcaption>界面两侧的切向电场、切向波矢必须匹配，于是折射角由 n₁sinθ₁ = n₂sinθ₂ 唯一确定。光“折弯”不是因为介质拉住了光，而是因为界面上的边界条件不允许切向波矢突变——这正是几何光学的电磁学根源。</figcaption>
+        </figure>
+
         <h2>应用：波导和谐振腔</h2>
         <p>边界条件对波导理论至关重要。在理想导体壁的矩形波导中，边界条件 E<sub>t</sub> = 0 和 B<sub>n</sub> = 0 决定了允许的电磁场模式：</p>
 
@@ -165,7 +237,9 @@
         </ul>
 
         <p>截止频率（cut-off frequency）由波导的几何尺寸决定。例如矩形波导（宽边 a，窄边 b）的 TE₁₀ 模截止频率为：</p>
-        <p>f<sub>c</sub> = c / (2a)</p>
+        <div class="math-equation" role="group" aria-label="矩形波导 TE10 模的截止频率"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="波导截止频率，可横向滚动">
+            <math display="block" aria-label="截止频率 fc 等于 c 除以 2a"><mrow><msub><mi>f</mi><mi>c</mi></msub><mo>=</mo><mfrac><mi>c</mi><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></mrow></math>
+        </div></div>
         <p>低于此频率的电磁波无法在波导中传播——这完全是由边界条件决定的。</p>
 
         <div class="highlight">
@@ -252,12 +326,23 @@ plt.show()</code></pre>
 
         <p>有了边界条件这把"钥匙"，电磁波的行为就完全确定了。下一章我们正式进入<strong>电磁波</strong>的世界——从平面波的传播开始，理解电磁能量如何在空间中传递。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Willebrord Snellius（1621）/ René Descartes (1637)：折射定律的最早实验与几何表述；其电磁学根源由麦克斯韦理论给出。</li>
+                <li>John David Jackson, <em>Classical Electrodynamics</em>, 3rd ed., Wiley, 1999：第 1、8 章的边界条件与波导理论。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 7.3.5 节用高斯盒与安培回路推导边界条件。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">文中铜的电导率 σ ≈ 5.8×10⁷ S/m 为室温典型值，GHz 下趋肤深度约 1–2 μm；“趋肤深度大于 5 倍导体厚度时需计入有限电导率”为工程经验法则（教学示意），非严格阈值。PCB 常用 1 oz 铜厚约 35 μm。理想导体近似假定 σ → ∞，实际金属在微波频段并非严格满足。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="13.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="15.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
