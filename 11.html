@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第11章 电磁感应——法拉第定律</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第11章 电磁感应——法拉第定律</h1>
+            <p class="dek">从法拉第十年的尝试到楞次定律的负号：为什么“变化”才是关键。本章把动生电动势与感生电动势分开讲清楚，并联系发电机、变压器与实际工程应用。</p>
+        </header>
 
         <h2>开场：一个装订工人的伟大发现</h2>
         <p>迈克尔·法拉第（Michael Faraday, 1791-1867）——一个只上过小学的装订店学徒，后来成为19世纪最伟大的实验物理学家之一。他的故事本身就令人振奋。</p>
@@ -58,23 +70,84 @@
         </ul>
         <p>法拉第立即意识到：<strong>感应电流只在线圈 A 中电流变化（即磁场变化）的瞬间出现</strong>。当磁场稳定后，感应消失。</p>
 
+        <figure aria-labelledby="fig-ring-title">
+            <svg viewBox="0 0 440 240" role="img" aria-labelledby="fig-ring-title fig-ring-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-ring-title">法拉第铁环实验：一个线圈的电流变化在另一个线圈中感应出电流</title>
+                <desc id="fig-ring-desc">软铁环上绕有两个线圈 A 与 B。线圈 A 接电池与开关，线圈 B 接电流计。只有开关通断、A 中电流变化的瞬间，B 的电流计才偏转；电流恒定时无感应。</desc>
+                <rect width="440" height="240" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <circle cx="220" cy="118" r="74" fill="none" stroke="#94a3b8" stroke-width="16"/>
+                    <circle cx="220" cy="118" r="42" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <g fill="none" stroke="#1d4ed8" stroke-width="2.2">
+                        <path d="M150 76 q10 -12 20 0"/><path d="M143 90 q10 -12 20 0"/><path d="M140 105 q10 -12 20 0"/>
+                    </g>
+                    <g fill="none" stroke="#b45309" stroke-width="2.2">
+                        <path d="M270 76 q10 -12 20 0"/><path d="M277 90 q10 -12 20 0"/><path d="M280 105 q10 -12 20 0"/>
+                    </g>
+                    <text x="108" y="100" font-size="13" fill="#1d4ed8" font-weight="700">A</text>
+                    <text x="312" y="100" font-size="13" fill="#b45309" font-weight="700">B</text>
+                    <rect x="20" y="188" width="110" height="32" rx="8" fill="#e2e8f0" stroke="#64748b"/>
+                    <text x="34" y="209" font-size="12.5" fill="#1e3a5f">电池 + 开关</text>
+                    <rect x="310" y="188" width="110" height="32" rx="8" fill="#e2e8f0" stroke="#64748b"/>
+                    <text x="338" y="209" font-size="12.5" fill="#1e3a5f">电流计</text>
+                    <path d="M155 90 C 110 120, 70 150, 70 188" fill="none" stroke="#1d4ed8" stroke-width="1.8"/>
+                    <path d="M285 90 C 330 120, 370 150, 370 188" fill="none" stroke="#b45309" stroke-width="1.8"/>
+                    <text x="150" y="28" font-size="13" fill="#1e3a5f" font-weight="700">1831：法拉第铁环实验</text>
+                </g>
+            </svg>
+            <figcaption>关键不在于“有电流”，而在于“电流在变化”。开关通断的瞬间，铁环中磁通变化，B 侧电流计才偏转；一旦电流恒定，磁通不再变化，感应随之消失。这正是“变化的磁场生电”的原始实验。</figcaption>
+        </figure>
+
         <p>这就引出了<strong>法拉第电磁感应定律</strong>的积分形式：</p>
-        <p><strong>ε = −dΦ<sub>B</sub> / dt</strong></p>
+        <div class="math-equation" role="group" aria-label="法拉第电磁感应定律的积分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="法拉第电磁感应定律积分形式，可横向滚动">
+            <math display="block" aria-label="感应电动势 ε 等于负的磁通量 ΦB 对时间 t 的导数"><mrow><mi>ε</mi><mo>=</mo><mo>−</mo><mfrac><mrow><mi>d</mi><msub><mi>Φ</mi><mi>B</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow></math>
+        </div></div>
         <p>其中 ε 是感应电动势（单位：V），Φ<sub>B</sub> = ∫<sub>S</sub> <strong>B</strong> · d<strong>S</strong> 是穿过回路所围曲面的磁通量。</p>
 
         <p>微分形式（更深刻地揭示了场的本质）：</p>
-        <p><strong>∇ × E = −∂B / ∂t</strong></p>
+        <div class="math-equation" role="group" aria-label="法拉第电磁感应定律的微分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="法拉第电磁感应定律微分形式，可横向滚动">
+            <math display="block" aria-label="电场 E 的旋度等于负的磁感应强度 B 对时间 t 的偏导"><mrow><mo>∇</mo><mo>×</mo><mi>E</mi><mo>=</mo><mo>−</mo><mfrac><mrow><mo>∂</mo><mi>B</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow></math>
+        </div></div>
         <p>这是麦克斯韦方程组的核心之一：<strong>变化的磁场产生一个非保守的涡旋电场</strong>。</p>
 
         <h2>动生电动势</h2>
         <p>当导体在磁场中运动时，导体内的自由电子受到洛伦兹力，沿导体方向移动，形成电动势——这就是<strong>动生电动势</strong>（motional EMF）。</p>
-        <p>对于在磁场中运动的直导体：ε = ∫ (<strong>v</strong> × <strong>B</strong>) · d<strong>l</strong></p>
+        <p>对于在磁场中运动的直导体：</p>
+        <div class="math-equation" role="group" aria-label="动生电动势的线积分"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="动生电动势积分公式，可横向滚动">
+            <math display="block" aria-label="动生电动势等于 v 叉乘 B 沿导体 dl 的线积分"><mrow><mi>ε</mi><mo>=</mo><mo>∫</mo><mo>(</mo><mi>v</mi><mo>×</mo><mi>B</mi><mo>)</mo><mo>·</mo><mi>d</mi><mi>l</mi></mrow></math>
+        </div></div>
 
         <h3>滑轨上的导体棒</h3>
         <p>经典模型：两根平行导轨（间距 L），一根导体棒以速度 v 在导轨上滑动，整个系统置于垂直向外的均匀磁场 B 中。</p>
-        <p>动生电动势：ε = B L v</p>
-        <p>感应电流：I = ε / R = B L v / R</p>
+        <div class="math-equation" role="group" aria-label="滑轨导体棒的动生电动势与电流"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="滑轨导体棒动生电动势与电流，可横向滚动">
+            <math display="block" aria-label="动生电动势 ε 等于 B L v，感应电流 I 等于 BLv 除以 R"><mrow><mi>ε</mi><mo>=</mo><mi>B</mi><mi>L</mi><mi>v</mi><mo>,</mo><mspace width="1.5em"/><mi>I</mi><mo>=</mo><mfrac><mi>ε</mi><mi>R</mi></mfrac><mo>=</mo><mfrac><mrow><mi>B</mi><mi>L</mi><mi>v</mi></mrow><mi>R</mi></mfrac></mrow></math>
+        </div></div>
         <p>力平衡：棒受安培力 F = I L B = B² L² v / R 阻碍运动——这正是能量守恒的体现：外界需要做功来克服安培力，机械能转化为电能。</p>
+
+        <figure aria-labelledby="fig-rail-title">
+            <svg viewBox="0 0 440 220" role="img" aria-labelledby="fig-rail-title fig-rail-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-rail-title">滑轨导体棒：动生电动势与安培力</title>
+                <desc id="fig-rail-desc">两根平行导轨间距 L，磁场垂直纸面向里（×）。导体棒以速度 v 向右滑动，产生动生电动势 ε=BLv，感应电流 I=BLv/R；电流受安培力 F 向左，阻碍棒的滑动。</desc>
+                <rect width="440" height="220" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="r-arr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#1d4ed8"/></marker>
+                    <marker id="r-arr2" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#ef4444"/></marker></defs>
+                    <line x1="40" y1="70" x2="400" y2="70" stroke="#64748b" stroke-width="4"/>
+                    <line x1="40" y1="165" x2="400" y2="165" stroke="#64748b" stroke-width="4"/>
+                    <rect x="235" y="68" width="10" height="100" fill="#94a3b8"/>
+                    <text x="248" y="120" font-size="12.5" fill="#475569">导体棒</text>
+                    <line x1="240" y1="40" x2="300" y2="40" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#r-arr)"/>
+                    <text x="252" y="34" font-size="12.5" fill="#1d4ed8">v</text>
+                    <line x1="232" y1="120" x2="180" y2="120" stroke="#ef4444" stroke-width="2.5" marker-end="url(#r-arr2)"/>
+                    <text x="150" y="112" font-size="12.5" fill="#ef4444">F（阻碍）</text>
+                    <g fill="#1e3a5f" font-size="13">
+                        <text x="70" y="120">×</text><text x="120" y="120">×</text><text x="330" y="120">×</text><text x="380" y="120">×</text>
+                    </g>
+                    <text x="40" y="200" font-size="12.5" fill="#1e3a5f" font-weight="700">ε = BLv，I = BLv/R，F = B²L²v/R（方向与 v 相反）</text>
+                </g>
+            </svg>
+            <figcaption>导体棒切割磁感线产生动生电动势；感应电流在磁场中又受到向左的安培力，阻挡棒的滑动。要把速度维持下去，外界必须持续做功——机械能正好等于回路中消耗的电能。</figcaption>
+        </figure>
 
         <h3>法拉第圆盘发电机</h3>
         <p>法拉第本人设计的第一个发电机——一个铜圆盘在磁极间旋转，电刷从盘心和盘缘引出电流。虽然电压很低，但它是所有现代发电机的鼻祖。</p>
@@ -157,7 +230,10 @@
 
         <h3>发电机</h3>
         <p>发电机是目前全球电力的主要来源。无论是火力、水力、风力还是核能，归根结底都是通过机械能驱动线圈在磁场中旋转，产生交变感应电动势。</p>
-        <p>最简单的交流发电机：一个矩形线圈在均匀磁场中以角速度 ω 旋转。磁通量 Φ = B A cos(ωt)，感应电动势 ε = −dΦ/dt = B A ω sin(ωt) —— 正弦交流电。</p>
+        <p>最简单的交流发电机：一个矩形线圈在均匀磁场中以角速度 ω 旋转。磁通量随时间变化，感应电动势随之呈正弦规律——这就是正弦交流电的来源。</p>
+        <div class="math-equation" role="group" aria-label="旋转线圈的磁通与感应电动势"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="旋转线圈磁通与感应电动势，可横向滚动">
+            <math display="block" aria-label="磁通量 Φ 等于 BA cos ωt，感应电动势等于 BAω sin ωt"><mrow><mi>Φ</mi><mo>=</mo><mi>B</mi><mi>A</mi><mi>cos</mi><mo>(</mo><mi>ω</mi><mi>t</mi><mo>)</mo><mo>,</mo><mspace width="1.5em"/><mi>ε</mi><mo>=</mo><mo>−</mo><mfrac><mrow><mi>d</mi><mi>Φ</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>B</mi><mi>A</mi><mi>ω</mi><mi>sin</mi><mo>(</mo><mi>ω</mi><mi>t</mi><mo>)</mo></mrow></math>
+        </div></div>
 
         <h3>变压器</h3>
         <p>一对绕在公共磁芯上的线圈。一次线圈接交变电源，在磁芯中产生交变磁通；二次线圈中感应出电动势。</p>
@@ -220,12 +296,23 @@ plt.show()</code></pre>
 
         <p>感应电动势产生了，那磁场里储存的能量呢？下一章我们探讨<strong>电感与磁场能量</strong>——你会发现，电感和电容是一对优美的对偶。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Michael Faraday, <em>Experimental Researches in Electricity</em>, Series I–II (1831–1832)，发表于 <em>Philosophical Transactions of the Royal Society</em>：电磁感应现象与铁环实验的原始记录。</li>
+                <li>D. W. Kerst & R. Serber, <em>Electronic Orbits in the Induction Accelerator</em>, <em>Phys. Rev.</em> 60: 53 (1941)：电子感应加速器（betatron）的轨道条件。见 <a href="https://doi.org/10.1103/PhysRev.60.53">DOI:10.1103/PhysRev.60.53</a>。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 7 章论述法拉第定律、动生与感生电动势及楞次定律。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">文中 IH 电饭煲工作频率（≈ 20–40 kHz）与热效率（> 90%）为典型工程区间（教学示意），随产品与锅具材料变化；“电子加速到 2.3 MeV”为 Kerst 1940 年首台 betatron 的历史数值。Python 示例中的电阻、电感与磁场参数为演示取值，非某实际装置标定。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="10.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="12.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
