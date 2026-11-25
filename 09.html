@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第9章 安培环路定理与磁高斯定理</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第9章 安培环路定理与磁高斯定理</h1>
+            <p class="dek">当系统具备足够对称性时，安培环路定理把磁场的求解从“逐段积分”变成“一次乘法”。本章用环形螺线管、无限长螺线管与同轴电缆演示这条捷径，并由磁高斯定理推出“不存在磁单极子”这一深刻事实。</p>
+        </header>
 
         <h2>开场：对称性的力量</h2>
         <p>上一章我们用毕奥-萨伐尔定律计算了各种电流构型的磁场。它的通用性无可置疑，但每次都要做矢量积分，未免有些笨重。如果系统具有高度对称性——比如无限长导线、无限长螺线管、环形螺线管——有没有一种更简洁的方法？</p>
@@ -51,7 +63,9 @@
 
         <h2>安培环路定理</h2>
         <p>安培环路定理表述如下：</p>
-        <p><strong>∮<sub>C</sub> B · dl = μ₀ I<sub>enclosed</sub></strong></p>
+        <div class="math-equation" role="group" aria-label="安培环路定理"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="安培环路定理，可横向滚动">
+            <math display="block" aria-label="磁感应强度 B 沿闭合回路 C 的环量等于 μ0 乘以被包围的净电流 I_enclosed"><mrow><msub><mo>∮</mo><mi>C</mi></msub><mi>B</mi><mo>·</mo><mi>d</mi><mi>l</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>I</mi><mtext>enclosed</mtext></msub></mrow></math>
+        </div></div>
         <p>也就是说，<strong>磁感应强度 B 沿任意闭合回路 C 的环量，等于穿过该回路所围曲面的总电流乘以真空磁导率 μ₀</strong>。</p>
 
         <p>这一定理可以从毕奥-萨伐尔定律严格推导出来。其核心思想是：磁场是<strong>有旋无源</strong>场，电流是磁场的"涡旋源"。环量积分（∮B·dl）正是衡量这种旋涡效应的积分形式。</p>
@@ -69,14 +83,45 @@
 
         <h3>环形螺线管（Toroid）</h3>
         <p>环形螺线管是一个绕在环形骨架上的密绕线圈，总匝数为 N，载有电流 I。由对称性可知，其内部磁感线是同心圆（沿环面方向）：</p>
-        <p>B(r) · (2π r) = μ₀ N I</p>
-        <p>因此：<strong>B(r) = μ₀ N I / (2π r)</strong>（仅限环内，r 为到环中心的径向距离）</p>
+        <div class="math-equation" role="group" aria-label="环形螺线管内部的安培环路"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="环形螺线管安培环路积分，可横向滚动">
+            <math display="block" aria-label="B 乘以 2πr 等于 μ0 乘以总匝数 N 乘以电流 I"><mrow><mi>B</mi><mo>(</mo><mi>r</mi><mo>)</mo><mo>·</mo><mo>(</mo><mn>2</mn><mi>π</mi><mi>r</mi><mo>)</mo><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mi>N</mi><mi>I</mi></mrow></math>
+        </div></div>
+        <p>因此：</p>
+        <div class="math-equation" role="group" aria-label="环形螺线管内部磁场"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="环形螺线管内部磁场，可横向滚动">
+            <math display="block" aria-label="环形螺线管内部磁感应强度 B(r) 等于 μ0 N I 除以 2πr"><mrow><mi>B</mi><mo>(</mo><mi>r</mi><mo>)</mo><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>N</mi><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>r</mi></mrow></mfrac></mrow></math>
+        </div></div>
+        <p>（仅限环内，r 为到环中心的径向距离）</p>
         <p>注意：环形螺线管的磁场在<strong>环外为零</strong>——因为环外任何闭合回路包围的净电流都为零。这一性质使环形螺线管成为理想的磁屏蔽元件。</p>
+
+        <figure aria-labelledby="fig-toroid-title">
+            <svg viewBox="0 0 420 240" role="img" aria-labelledby="fig-toroid-title fig-toroid-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-toroid-title">环形螺线管：安培环路与磁感线</title>
+                <desc id="fig-toroid-desc">俯视环形螺线管，线圈密绕在环上。环内磁感线是与环同心的圆；取半径 r 的圆形安培环路，它包围 N 匝电流，得 B·2πr = μ0 N I。环外回路净包围电流为零，故 B = 0。</desc>
+                <rect width="420" height="240" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <circle cx="200" cy="125" r="88" fill="none" stroke="#94a3b8" stroke-width="14"/>
+                    <circle cx="200" cy="125" r="46" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <circle cx="200" cy="125" r="67" fill="none" stroke="#b45309" stroke-width="2" stroke-dasharray="6 4"/>
+                    <line x1="200" y1="125" x2="267" y2="125" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 3"/>
+                    <text x="222" y="118" font-size="12.5" fill="#475569">r</text>
+                    <text x="150" y="22" font-size="13" fill="#1e3a5f" font-weight="700">俯视：环形螺线管</text>
+                    <text x="150" y="42" font-size="12.5" fill="#1e3a5f">N 匝，电流 I</text>
+                    <text x="96" y="200" font-size="12.5" fill="#b45309">安培环路 C</text>
+                    <text x="20" y="228" font-size="12.5" fill="#1e3a5f" font-weight="700">B·2πr = μ₀NI ⟹ B = μ₀NI / (2πr)</text>
+                </g>
+            </svg>
+            <figcaption>把安培环路取在环内、与环同心的圆上，B 大小恒定且沿切向，环量简化为 B·2πr；回路围住的净电流是 N 匝加起来的总安培匝数 NI。因此 B 与 r 成反比——靠近环内侧略强、外侧略弱（这与理想无限长螺线管的“处处均匀”不同）。</figcaption>
+        </figure>
 
         <h3>无限长螺线管</h3>
         <p>由对称性可知，无限长螺线管内部 B 沿轴向且均匀，外部 B = 0。取矩形回路，两条边在管内、两条边跨过管壁：</p>
-        <p>B · L = μ₀ (nL) I</p>
-        <p>因此：<strong>B<sub>内部</sub> = μ₀ n I</strong>——与位置无关，完全均匀。</p>
+        <div class="math-equation" role="group" aria-label="无限长螺线管的安培环路"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="无限长螺线管安培环路积分，可横向滚动">
+            <math display="block" aria-label="B 乘以边长 L 等于 μ0 乘以 nL 乘以 I"><mrow><mi>B</mi><mo>·</mo><mi>L</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mi>n</mi><mi>L</mi><mi>I</mi></mrow></math>
+        </div></div>
+        <p>因此：</p>
+        <div class="math-equation" role="group" aria-label="无限长螺线管内部磁场"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="无限长螺线管内部磁场，可横向滚动">
+            <math display="block" aria-label="螺线管内部磁感应强度等于 μ0 乘以单位长度匝数 n 乘以电流 I"><mrow><msub><mi>B</mi><mtext>内部</mtext></msub><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mi>n</mi><mi>I</mi></mrow></math>
+        </div></div>
 
         <div class="tip">
             <strong>💡 安培环路定理的回路选择技巧</strong><br>
@@ -97,6 +142,32 @@
             <li><strong>r &gt; c</strong>（电缆外部）：B(r) = 0——内外电流完全抵消</li>
         </ul>
 
+        <figure aria-labelledby="fig-coax-title">
+            <svg viewBox="0 0 440 240" role="img" aria-labelledby="fig-coax-title fig-coax-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-coax-title">同轴电缆磁感应强度 B 随径向距离 r 的分布</title>
+                <desc id="fig-coax-desc">分四个区间：内导体内部 B 随 r 线性上升；内外导体之间 B 按 1/r 下降；外导体内部逐步减至零；电缆外部 B 恒为零。</desc>
+                <rect width="440" height="240" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="60" y1="200" x2="410" y2="200" stroke="#475569" stroke-width="1.5"/>
+                    <line x1="60" y1="200" x2="60" y2="30" stroke="#475569" stroke-width="1.5"/>
+                    <line x1="128" y1="200" x2="128" y2="48" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+                    <line x1="264" y1="200" x2="264" y2="48" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+                    <line x1="332" y1="200" x2="332" y2="48" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+                    <polyline points="60,200 128,40 162,93 196,120 264,147 298,173 332,200 400,200" fill="none" stroke="#1d4ed8" stroke-width="3"/>
+                    <text x="118" y="220" font-size="12" fill="#475569">a</text>
+                    <text x="258" y="220" font-size="12" fill="#475569">b</text>
+                    <text x="326" y="220" font-size="12" fill="#475569">c</text>
+                    <text x="380" y="220" font-size="12" fill="#475569">r</text>
+                    <text x="24" y="44" font-size="12" fill="#475569">B</text>
+                    <text x="140" y="70" font-size="11.5" fill="#1d4ed8">B∝r</text>
+                    <text x="205" y="110" font-size="11.5" fill="#1d4ed8">B∝1/r</text>
+                    <text x="338" y="150" font-size="11.5" fill="#1d4ed8">B→0</text>
+                    <text x="340" y="196" font-size="11.5" fill="#0f766e">r&gt;c: B=0</text>
+                </g>
+            </svg>
+            <figcaption>同轴电缆的 B(r) 分段曲线：内导体（r&lt;a）中电流均匀，B∝r；夹层（a&lt;r&lt;b）中 B∝1/r；外导体（b&lt;r&lt;c）中反向电流逐步补偿使 B 降至零；电缆外部（r&gt;c）内外电流完全抵消，B=0。这正是同轴结构能同时屏蔽外部干扰与抑制自身辐射的几何根源。</figcaption>
+        </figure>
+
         <div class="warning">
             <strong>⚠ 常见犯错：安培环路中的 I<sub>enclosed</sub></strong><br>
             这是学生最容易出错的地方。安培环路定理中的 I<sub>enclosed</sub> 是<strong>穿过以回路为边界的任意曲面的净电流</strong>，不是回路附近的全部电流。<br>
@@ -106,7 +177,9 @@
 
         <h2>磁高斯定理</h2>
         <p>磁高斯定理是电磁学中最简洁也最深远的定理之一：</p>
-        <p><strong>∮<sub>S</sub> B · dS = 0</strong>  或微分形式  <strong>∇ · B = 0</strong></p>
+        <div class="math-equation" role="group" aria-label="磁高斯定理及其微分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="磁高斯定理积分与微分形式，可横向滚动">
+            <math display="block" aria-label="磁感应强度穿过闭合曲面的通量等于零，等价于 B 的散度为零"><mrow><msub><mo>∮</mo><mi>S</mi></msub><mi>B</mi><mo>·</mo><mi>d</mi><mi>S</mi><mo>=</mo><mn>0</mn><mspace width="1em"/><mo>或</mo><mspace width="1em"/><mo>∇</mo><mo>·</mo><mi>B</mi><mo>=</mo><mn>0</mn></mrow></math>
+        </div></div>
         <p>这个公式说：<strong>穿过任意闭合曲面的磁通量总为零</strong>。对比电场的高斯定理 ∮<sub>S</sub> E · dS = Q<sub>enclosed</sub>/ε₀——电场可以有净通量（因为存在正负电荷），但磁场的净通量永远是零。</p>
 
         <p>这意味着什么？物理上极其深刻：<strong>不存在磁单极子</strong>（magnetic monopole）。</p>
@@ -163,7 +236,9 @@
 
         <h2>磁矢势 A</h2>
         <p>由磁高斯定理 ∇·B = 0，我们知道 B 是一个<strong>无散场</strong>。在向量场论中，任何无散场都可以表示为某个矢量场的旋度：</p>
-        <p><strong>B</strong> = ∇ × <strong>A</strong></p>
+        <div class="math-equation" role="group" aria-label="磁矢势的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="磁矢势定义，可横向滚动">
+            <math display="block" aria-label="磁感应强度 B 等于磁矢势 A 的旋度"><mrow><mi>B</mi><mo>=</mo><mo>∇</mo><mo>×</mo><mi>A</mi></mrow></math>
+        </div></div>
         <p>其中 <strong>A</strong> 称为<strong>磁矢势</strong>（magnetic vector potential）。</p>
 
         <p>A 与标势 φ 的类比：</p>
@@ -221,7 +296,7 @@ plt.axvline(a*1000, color='gray', ls='--', label=f'内导体半径 a={a*1000:.1f
 plt.axvline(b*1000, color='gray', ls=':', label=f'外导体内半径 b={b*1000:.1f}mm')
 plt.axvline(c*1000, color='gray', ls='--', label=f'外导体外半径 c={c*1000:.1f}mm')
 plt.xlabel('径向距离 r (mm)')
- plt.ylabel('磁感应强度 B (mT)')
+plt.ylabel('磁感应强度 B (mT)')
 plt.title('同轴电缆的磁场分布')
 plt.legend()
 plt.grid(alpha=0.3)
@@ -239,12 +314,24 @@ plt.show()</code></pre>
 
         <p>现在我们已经建立了真空中的静磁场理论。但现实生活中，磁场很少在真空中存在——物质会对磁场产生各种响应。下一章，我们将探讨<strong>磁介质</strong>的秘密。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>A.-M. Ampère, <em>Mémoire sur la théorie mathématique des phénomènes électro-dynamiques</em> (1826)：安培定律的原始论述。</li>
+                <li>P. A. M. Dirac, <em>Quantised Singularities in the Electromagnetic Field</em>, <em>Proc. R. Soc. A</em> 133: 60–72 (1931)：首次指出磁单极子可解释电荷量子化。见 <a href="https://doi.org/10.1098/rspa.1931.0130">DOI:10.1098/rspa.1931.0130</a>。</li>
+                <li>Y. Aharonov & D. Bohm, <em>Significance of Electromagnetic Potentials in the Quantum Theory</em>, <em>Phys. Rev.</em> 115: 485–491 (1959)：AB 效应与磁矢势的物理意义。见 <a href="https://doi.org/10.1103/PhysRev.115.485">DOI:10.1103/PhysRev.115.485</a>。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 5 章论述安培环路定理、磁矢势与磁高斯定理。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">同轴电缆代码中的几何参数（a=1 mm、b=3 mm、c=4 mm、I=1 A）与 B(r) 曲线均为教学示意，不代表某个具体产品。环形螺线管“环外 B=0”与“环内 B∝1/r”均为理想无限长/密绕近似；实际器件存在端部漏磁与绕线间隙。磁单极子至今未被实验证实。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="08.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="10.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
