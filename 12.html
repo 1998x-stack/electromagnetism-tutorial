@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第12章 电感与磁场能量</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第12章 电感与磁场能量</h1>
+            <p class="dek">电感与电容是电路里的对偶精灵：一个储存磁场能量，一个储存电场能量。本章从自感、互感出发，推导 LR 暂态过程与磁场能量密度，并用虚功原理解释磁力与电磁铁吸力。</p>
+        </header>
 
         <h2>开场：电感与电容——电路中的对偶精灵</h2>
         <p>电容器储存电场能量，电感器储存磁场能量——二者在电路理论中是对偶的，但物理本质截然不同。电容的储能来自电荷分离（电场），电感的储能来自电流建立的磁场。在交流电路中，正是这对"对偶精灵"决定了系统的谐振频率、阻抗特性以及瞬态响应。</p>
@@ -51,9 +63,14 @@
         <h2>自感</h2>
         <p>当一个线圈中的电流变化时，电流产生的磁场也随之变化，从而在线圈自身中感应出反向电动势——这就是<strong>自感</strong>（self-inductance）现象。</p>
         <p>自感系数（电感量）L 定义为：</p>
-        <p><strong>L = N Φ / I</strong></p>
+        <div class="math-equation" role="group" aria-label="自感系数的定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="自感系数定义，可横向滚动">
+            <math display="block" aria-label="自感 L 等于匝数 N 乘以磁通量 Φ 除以电流 I"><mrow><mi>L</mi><mo>=</mo><mfrac><mrow><mi>N</mi><mi>Φ</mi></mrow><mi>I</mi></mfrac></mrow></math>
+        </div></div>
         <p>其中 N 是线圈匝数，Φ 是单匝穿过的磁通量，I 是电流。电感量的单位是<strong>亨利</strong>（Henry, H），1 H = 1 Wb/A = 1 V·s/A。</p>
-        <p>自感电动势：ε<sub>L</sub> = −L dI/dt</p>
+        <p>自感电动势：</p>
+        <div class="math-equation" role="group" aria-label="自感电动势"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="自感电动势，可横向滚动">
+            <math display="block" aria-label="自感电动势 εL 等于负的 L 乘以电流对时间的导数"><mrow><msub><mi>ε</mi><mi>L</mi></msub><mo>=</mo><mo>−</mo><mi>L</mi><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow></math>
+        </div></div>
 
         <h3>常见构型的电感计算</h3>
         <ul>
@@ -64,11 +81,15 @@
 
         <h2>互感</h2>
         <p>当一个线圈中的电流变化时，其产生的变化磁场会在邻近的另一个线圈中感应出电动势——这就是<strong>互感</strong>（mutual inductance）。互感系数 M 定义为：</p>
-        <p>M₁₂ = N₂ Φ₁₂ / I₁ = M₂₁ = N₁ Φ₂₁ / I₂</p>
+        <div class="math-equation" role="group" aria-label="互感系数的定义与互易性"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="互感系数定义与互易性，可横向滚动">
+            <math display="block" aria-label="互感 M12 等于 N2 Φ12 除以 I1，也等于 M21 等于 N1 Φ21 除以 I2"><mrow><msub><mi>M</mi><mn>12</mn></msub><mo>=</mo><mfrac><mrow><msub><mi>N</mi><mn>2</mn></msub><msub><mi>Φ</mi><mn>12</mn></msub></mrow><msub><mi>I</mi><mn>1</mn></msub></mfrac><mo>=</mo><msub><mi>M</mi><mn>21</mn></msub><mo>=</mo><mfrac><mrow><msub><mi>N</mi><mn>1</mn></msub><msub><mi>Φ</mi><mn>21</mn></msub></mrow><msub><mi>I</mi><mn>2</mn></msub></mfrac></mrow></math>
+        </div></div>
         <p>其中 Φ₁₂ 是线圈 1 的电流 I₁ 在线圈 2 中产生的磁通量。互感的<strong>互易性</strong>（M₁₂ = M₂₁）是电磁学中一条深刻且实用的性质。</p>
 
         <p>耦合系数 <em>k</em> 表示两个线圈磁耦合的紧密程度：</p>
-        <p>k = M / √(L₁ L₂)  0 ≤ k ≤ 1</p>
+        <div class="math-equation" role="group" aria-label="耦合系数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="耦合系数，可横向滚动">
+            <math display="block" aria-label="耦合系数 k 等于 M 除以根号 L1 L2，取值在 0 到 1 之间"><mrow><mi>k</mi><mo>=</mo><mfrac><mi>M</mi><msqrt><mrow><msub><mi>L</mi><mn>1</mn></msub><msub><mi>L</mi><mn>2</mn></msub></mrow></msqrt></mfrac><mo>,</mo><mspace width="1em"/><mn>0</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mn>1</mn></mrow></math>
+        </div></div>
         <ul>
             <li>k = 1：完美耦合（所有磁通都穿过两个线圈，理想变压器）</li>
             <li>k ≈ 0.9-0.99：紧密耦合（变压器铁芯）</li>
@@ -76,20 +97,68 @@
             <li>k ≈ 0：无耦合（间距很大的线圈）</li>
         </ul>
 
+        <figure aria-labelledby="fig-mutual-title">
+            <svg viewBox="0 0 440 220" role="img" aria-labelledby="fig-mutual-title fig-mutual-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-mutual-title">互感：一个线圈的磁通部分穿过另一个线圈</title>
+                <desc id="fig-mutual-desc">线圈 L1 通有电流 I1，其产生的一部分磁通穿过邻近线圈 L2，在 L2 中感应出电动势。耦合系数 k 描述有多少磁通真正耦合，k=1 表示所有磁通都穿过两个线圈。</desc>
+                <rect width="440" height="220" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="m-arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#475569"/></marker></defs>
+                    <rect x="66" y="66" width="52" height="88" rx="10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+                    <rect x="322" y="66" width="52" height="88" rx="10" fill="#fed7aa" stroke="#b45309" stroke-width="2"/>
+                    <text x="72" y="58" font-size="13" fill="#1d4ed8" font-weight="700">L1, N1 匝</text>
+                    <text x="322" y="58" font-size="13" fill="#b45309" font-weight="700">L2, N2 匝</text>
+                    <text x="66" y="176" font-size="12.5" fill="#1d4ed8">电流 I1</text>
+                    <ellipse cx="220" cy="110" rx="150" ry="50" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4"/>
+                    <line x1="150" y1="78" x2="290" y2="78" stroke="#475569" stroke-width="1.6" marker-end="url(#m-arr)"/>
+                    <text x="176" y="52" font-size="12.5" fill="#475569">穿过 L2 的磁通</text>
+                    <text x="20" y="204" font-size="12.5" fill="#1e3a5f" font-weight="700">M = N₂Φ₁₂ / I₁ = N₁Φ₂₁ / I₂，k = M/√(L₁L₂)</text>
+                </g>
+            </svg>
+            <figcaption>互感刻画两个线圈之间的磁耦合：L1 中变化的电流在其磁场中让一部分磁通穿过 L2，于是 L2 中出现感应电动势。耦合系数 k 本质上是“真正穿过对方的那部分磁通占比”——理想变压器 k≈1，而无线充电的松耦合 k 往往只有 0.1–0.5。</figcaption>
+        </figure>
+
         <h2>LR 电路暂态</h2>
         <p>电感在电路中的核心特征是<strong>抵抗电流的变化</strong>——这不是阻碍电流流动，而是让电流不能突变。</p>
 
         <h3>电流建立（RL 串联接电源）</h3>
         <p>电路方程：ε = L dI/dt + R I</p>
-        <p>解（初始条件 I(0)=0）：<strong>I(t) = (ε/R) (1 − e<sup>−tR/L</sup>)</strong></p>
+        <div class="math-equation" role="group" aria-label="LR 电路的电流建立"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="LR 电路电流建立解析解，可横向滚动">
+            <math display="block" aria-label="电流 I(t) 等于 ε 除以 R 乘以 1 减 e 的负 tR/L 次方"><mrow><mi>I</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mi>ε</mi><mi>R</mi></mfrac><mrow><mo>(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>t</mi><mi>R</mi><mo>/</mo><mi>L</mi></mrow></msup><mo>)</mo></mrow></mrow></math>
+        </div></div>
         <p>电流从零开始，以指数形式趋近于稳态值 ε/R。当 t = τ = L/R 时，电流上升到最终值的 63.2%。</p>
 
         <h3>电流衰减（电源短接）</h3>
         <p>电路方程：0 = L dI/dt + R I</p>
-        <p>解（初始条件 I(0)=I₀）：<strong>I(t) = I₀ e<sup>−tR/L</sup></strong></p>
+        <div class="math-equation" role="group" aria-label="LR 电路的电流衰减"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="LR 电路电流衰减解析解，可横向滚动">
+            <math display="block" aria-label="电流 I(t) 等于 I0 乘以 e 的负 tR/L 次方"><mrow><mi>I</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><msub><mi>I</mi><mn>0</mn></msub><msup><mi>e</mi><mrow><mo>−</mo><mi>t</mi><mi>R</mi><mo>/</mo><mi>L</mi></mrow></msup></mrow></math>
+        </div></div>
         <p>电流从 I₀ 按指数衰减到零。在 t = τ 时，衰减到初始值的 36.8%。</p>
 
         <p><strong>时间常数</strong> τ = L/R 是 LR 电路最重要的参数。τ 越大，暂态过程越长。对于电源设计，通常认为经过 5τ 后暂态结束（电流达到稳态的 99.3%）。</p>
+
+        <figure aria-labelledby="fig-rl-title">
+            <svg viewBox="0 0 420 240" role="img" aria-labelledby="fig-rl-title fig-rl-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-rl-title">LR 电路暂态：电流建立与衰减的时间常数</title>
+                <desc id="fig-rl-desc">横轴为以时间常数 τ 为单位的时间，纵轴为归一化电流。接电源时电流按 1 减 e 的负 t/τ 次方上升，在 t=τ 时达到 63.2%；短接后电流按 e 的负 t/τ 次方衰减，在 t=τ 时降到 36.8%。</desc>
+                <rect width="420" height="240" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="40" y1="200" x2="400" y2="200" stroke="#475569" stroke-width="1.5"/>
+                    <line x1="40" y1="200" x2="40" y2="30" stroke="#475569" stroke-width="1.5"/>
+                    <line x1="110" y1="200" x2="110" y2="45" stroke="#94a3b8" stroke-dasharray="4 3"/>
+                    <line x1="40" y1="105" x2="400" y2="105" stroke="#10b981" stroke-dasharray="3 3"/>
+                    <line x1="40" y1="145" x2="400" y2="145" stroke="#f59e0b" stroke-dasharray="3 3"/>
+                    <polyline points="40,200 110,105 180,70 250,58 320,53 390,51" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+                    <polyline points="40,200 110,145 180,180 250,190 320,194 390,197" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="7 4"/>
+                    <text x="114" y="216" font-size="12" fill="#475569">τ</text>
+                    <text x="46" y="100" font-size="11" fill="#10b981">0.632</text>
+                    <text x="46" y="140" font-size="11" fill="#f59e0b">0.368</text>
+                    <text x="200" y="228" font-size="12" fill="#1d4ed8">实线：接电源上升</text>
+                    <text x="250" y="46" font-size="12" fill="#ef4444">虚线：短接衰减</text>
+                </g>
+            </svg>
+            <figcaption>电感让电流“不能突变”：接上电源时电流从零指数上升，断开电源后按指数衰减。两条曲线共用同一个时间常数 τ=L/R——把 R 减小或 L 增大，暂态都会变长。</figcaption>
+        </figure>
 
         <table>
             <tr>
@@ -124,13 +193,17 @@
 
         <h2>磁场能量</h2>
         <p>电感器储存的能量来源于电流建立过程中电源克服自感电动势所做的功：</p>
-        <p>W = ∫ P dt = ∫ L I dI = <strong>½ L I²</strong></p>
+        <div class="math-equation" role="group" aria-label="电感储存的磁场能量"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电感储能与磁场能量密度，可横向滚动">
+            <math display="block" aria-label="能量 W 等于二分之一 L I 平方，磁场能量密度 uB 等于 B 平方除以 2μ"><mrow><mi>W</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>L</mi><msup><mi>I</mi><mn>2</mn></msup><mo>,</mo><mspace width="1.5em"/><msub><mi>u</mi><mi>B</mi></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>B</mi><mo>·</mo><mi>H</mi><mo>=</mo><mfrac><msup><mi>B</mi><mn>2</mn></msup><mrow><mn>2</mn><mi>μ</mi></mrow></mfrac></mrow></math>
+        </div></div>
 
         <p>但问题来了：能量"储存在哪里"？</p>
         <p>在我们建立电流的过程中，磁场也在空间中建立起来。更深刻的答案是：<strong>能量储存在磁场中，而不是在电感器里</strong>。电感器只是磁场能量的集中表现。</p>
-        <p>磁场能量密度：<strong>u<sub>B</sub> = ½ B · H = B² / (2μ)</strong>（对线性介质）</p>
         <p>这与电场能量密度 u<sub>E</sub> = ½ ε E² = ½ D · E 完美对称。</p>
-        <p>整个空间的磁场总能量：W = ∫<sub>V</sub> ½ B · H dV</p>
+        <p>整个空间的磁场总能量：</p>
+        <div class="math-equation" role="group" aria-label="整个空间的磁场总能量"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="磁场总能量体积分，可横向滚动">
+            <math display="block" aria-label="磁场总能量 W 等于对二分之一 B 点乘 H 的体积积分"><mrow><mi>W</mi><mo>=</mo><msub><mo>∫</mo><mi>V</mi></msub><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>B</mi><mo>·</mo><mi>H</mi><mspace width="0.3em"/><mi>d</mi><mi>V</mi></mrow></math>
+        </div></div>
 
         <p>这一观点在工程中有重要的实际意义：</p>
         <ul>
@@ -157,7 +230,9 @@
 
         <h3>电磁铁吸力</h3>
         <p>一个典型例子：电磁铁吸引衔铁。气隙中的磁场产生吸引力：</p>
-        <p>F = B² A / (2μ₀)</p>
+        <div class="math-equation" role="group" aria-label="电磁铁吸力"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电磁铁吸力公式，可横向滚动">
+            <math display="block" aria-label="电磁铁吸力 F 等于 B 平方乘以 A 除以 2μ0"><mrow><mi>F</mi><mo>=</mo><mfrac><mrow><msup><mi>B</mi><mn>2</mn></msup><mi>A</mi></mrow><mrow><mn>2</mn><msub><mi>μ</mi><mn>0</mn></msub></mrow></mfrac></mrow></math>
+        </div></div>
         <p>其中 A 是磁极面积，B 是气隙磁感应强度。这个公式说明：磁场对铁磁体的吸引力正比于 B²——类似于电场力正比于 E²。</p>
 
         <div class="highlight">
@@ -220,12 +295,23 @@ print(f"稳态磁场能量: W = ½LI² = {W_steady*1e6:.2f} μJ")</code></pre>
 
         <p>现在我们有了完整的一套工具来描述静态电磁场和感应现象——只差最后一块拼图：<strong>位移电流</strong>。下一章，麦克斯韦将完成电磁学大厦的最后封顶。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Joseph Henry (1832)：独立发现自感现象并制作了早期电感线圈，与法拉第的工作相互辉映。</li>
+                <li>James Clerk Maxwell, <em>A Treatise on Electricity and Magnetism</em> (1873)：磁场能量与磁力的场论论述。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 7 章论述电感、磁场能量与虚功原理。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">表中耦合系数区间（铁芯变压器 0.9–0.99、无线充电 0.1–0.5）与“工作电流 < 80% 饱和电流”的经验法则均为工程参考（教学示意），实际取值随磁芯材料与拓扑变化。文中长直螺线管、环形螺线管的电感公式均为理想近似；Python 示例的 R、L 为演示取值。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="11.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="13.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
