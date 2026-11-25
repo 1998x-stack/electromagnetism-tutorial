@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第10章 磁介质与磁化</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第10章 磁介质与磁化</h1>
+            <p class="dek">铁为什么会被磁铁吸引，铜为什么不会？本章从电子的轨道与自旋磁矩出发，引入磁化强度 M、磁场强度 H 与磁导率，并用磁滞回线和磁路定律解释软磁、硬磁与工程材料选择。</p>
+        </header>
 
         <h2>开场：为什么铁能被磁铁吸引？</h2>
         <p>你可能从幼儿园起就知道磁铁能吸铁。但有没有想过：为什么是铁？为什么木头不行？为什么有些磁铁是"永久的"而有些只是"临时的"？</p>
@@ -53,16 +65,22 @@
 
         <h3>电子的轨道磁矩</h3>
         <p>电子绕原子核运动，本质上就是一个微小的电流环。根据经典电磁学，电流环的磁矩 μ = I·A（电流 × 面积）。对电子轨道运动：</p>
-        <p>μ<sub>轨道</sub> = −(e / 2m) · <strong>L</strong></p>
+        <div class="math-equation" role="group" aria-label="电子轨道磁矩"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电子轨道磁矩公式，可横向滚动">
+            <math display="block" aria-label="轨道磁矩等于负的 e 除以 2m 乘以轨道角动量 L"><mrow><msub><mi>μ</mi><mtext>轨道</mtext></msub><mo>=</mo><mo>−</mo><mfrac><mi>e</mi><mrow><mn>2</mn><mi>m</mi></mrow></mfrac><mi>L</mi></mrow></math>
+        </div></div>
         <p>其中 <strong>L</strong> 是电子的轨道角动量。负号表示磁矩方向与角动量相反（因为电子带负电）。</p>
 
         <h3>电子的自旋磁矩</h3>
         <p>除了轨道运动，电子还有一个内禀的<strong>自旋</strong>（spin）属性。自旋磁矩为：</p>
-        <p>μ<sub>自旋</sub> ≈ −(e / m) · <strong>S</strong></p>
-        <p>自旋磁矩大约比轨道磁矩大一个因子 2（这就是"g因子" ≈ 2的来由）。自旋是铁磁性的主要来源。</p>
+        <div class="math-equation" role="group" aria-label="电子自旋磁矩"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电子自旋磁矩公式，可横向滚动">
+            <math display="block" aria-label="自旋磁矩约等于负的 e 除以 m 乘以自旋角动量 S"><mrow><msub><mi>μ</mi><mtext>自旋</mtext></msub><mo>≈</mo><mo>−</mo><mfrac><mi>e</mi><mi>m</mi></mfrac><mi>S</mi></mrow></math>
+        </div></div>
+        <p>自旋磁矩大约比轨道磁矩大一个因子 2（这就是“g 因子”≈ 2 的来由）。自旋是铁磁性的主要来源。</p>
 
         <p>基本磁矩的天然单位是<strong>玻尔磁子</strong>（Bohr magneton）：</p>
-        <p>μ<sub>B</sub> = e ħ / (2m) = 9.274 × 10⁻²⁴ J/T</p>
+        <div class="math-equation" role="group" aria-label="玻尔磁子"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="玻尔磁子定义，可横向滚动">
+            <math display="block" aria-label="玻尔磁子 μB 等于 e 乘以约化普朗克常数 ħ 除以 2m，等于 9.274×10⁻²⁴ 焦耳每特斯拉"><mrow><msub><mi>μ</mi><mi>B</mi></msub><mo>=</mo><mfrac><mrow><mi>e</mi><mi>ħ</mi></mrow><mrow><mn>2</mn><mi>m</mi></mrow></mfrac><mo>=</mo><mn>9.274</mn><mo>×</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>24</mn></mrow></msup><mtext> J/T</mtext></mrow></math>
+        </div></div>
         <p>每个电子的自旋磁矩约等于 1 μ<sub>B</sub>。</p>
 
         <h2>三种磁性</h2>
@@ -111,6 +129,33 @@
         <p>铁磁性材料的相邻原子之间通过<strong>交换相互作用</strong>（exchange interaction）——一种纯粹的量子力学效应——使电子自旋自发地平行排列。这种量子力学耦合如此之强，以至于即使在无外磁场时，材料也能保持宏观磁化。</p>
         <p>但铁磁体并非整体均匀磁化，而是分为许多<strong>磁畴</strong>（magnetic domains）。每个磁畴内部的磁矩方向一致，但不同磁畴的方向不同。施加外磁场时，磁畴壁移动、与磁场方向一致的磁畴扩大、方向不利的磁畴缩小，最终实现宏观磁化。</p>
 
+        <figure aria-labelledby="fig-domain-title">
+            <svg viewBox="0 0 440 200" role="img" aria-labelledby="fig-domain-title fig-domain-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-domain-title">磁畴在外磁场下的取向：无序与宏观磁化</title>
+                <desc id="fig-domain-desc">左图为无外磁场时的多磁畴结构，各畴箭头方向各异，净磁矩为零；右图为施加外磁场后，与外场一致的磁畴扩大、其余缩小，宏观磁矩不为零。</desc>
+                <rect width="440" height="200" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="d-arr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 z" fill="#1e3a5f"/></marker></defs>
+                    <rect x="20" y="45" width="180" height="115" rx="8" fill="#e2e8f0" stroke="#94a3b8"/>
+                    <g stroke="#1e3a5f" stroke-width="2" marker-end="url(#d-arr)">
+                        <line x1="40" y1="70" x2="70" y2="70"/><line x1="100" y1="70" x2="70" y2="100"/>
+                        <line x1="130" y1="100" x2="160" y2="80"/><line x1="50" y1="135" x2="80" y2="120"/>
+                        <line x1="120" y1="130" x2="150" y2="140"/><line x1="170" y1="60" x2="170" y2="95"/>
+                    </g>
+                    <text x="20" y="36" font-size="13" fill="#1e3a5f" font-weight="700">无外磁场：净 M = 0</text>
+                    <rect x="240" y="45" width="180" height="115" rx="8" fill="#dbeafe" stroke="#1d4ed8"/>
+                    <g stroke="#1d4ed8" stroke-width="2" marker-end="url(#d-arr)">
+                        <line x1="265" y1="135" x2="265" y2="70"/><line x1="300" y1="135" x2="300" y2="70"/>
+                        <line x1="335" y1="135" x2="335" y2="70"/><line x1="370" y1="135" x2="370" y2="70"/>
+                        <line x1="400" y1="135" x2="400" y2="70"/>
+                    </g>
+                    <text x="240" y="36" font-size="13" fill="#1d4ed8" font-weight="700">加外磁场：净 M ≠ 0</text>
+                    <text x="20" y="188" font-size="12.5" fill="#1e3a5f">磁畴壁移动 → 与外场同向的畴长大 → 宏观磁化</text>
+                </g>
+            </svg>
+            <figcaption>铁磁体不是一整块同向磁铁。无外场时，多个磁畴互相抵消，净磁矩为零（左）；加上外磁场后，磁畴壁移动使与外场同向的畴扩大，宏观磁化从零逐渐增大（右）。这就是“退磁是靠无序、磁化是靠排序”的直观图像。</figcaption>
+        </figure>
+
         <div class="highlight">
             <strong>🔑 核心洞察</strong><br>
             铁磁性是一个纯粹的<strong>量子力学效应</strong>——经典物理学无法解释为什么铁原子的磁矩会自发整齐排列。<br>
@@ -119,13 +164,16 @@
         </div>
 
         <h2>磁化强度 M 与磁场 H</h2>
-        <p>为了描述介质的磁化状态，我们引入<strong>磁化强度</strong> M（magnetization），定义为：</p>
-        <p><strong>M</strong> = 单位体积内的净磁矩</p>
-        <p>单位：A/m（安培/米）。磁化强度 M 与磁感应强度 B 之间通过<strong>磁场强度</strong> H 联系：</p>
-        <p><strong>B</strong> = μ₀ (<strong>H</strong> + <strong>M</strong>)</p>
+        <p>为了描述介质的磁化状态，我们引入<strong>磁化强度</strong> M（magnetization），定义为<strong>单位体积内的净磁矩</strong>，单位 A/m（安培/米）。</p>
+        <p>磁化强度 M 与磁感应强度 B 之间通过<strong>磁场强度</strong> H 联系：</p>
+        <div class="math-equation" role="group" aria-label="磁感应强度、磁场强度与磁化强度的关系"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="B 等于 μ0 乘以 H 加 M，可横向滚动">
+            <math display="block" aria-label="磁感应强度 B 等于 μ0 乘以括号内磁场强度 H 加磁化强度 M"><mrow><mi>B</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mo>(</mo><mi>H</mi><mo>+</mo><mi>M</mi><mo>)</mo></mrow></math>
+        </div></div>
 
         <p>对于线性、均匀、各向同性的磁介质：</p>
-        <p><strong>M</strong> = χ<sub>m</sub> <strong>H</strong> ⇒ <strong>B</strong> = μ₀ (1 + χ<sub>m</sub>) <strong>H</strong> = μ₀ μ<sub>r</sub> <strong>H</strong></p>
+        <div class="math-equation" role="group" aria-label="线性磁介质的本构关系"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="磁化强度与磁感应强度的本构关系，可横向滚动">
+            <math display="block" aria-label="磁化强度 M 等于磁化率 χm 乘以 H，从而 B 等于 μ0 乘以 1 加 χm 乘以 H，即 μ0 μr H"><mrow><mi>M</mi><mo>=</mo><msub><mi>χ</mi><mi>m</mi></msub><mi>H</mi><mspace width="1.5em"/><mo>⇒</mo><mspace width="1.5em"/><mi>B</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mo>(</mo><mn>1</mn><mo>+</mo><msub><mi>χ</mi><mi>m</mi></msub><mo>)</mo><mi>H</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>μ</mi><mi>r</mi></msub><mi>H</mi></mrow></math>
+        </div></div>
         <p>其中：</p>
         <ul>
             <li>χ<sub>m</sub> —— 磁化率（magnetic susceptibility）</li>
@@ -180,6 +228,30 @@
             <li><strong>剩余磁化强度（剩磁）B<sub>r</sub></strong>：H 降为零后残留的磁感应强度。</li>
             <li><strong>矫顽力 H<sub>c</sub></strong>：将 B 降低到零所需的反向 H 的大小。</li>
         </ul>
+
+        <figure aria-labelledby="fig-hyst-title">
+            <svg viewBox="0 0 420 260" role="img" aria-labelledby="fig-hyst-title fig-hyst-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-hyst-title">铁磁材料的磁滞回线：剩磁与矫顽力</title>
+                <desc id="fig-hyst-desc">以磁场强度 H 为横轴、磁感应强度 B 为纵轴，上升支与下降支围成一个回线。H=0 时的截距为剩磁 Br，B=0 时的截距为矫顽力 Hc；回线面积对应磁滞损耗。</desc>
+                <rect width="420" height="260" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="30" y1="130" x2="395" y2="130" stroke="#475569" stroke-width="1.5"/>
+                    <line x1="210" y1="240" x2="210" y2="20" stroke="#475569" stroke-width="1.5"/>
+                    <polyline points="360,60 285,82 210,90 161,130 105,176 60,200" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+                    <polyline points="60,200 135,178 210,170 259,130 315,84 360,60" fill="none" stroke="#b45309" stroke-width="2.5" stroke-dasharray="7 4"/>
+                    <circle cx="210" cy="90" r="3.5" fill="#1d4ed8"/>
+                    <text x="216" y="86" font-size="12" fill="#1d4ed8">Br</text>
+                    <circle cx="161" cy="130" r="3.5" fill="#b45309"/>
+                    <text x="128" y="150" font-size="12" fill="#b45309">Hc</text>
+                    <text x="366" y="56" font-size="12" fill="#475569">饱和</text>
+                    <text x="388" y="146" font-size="12" fill="#475569">H</text>
+                    <text x="216" y="30" font-size="12" fill="#475569">B</text>
+                    <text x="20" y="248" font-size="12" fill="#1d4ed8">实线：下降支</text>
+                    <text x="150" y="248" font-size="12" fill="#b45309">虚线：上升支</text>
+                </g>
+            </svg>
+            <figcaption>磁滞回线：H 从饱和处减小到零时，B 并不回到零，而是保留剩磁 Br；要把 B 降到零，必须反向加一个 Hc（矫顽力）。回线包围的面积正比于每个磁化周期耗散的磁滞能量——这就是软磁要做窄回线、硬磁要做宽回线的原因。</figcaption>
+        </figure>
 
         <p>根据矫顽力大小，铁磁材料分为：</p>
         <ul>
@@ -310,12 +382,25 @@ plt.show()</code></pre>
 
         <p>至此，我们已经建立了静电场和静磁场的完整图像——包括场在真空中的行为、在场源（电荷、电流）附近的分布，以及物质如何响应这些场。接下来，让磁场开始变化吧——<strong>电磁感应</strong>，这才是电磁学真正闪耀的领域。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>P. Weiss (1907)：分子场与磁畴假说的最早提出。</li>
+                <li>W. Heisenberg, <em>Zur Theorie des Ferromagnetismus</em>, <em>Zeitschrift für Physik</em> 49: 619–636 (1928)：交换作用与铁磁性的量子解释。见 <a href="https://doi.org/10.1007/BF01328601">DOI:10.1007/BF01328601</a>。</li>
+                <li>W. Meissner & R. Ochsenfeld (1933)：超导体的完全抗磁性（迈斯纳效应）。</li>
+                <li>D. C. Jiles & D. L. Atherton, <em>Theory of ferromagnetic hysteresis</em>, <em>J. Magn. Magn. Mater.</em> 61: 48–60 (1986)：本文 Python 示例所用的 J-A 磁滞模型。见 <a href="https://doi.org/10.1016/0304-8853(86)90066-1">DOI:10.1016/0304-8853(86)90066-1</a>。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 6 章论述磁化、H 场与线性磁介质。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">表中相对磁导率（Fe ≈ 5000、硅钢 ≈ 10⁴、坡莫合金 ≈ 10⁶）为量级参考值（教学示意），实际数值强烈依赖磁场强度、频率、纯度与退火工艺。玻尔磁子 μB = 9.274×10⁻²⁴ J/T 为 CODATA 标准值；文中 g 因子“约等于 2”针对电子自旋。Python 示例中的 J-A 模型参数为演示值，未经实验标定。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="09.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="11.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
