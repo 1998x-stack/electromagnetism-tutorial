@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第8章 静磁场与毕奥-萨伐尔定律</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第8章 静磁场与毕奥-萨伐尔定律</h1>
+            <p class="dek">从奥斯特偶然的一瞥到毕奥-萨伐尔定律：电流如何在空间中激发磁场，以及如何用它对任意载流导线做积分。本章同时给出洛伦兹力、回旋运动与霍尔效应的场论视角。</p>
+        </header>
 
         <h2>开场：奥斯特的偶然与必然</h2>
         <p>1820年的一个春日，哥本哈根大学的物理教授汉斯·克里斯蒂安·奥斯特（Hans Christian Orsted）正在给学生们做一场关于电流热效应的演示实验。当一根通有电流的导线靠近桌上的小磁针时，一个细微但确凿的偏转发生了——磁针动了一下。</p>
@@ -57,7 +69,9 @@
         <h2>磁感应强度 B</h2>
         <p>正如我们用<strong>电场强度 E</strong>来描述电场的强弱和方向，我们用<strong>磁感应强度 B</strong>来描述磁场的强弱和方向。但两者的引入方式有很大不同。</p>
         <p>电场强度是通过点电荷受力定义的：<strong>F</strong> = q<strong>E</strong>。而磁场对运动电荷的力更复杂——它不仅依赖于电荷量和位置，还依赖于电荷的速度。这就是<strong>洛伦兹力</strong>的磁部分：</p>
-        <p><strong>F</strong> = q(<strong>E</strong> + <strong>v</strong> × <strong>B</strong>)</p>
+        <div class="math-equation" role="group" aria-label="洛伦兹力"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="洛伦兹力公式，可横向滚动">
+            <math display="block" aria-label="洛伦兹力 F 等于电荷 q 乘以电场 E 加上速度 v 叉乘磁感应强度 B"><mrow><mi>F</mi><mo>=</mo><mi>q</mi><mo>(</mo><mi>E</mi><mo>+</mo><mi>v</mi><mo>×</mo><mi>B</mi><mo>)</mo></mrow></math>
+        </div></div>
         <p>当电场为零时，<strong>F</strong> = q<strong>v</strong> × <strong>B</strong>。从这个定义可以提取出 B 的正式定义：<strong>磁感应强度 B 是这样一个矢量场，使得运动电荷所受的磁力为 qv × B</strong>。</p>
 
         <table>
@@ -101,7 +115,9 @@
         <h2>毕奥-萨伐尔定律</h2>
         <p>毕奥-萨伐尔定律（Biot-Savart Law）是磁学的"库仑定律"。它给出了任意电流分布产生磁场的<strong>通用计算方法</strong>。</p>
         <p>考虑一段长度为 d<strong>l</strong>、载有电流 <em>I</em> 的导线微元。该微元在场点 <strong>r</strong> 处产生的磁感应强度微元为：</p>
-        <p>d<strong>B</strong> = (μ₀ / 4π) · (I d<strong>l</strong> × <strong>r̂</strong>) / r²</p>
+        <div class="math-equation" role="group" aria-label="毕奥-萨伐尔定律的微分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="毕奥-萨伐尔定律微分形式，可横向滚动">
+            <math display="block" aria-label="磁感应强度微元 dB 等于 μ0 除以 4π 乘以电流 I 乘以线元 dl 叉乘单位矢量 r̂ 除以距离 r 平方"><mrow><mi>d</mi><mi>B</mi><mo>=</mo><mfrac><msub><mi>μ</mi><mn>0</mn></msub><mrow><mn>4</mn><mi>π</mi></mrow></mfrac><mfrac><mrow><mi>I</mi><mi>d</mi><mi>l</mi><mo>×</mo><mover accent="true"><mi>r</mi><mo>^</mo></mover></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac></mrow></math>
+        </div></div>
         <p>其中：</p>
         <ul>
             <li>μ₀ = 4π × 10⁻⁷ T·m/A —— <strong>真空磁导率</strong>（permeability of free space）</li>
@@ -111,7 +127,36 @@
         </ul>
 
         <p>完整的磁场通过对所有电流微元积分得到：</p>
-        <p><strong>B</strong>(<strong>r</strong>) = (μ₀ / 4π) ∫ (I d<strong>l'</strong> × (<strong>r</strong> − <strong>r'</strong>)) / |<strong>r</strong> − <strong>r'</strong>|³</p>
+        <div class="math-equation" role="group" aria-label="毕奥-萨伐尔定律的积分形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="毕奥-萨伐尔定律积分形式，可横向滚动">
+            <math display="block" aria-label="磁感应强度 B 等于 μ0 除以 4π 乘以对电流元 I dl' 叉乘 R 除以 R 立方的积分"><mrow><mi>B</mi><mo>(</mo><mi>r</mi><mo>)</mo><mo>=</mo><mfrac><msub><mi>μ</mi><mn>0</mn></msub><mrow><mn>4</mn><mi>π</mi></mrow></mfrac><mo>∫</mo><mfrac><mrow><mi>I</mi><mi>d</mi><msup><mi>l</mi><mo>′</mo></msup><mo>×</mo><mo>(</mo><mi>r</mi><mo>−</mo><msup><mi>r</mi><mo>′</mo></msup><mo>)</mo></mrow><msup><mrow><mo>|</mo><mi>r</mi><mo>−</mo><msup><mi>r</mi><mo>′</mo></msup><mo>|</mo></mrow><mn>3</mn></msup></mfrac></mrow></math>
+        </div></div>
+
+        <figure aria-labelledby="fig-bs-title">
+            <svg viewBox="0 0 460 250" role="img" aria-labelledby="fig-bs-title fig-bs-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-bs-title">毕奥-萨伐尔定律的几何：电流元、位矢与磁场方向</title>
+                <desc id="fig-bs-desc">载流导线上的电流元 I dl 位于 r′，场点 P 位于 r，两者相对位矢为 R = r − r′。磁场微元 dB 同时垂直于 dl 与 R，因此垂直于纸面穿出（⊙），大小为 μ0 I dl sinθ 除以 4πR²，θ 为 dl 与 R 的夹角。</desc>
+                <rect width="460" height="250" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs>
+                        <marker id="bs-arr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#1e3a5f"/></marker>
+                        <marker id="bs-arr2" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#b45309"/></marker>
+                    </defs>
+                    <path d="M30 150 Q 210 126 420 150" fill="none" stroke="#94a3b8" stroke-width="3"/>
+                    <line x1="168" y1="140" x2="236" y2="128" stroke="#1e3a5f" stroke-width="2.5" marker-end="url(#bs-arr)"/>
+                    <text x="176" y="120" font-size="13" fill="#1e3a5f" font-weight="700">I dl</text>
+                    <circle cx="200" cy="134" r="4" fill="#1e3a5f"/>
+                    <text x="150" y="158" font-size="12" fill="#1e3a5f">r′</text>
+                    <line x1="200" y1="134" x2="330" y2="42" stroke="#b45309" stroke-width="2.5" marker-end="url(#bs-arr2)"/>
+                    <text x="248" y="78" font-size="13" fill="#b45309" font-weight="700">R</text>
+                    <text x="338" y="40" font-size="13" fill="#0f766e" font-weight="700">P (r)</text>
+                    <circle cx="330" cy="42" r="12" fill="none" stroke="#0f766e" stroke-width="1.5"/>
+                    <circle cx="330" cy="42" r="3.2" fill="#0f766e"/>
+                    <text x="300" y="180" font-size="12.5" fill="#0f766e">dB 垂直纸面穿出（⊙）</text>
+                    <text x="30" y="228" font-size="12.5" fill="#1e3a5f" font-weight="700">dB = (μ₀/4π) · (I dl × R̂) / R²，大小 ∝ sinθ</text>
+                </g>
+            </svg>
+            <figcaption>dB 的方向由叉积 dl × R̂ 给出：它同时垂直于电流元 dl 与相对位矢 R。若把导线放在纸面内，dB 就指向纸面外（记为 ⊙）。大小为 (μ₀/4π)(I dl sinθ)/R²，当 dl 与 R 共线（θ=0）时不产生磁场。</figcaption>
+        </figure>
 
         <p>下面是毕奥-萨伐尔定律与库仑定律的对比表——对称性之美令人惊叹：</p>
 
@@ -152,17 +197,46 @@
 
         <h3>无限长直导线</h3>
         <p>这是最简单的应用。设无限长直导线沿 z 轴放置，电流方向沿 +z，距离导线垂直距离 <em>r</em> 处的磁感应强度为：</p>
-        <p><strong>B</strong> = (μ₀ I) / (2π r) · <strong>φ̂</strong></p>
+        <div class="math-equation" role="group" aria-label="无限长直导线的磁场"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="无限长直导线磁场公式，可横向滚动">
+            <math display="block" aria-label="磁感应强度 B 等于 μ0 I 除以 2π r，方向沿 φ̂"><mrow><mi>B</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>r</mi></mrow></mfrac><mover accent="true"><mi>φ</mi><mo>^</mo></mover></mrow></math>
+        </div></div>
         <p>磁场方向环绕导线（右手定则），大小随距离增大而减小。注意这与点电荷电场随 1/r² 衰减不同——无限长线源产生的场是 1/r 衰减。</p>
+
+        <figure aria-labelledby="fig-wire-title">
+            <svg viewBox="0 0 420 270" role="img" aria-labelledby="fig-wire-title fig-wire-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-wire-title">无限长直导线的磁场：同心圆环与安培右手定则</title>
+                <desc id="fig-wire-desc">竖直导线中电流向上。磁感线是以导线为轴的一系列同心圆，方向由右手定则确定；磁场大小随距导线半径 r 按 1/r 衰减。</desc>
+                <rect width="420" height="270" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="w-arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1e3a5f"/></marker></defs>
+                    <line x1="180" y1="245" x2="180" y2="25" stroke="#1e3a5f" stroke-width="3" marker-end="url(#w-arr)"/>
+                    <text x="120" y="30" font-size="13" fill="#1e3a5f" font-weight="700">I</text>
+                    <g fill="none" stroke="#b45309" stroke-width="1.8">
+                        <ellipse cx="180" cy="135" rx="45" ry="18"/>
+                        <ellipse cx="180" cy="135" rx="80" ry="32"/>
+                        <ellipse cx="180" cy="135" rx="115" ry="46"/>
+                    </g>
+                    <text x="228" y="128" font-size="12.5" fill="#b45309">B（越远越弱）</text>
+                    <line x1="180" y1="135" x2="260" y2="135" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 3"/>
+                    <text x="190" y="152" font-size="12.5" fill="#475569">r</text>
+                    <text x="20" y="252" font-size="12.5" fill="#1e3a5f" font-weight="700">B = μ₀I / (2πr)，方向沿切向 φ̂</text>
+                </g>
+            </svg>
+            <figcaption>磁感线是环绕导线的同心圆，越靠近导线越密——定量地，B 与 r 成反比。注意与点电荷电场的 1/r² 区别：源的“几何维数”不同（线源 vs 点源），衰减规律也不同。</figcaption>
+        </figure>
 
         <h3>圆环电流轴线上</h3>
         <p>半径为 <em>R</em> 的圆环载有电流 <em>I</em>，在轴线上距圆心 <em>z</em> 处的磁场为：</p>
-        <p><strong>B</strong>(z) = (μ₀ I R²) / (2 (R² + z²)^(3/2)) · <strong>ẑ</strong></p>
+        <div class="math-equation" role="group" aria-label="圆环电流轴线上的磁场"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="圆环电流轴线上磁场公式，可横向滚动">
+            <math display="block" aria-label="轴线上磁感应强度 B 等于 μ0 I R 平方除以 2 乘以 R 平方加 z 平方的二分之三次方"><mrow><mi>B</mi><mo>(</mo><mi>z</mi><mo>)</mo><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi><msup><mi>R</mi><mn>2</mn></msup></mrow><mrow><mn>2</mn><msup><mrow><mo>(</mo><msup><mi>R</mi><mn>2</mn></msup><mo>+</mo><msup><mi>z</mi><mn>2</mn></msup><mo>)</mo></mrow><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msup></mrow></mfrac></mrow></math>
+        </div></div>
         <p>在圆心处（z=0）：B = μ₀ I / (2R)。在远处（|z| >> R）：B ≈ μ₀ I R² / (2|z|³) —— 衰减很快。</p>
 
         <h3>无限长螺线管</h3>
         <p>理想情况下（无限长、紧密绕制），螺线管内部磁场均匀，外部为零：</p>
-        <p>B<sub>内部</sub> = μ₀ n I</p>
+        <div class="math-equation" role="group" aria-label="无限长螺线管内部磁场"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="无限长螺线管内部磁场，可横向滚动">
+            <math display="block" aria-label="螺线管内部磁感应强度等于 μ0 乘以单位长度匝数 n 乘以电流 I"><mrow><msub><mi>B</mi><mtext>内部</mtext></msub><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mi>n</mi><mi>I</mi></mrow></math>
+        </div></div>
         <p>其中 <em>n</em> 是单位长度的匝数。这是一条非常重要的公式——它表明只要螺线管足够长，内部磁场与轴向位置无关。</p>
 
         <h2>洛伦兹力与带电粒子运动</h2>
@@ -256,12 +330,24 @@ print(f"|B| = {np.linalg.norm(B_center):.2e} T")</code></pre>
 
         <p>毕奥-萨伐尔定律是计算磁场的"万能工具"，但对高对称性系统，<strong>安培环路定理</strong>更优雅。下一章我们学习这一更高效的对称性捷径。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>H. C. Ørsted, <em>Experimenta circa effectum conflictus electrici in acum magneticam</em> (1820)：奥斯特发现电流磁效应的原始报告。</li>
+                <li>J.-B. Biot & F. Savart (1820)，发表于 <em>Annales de Chimie et de Physique</em>：毕奥-萨伐尔定律的原始实验与公式。</li>
+                <li>E. H. Hall, <em>On a New Action of the Magnet on Electric Currents</em>, <em>American Journal of Mathematics</em> 2(3): 287–292 (1879)：霍尔效应的原始论文。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 5 章论述毕奥-萨伐尔定律、洛伦兹力与霍尔效应。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">文中列出的磁场数值（地球磁场 50 μT、冰箱贴 5 mT、MRI 3–7 T、脉冲磁场 100 T）均为量级参考值（教学示意），随具体设备与环境变化。μ₀ = 4π×10⁻⁷ T·m/A 为 SI 现行定义换算值。霍尔系数公式假定单一载流子类型；回旋运动推导忽略辐射损失。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="07.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="09.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
