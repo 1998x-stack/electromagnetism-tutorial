@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第24章 Ansys HFSS天线与射频仿真</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第24章 Ansys HFSS天线与射频仿真</h1>
+            <p class="dek">射频与天线仿真的行业标杆。本章以 5G n78 频段微带贴片天线为例，走一遍 HFSS 从 3D 建模、激励与边界设置、自适应网格收敛，到 S 参数提取、1×4 阵列馈电与波束扫描的完整流程，并对比 HFSS、CST、FEKO 的选型逻辑。</p>
+        </header>
 
         <h2>射频仿真的行业标杆</h2>
         <p>如果说COMSOL是多物理场的瑞士军刀，那Ansys HFSS就是射频电磁场的"金标准"。从苹果手机的毫米波天线到SpaceX星链的相控阵，从Intel的CPU封装到华为的5G基站——HFSS几乎成了射频和高速数字设计领域的默认工具。</p>
@@ -60,6 +72,37 @@
             <li><strong>迭代</strong>：重新求解，重复误差评估和加密，直到两次迭代之间S参数的变化小于预设容差（默认0.02）。</li>
         </ul>
         <p>实践中，对于微带天线，通常6~10次自适应迭代后即可收敛。S<sub>11</sub>在最后2~3次迭代间的波动应小于0.01dB。如果你看到S<sub>11</sub>每次迭代都在大幅跳动——说明网格根本不收敛，要么是几何有问题（微小间隙、重叠面），要么是求解频率没有设置正确。</p>
+
+        <figure aria-labelledby="fig-amr-title">
+            <svg viewBox="0 0 460 180" role="img" aria-labelledby="fig-amr-title fig-amr-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-amr-title">HFSS 自适应网格加密迭代</title>
+                <desc id="fig-amr-desc">流程为初始粗网格、求解、误差评估、在误差最大区域局部加密，再回到求解；当相邻两次迭代的 S 参数变化小于收敛容差时停止，否则继续加密。</desc>
+                <rect width="460" height="180" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="amr-arr" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#475569"/></marker></defs>
+                    <rect x="20" y="40" width="86" height="46" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="63" y="60" font-size="12" fill="#1e3a5f" text-anchor="middle">初始粗网格</text>
+                    <text x="63" y="76" font-size="11" fill="#475569" text-anchor="middle">少量四面体</text>
+                    <rect x="140" y="40" width="86" height="46" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="183" y="60" font-size="12" fill="#1e3a5f" text-anchor="middle">求解 → E 场</text>
+                    <text x="183" y="76" font-size="11" fill="#475569" text-anchor="middle">每单元能量误差</text>
+                    <rect x="260" y="40" width="86" height="46" rx="8" fill="#fef3e6" stroke="#fed7aa"/>
+                    <text x="303" y="60" font-size="12" fill="#b45309" text-anchor="middle">局部加密</text>
+                    <text x="303" y="76" font-size="11" fill="#92400e" text-anchor="middle">误差最大 20–30%</text>
+                    <rect x="374" y="40" width="66" height="46" rx="8" fill="#e0f2fe" stroke="#7dd3fc"/>
+                    <text x="407" y="60" font-size="12" fill="#0c4a6e" text-anchor="middle">收敛?</text>
+                    <text x="407" y="76" font-size="11" fill="#0c4a6e" text-anchor="middle">ΔS&lt;0.02</text>
+                    <line x1="106" y1="63" x2="138" y2="63" stroke="#475569" stroke-width="1.6" marker-end="url(#amr-arr)"/>
+                    <line x1="226" y1="63" x2="258" y2="63" stroke="#475569" stroke-width="1.6" marker-end="url(#amr-arr)"/>
+                    <line x1="346" y1="63" x2="372" y2="63" stroke="#475569" stroke-width="1.6" marker-end="url(#amr-arr)"/>
+                    <text x="407" y="112" font-size="12" fill="#b45309" text-anchor="middle">否</text>
+                    <path d="M407 88 L407 130 L183 130 L183 88" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#amr-arr)"/>
+                    <text x="295" y="150" font-size="11" fill="#b45309" text-anchor="middle">回到更密的网格重新求解</text>
+                    <text x="63" y="164" font-size="11" fill="#475569" text-anchor="middle">几何错误（微小间隙/重叠面）会让迭代始终不收敛</text>
+                </g>
+            </svg>
+            <figcaption>HFSS 自适应网格加密：从粗网格出发，求解后按单元能量误差定位场变化剧烈处（天线边缘、馈电点、介质界面），只细化误差最大的 20%–30% 四面体，再回到求解。相邻两次迭代的 S 参数差小于容差（默认 0.02）即停止；若反复跳动，优先排查几何而非求解器设置。</figcaption>
+        </figure>
 
         <h2>HFSS工作流实战：5G微带天线阵</h2>
         <p>让我们用HFSS设计一个5G n78频段（3.3~3.8GHz，中心频率3.5GHz）的矩形微带贴片天线单元。材料选用Rogers RO4350B（ε<sub>r</sub>=3.66，tanδ=0.0037，厚度0.508mm），相比普通FR4，它的高频损耗更低且介电常数更稳定。</p>
@@ -86,7 +129,11 @@
             <li><strong>S<sub>12</sub></strong> = 反向传输系数。对于无源互易网络，S<sub>12</sub> = S<sub>21</sub>。</li>
             <li><strong>S<sub>22</sub></strong> = 端口2的输出反射系数。</li>
         </ul>
-        <p>S参数以dB为单位表示：S<sub>ij</sub>(dB) = 20 log|S<sub>ij</sub>|。|S<sub>11</sub>| = 0.1对应S<sub>11</sub> = −20dB，表示只有1%的功率反射。这对天线来说非常优秀。</p>
+        <p>S参数通常以dB为单位表示：</p>
+        <div class="math-equation" role="group" aria-label="S参数的分贝表示"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="S参数的分贝表示，可横向滚动">
+            <math display="block" aria-label="S i j 的分贝值等于 20 乘以以 10 为底 S i j 模的对数"><mrow><msub><mi>S</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false">(</mo><mtext>dB</mtext><mo stretchy="false">)</mo><mo>=</mo><mn>20</mn><msub><mi>log</mi><mn>10</mn></msub><mrow><mo>|</mo><msub><mi>S</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>|</mo></mrow></mrow></math>
+        </div></div>
+        <p>因此 |S<sub>11</sub>| = 0.1 对应 S<sub>11</sub> = −20dB，表示只有 1% 的功率被反射。这对天线来说是相当优秀的匹配。</p>
         <p>HFSS求解完成后，你可以导出S参数为Touchstone文件（.s2p），供后续系统级仿真使用。以下是用Python读取Touchstone文件并绘制S<sub>11</sub>曲线的示例：</p>
 
         <pre><code># Python: 解析Touchstone (.s2p) 文件并绘制S11
@@ -140,6 +187,34 @@ plt.show()</code></pre>
             <li><strong>泰勒幅度加权</strong>：为了压低旁瓣（SLL），可以对四个单元的激励幅度进行Taylor加权。例如幅度比1 : 0.75 : 0.75 : 1，理论SLL可降低至−20dB以下，代价是主瓣略微展宽（增益损失约0.5dB）。</li>
             <li><strong>波束扫描</strong>：通过给每个单元的馈电相位增加渐进相位差Δφ，实现波束偏转。Δφ = k₀ d sinθ<sub>0</sub>，其中θ<sub>0</sub>是期望的波束指向角。HFSS中可以通过设置端口相位偏移来模拟。</li>
         </ul>
+        <figure aria-labelledby="fig-array-title">
+            <svg viewBox="0 0 460 190" role="img" aria-labelledby="fig-array-title fig-array-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-array-title">1×4 微带贴片线阵与并联馈电网络</title>
+                <desc id="fig-array-desc">四个贴片单元等间距 d 排列，由中心馈电点经多级 T 型结与四分之一波长阻抗变换器等功率分配到各单元；给相邻单元引入渐进相位差即可实现波束偏转。</desc>
+                <rect width="460" height="190" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <rect x="40" y="40" width="76" height="34" rx="5" fill="#b45309"/>
+                    <rect x="146" y="40" width="76" height="34" rx="5" fill="#b45309"/>
+                    <rect x="252" y="40" width="76" height="34" rx="5" fill="#b45309"/>
+                    <rect x="358" y="40" width="76" height="34" rx="5" fill="#b45309"/>
+                    <text x="78" y="62" font-size="11" fill="#fff" text-anchor="middle">单元1</text>
+                    <text x="184" y="62" font-size="11" fill="#fff" text-anchor="middle">单元2</text>
+                    <text x="290" y="62" font-size="11" fill="#fff" text-anchor="middle">单元3</text>
+                    <text x="396" y="62" font-size="11" fill="#fff" text-anchor="middle">单元4</text>
+                    <g stroke="#1d4ed8" stroke-width="2" fill="none">
+                        <path d="M78 74 L78 120 M184 74 L184 120 M290 74 L290 120 M396 74 L396 120 M78 120 L396 120"/>
+                        <path d="M78 120 L78 132 M184 120 L184 132 M290 120 L290 132"/>
+                        <path d="M78 132 L290 132 M290 132 L290 158 M396 120 L396 158 M290 158 L396 158"/>
+                    </g>
+                    <circle cx="237" cy="132" r="4" fill="#dc2626"/>
+                    <circle cx="237" cy="158" r="4" fill="#dc2626"/>
+                    <text x="14" y="136" font-size="11" fill="#1d4ed8">馈电</text>
+                    <text x="210" y="180" font-size="11" fill="#475569">d ≈ λ₀/2 ≈ 43mm @3.5GHz；单元间渐进相位 Δφ = k₀d·sinθ₀</text>
+                </g>
+            </svg>
+            <figcaption>1×4 微带贴片线阵（示意图）：单元间距 d ≈ λ₀/2 抑制栅瓣并控制互耦；并联馈电网络用多级 T 型结配合 λ/4 阻抗变换器把 50Ω 输入等功率分配到各单元，T 型结处满足 Z<sub>q</sub> = √(Z<sub>in</sub>·Z<sub>out</sub>)。给相邻单元叠加渐进相位差 Δφ = k₀d·sinθ₀ 即可让主波束偏转到 θ₀。</figcaption>
+        </figure>
+
         <p>在HFSS中使用Optimetrics模块进行自动化化：将贴片长度L和馈电点偏移设为设计变量，目标函数为在3.5GHz处|S<sub>11</sub>|最小化且阵列增益最大化。Quasi-Newton优化器通常20次迭代内收敛。</p>
 
         <div class="tip">
@@ -228,12 +303,24 @@ plt.show()</code></pre>
         <p>今天我们深入了解了Ansys HFSS以及射频仿真的核心实践。HFSS凭借其<strong>自适应网格加密和强大的FEM求解器</strong>，在天线、射频电路和高速数字设计领域占据了不可动摇的地位。我们走过了从单个5G微带贴片天线的设计优化，到1×4阵列的馈电网络和波束赋形，再到与CST和FEKO的对比选型，最后覆盖了高速PCB的信号完整性仿真。</p>
         <p>下一章我们将进入一个更"接地气"的话题——<strong>EMC设计与测试实战</strong>。仿真做得再好，最终要通过EMC标准测试才能上市。你会看到：如何设计和测试一个产品使之通过CISPR 25、FCC Part 15等标准，以及最常见的EMI问题是如何用几毛钱的成本解决的。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Ansys, <em>HFSS User's Guide</em>（2023R1 及以后版本）：自适应网格加密（Adaptive Mesh Refinement）流程与 Delta&nbsp;S 收敛判据、Radiation/Perfect&nbsp;E 边界与 Lumped&nbsp;Port 设置。</li>
+                <li>David M. Pozar, <em>Microwave Engineering</em>, 4th ed., Wiley, 2012：S 参数定义、λ/4 阻抗变换器与 T 型结功率分配（ISBN 978-0470631553）。</li>
+                <li>C. A. Balanis, <em>Antenna Theory: Analysis and Design</em>, 4th ed., Wiley, 2016：矩形微带贴片谐振长度、边缘场与有效介电常数，及均匀线阵方向图与栅瓣条件（ISBN 978-1118642061）。</li>
+                <li>Rogers Corporation, <em>RO4000 Series High Frequency Circuit Materials</em> 数据手册：RO4350B 在 10GHz 的 ε<sub>r</sub>=3.66、tanδ=0.0037。</li>
+            </ol>
+            <p class="depth-note">文中 HFSS 的收敛判据（Delta S 默认 0.02）、空气盒距离（≥λ/4）与阵列尺寸（W≈28mm、L≈26mm、d≈43mm）为常见工程经验与教学示意值，具体以所用软件版本与板材数据手册为准。RO4350B 的 ε<sub>r</sub>、tanδ 引自厂方数据手册；微带贴片增益约 6.5dBi、HPBW 约 80°/70° 与 1×4 阵列 Taylor 加权压低旁瓣至 −20dB 以下为教学示例，未在本文环境实测。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="23.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="25.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
