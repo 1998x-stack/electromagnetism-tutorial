@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第26章 超构材料与超表面</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        .table-wrap { max-width: 100%; overflow-x: auto; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+        a { overflow-wrap: anywhere; word-break: break-word; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +50,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第26章 超构材料与超表面</h1>
+            <p class="dek">从 Veselago 的负折射猜想，到 Pendry 的开口谐振环与负折射实验，再到广义斯涅尔定律与惠更斯超表面——本章用左手材料三连体、相位梯度波前和单元结构三层模型，讲清“人工电磁原子”如何实现自然界不存在的 ε、μ 组合，并展望 2025–2026 的智能超表面。</p>
+        </header>
 
         <h2>奇点降临：当介电常数和磁导率同时变成负数</h2>
         <p>想象你面前有一块玻璃。光线穿过它，折射角遵循斯涅尔定律——这是物理学中最基本的常识之一。但有没有可能，光线不是朝你预期的方向弯折，而是<strong>反向弯折</strong>？1967年，苏联理论物理学家Veselago在论文中提出了这个看似"疯狂"的设想：如果一种材料的介电常数 ε 和磁导率 μ 同时为负，它的折射率 n 就会是负数，光的传播方向将与常规材料完全相反。这篇论文在发表后的30多年里几乎无人问津——直到2000年，Pendry和Smith等人在实验上首次制造出了这种"不可能的材料"，超构材料（Metamaterials）的时代由此开启。</p>
@@ -58,6 +72,7 @@
         </ul>
         <p>下表对比了主要超构材料类型及其关键特征：</p>
 
+        <div class="table-wrap">
         <table>
             <tr>
                 <th>类型</th>
@@ -116,6 +131,7 @@
                 <td>可编程电磁表面</td>
             </tr>
         </table>
+        </div>
 
         <h2>左手材料与负折射</h2>
         <p>Veselago在1967年的论文中分析了ε&lt;0且μ&lt;0材料的奇特性质。此时，波矢 <strong>k</strong> 与坡印廷矢量 <strong>S</strong> 方向相反——能量向前传播但相位向后传播，因此得名<strong>左手材料</strong>（Left-Handed Material）。折射率 n = −√(ε<sub>r</sub>μ<sub>r</sub>)，取负根。</p>
@@ -125,6 +141,42 @@
             <li><strong>负介电常数</strong>的工程实现：周期排列的<strong>细金属线</strong>（Thin-Wire Array）在微波频段等效于低频等离子体，其等效介电常数由Drude模型描述：ε<sub>eff</sub>(ω) = 1 − ω<sub>p</sub>²/(ω² + iγω)，等效等离子体频率 ω<sub>p</sub> 由线间距决定，可设计在GHz范围。</li>
         </ul>
         <p>2000年，Smith小组将SRR阵列与金属线阵列组合，在微波频段首次实验验证了负折射。一个经典的棱镜实验证明了这一点：将左手材料制成三角形棱镜，入射微波束在通过棱镜后向相反方向偏折。折射角符号与常规材料完全相反。</p>
+
+        <figure aria-labelledby="fig-neg-title">
+            <svg viewBox="0 0 460 200" role="img" aria-labelledby="fig-neg-title fig-neg-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-neg-title">左手材料中的负折射与三连体</title>
+                <desc id="fig-neg-desc">常规材料折射光线在法线另一侧，左手材料折射光线回到法线同一侧；左手材料中波矢 k 与坡印廷矢量 S 反向，E、H、k 构成左手三连体。</desc>
+                <rect width="460" height="200" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="20" y1="60" x2="250" y2="60" stroke="#1d4ed8" stroke-width="2"/>
+                    <line x1="20" y1="140" x2="250" y2="140" stroke="#1d4ed8" stroke-width="2"/>
+                    <rect x="20" y="60" width="230" height="80" fill="#eef2ff"/>
+                    <text x="30" y="76" font-size="11" fill="#1e3a5f">空气 n₁=1（上）</text>
+                    <text x="30" y="132" font-size="11" fill="#1e3a5f">左手材料 n₂=−1（下）</text>
+                    <line x1="130" y1="30" x2="130" y2="190" stroke="#94a3b8" stroke-dasharray="5 4"/>
+                    <text x="135" y="40" font-size="10" fill="#64748b">法线</text>
+                    <line x1="60" y1="30" x2="130" y2="100" stroke="#dc2626" stroke-width="2"/>
+                    <path d="M130 100 l-6 -14 l14 6 z" fill="#dc2626"/>
+                    <line x1="130" y1="100" x2="200" y2="30" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="4 3"/>
+                    <line x1="130" y1="100" x2="72" y2="170" stroke="#16a34a" stroke-width="2"/>
+                    <path d="M72 170 l7 -13 l7 13 z" fill="#16a34a"/>
+                    <text x="150" y="46" font-size="11" fill="#94a3b8">常规折射（+θ）</text>
+                    <text x="14" y="180" font-size="11" fill="#16a34a">负折射（−θ，同侧）</text>
+                    <g transform="translate(300,100)" font-size="11">
+                        <line x1="0" y1="0" x2="60" y2="-40" stroke="#b45309" stroke-width="2"/>
+                        <text x="64" y="-44" fill="#b45309">S（能流）</text>
+                        <line x1="0" y1="0" x2="-60" y2="40" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="-116" y="54" fill="#7c3aed">k（波矢）</text>
+                        <line x1="0" y1="0" x2="0" y2="-46" stroke="#1d4ed8" stroke-width="2"/>
+                        <text x="4" y="-50" fill="#1d4ed8">E</text>
+                        <line x1="0" y1="0" x2="34" y2="24" stroke="#0891b2" stroke-width="2"/>
+                        <text x="38" y="32" fill="#0891b2">H</text>
+                        <text x="-40" y="90" fill="#475569">E、H、k 成左手系</text>
+                    </g>
+                </g>
+            </svg>
+            <figcaption>左手材料的负折射（示意图）：空气/左手材料界面上，入射光线（红）在常规材料中会折射到法线另一侧（灰虚线，+θ），而在 n₂=−1 的左手材料中折射光线回到法线同侧（绿，−θ）。右图给出左手材料的三连体关系：坡印廷矢量 S 与波矢 k 反向，E、H、k 构成左手系——能量向前传，相位向后传。</figcaption>
+        </figure>
 
         <div class="highlight">
             <strong>🔑 核心洞察：负折射角</strong><br>
@@ -185,7 +237,10 @@ print(f"折射角: {angle:.2f}°")   # 输出负值</code></pre>
         <h2>超表面——二维革命</h2>
         <p>三维超构材料面临一个实际问题：制造困难且损耗较大。这催生了<strong>超表面</strong>（Metasurface）的概念——将超构材料压缩到一层原子/亚波长厚度的表面上，通过精心设计的表面相位梯度实现对电磁波的波前控制。</p>
         <p>传统光学依赖折射定律：光线经过不同介质的界面时，方向变化由斯涅尔定律决定，相位连续。而超表面的核心突破是提出了<strong>广义斯涅尔定律</strong>（Generalized Snell's Law）。当界面上引入突变的相位梯度 dΦ/dx 时：</p>
-        <p>sinθ<sub>r</sub> − sinθ<sub>i</sub> = (λ/2πn<sub>i</sub>) · dΦ/dx</p>
+        <p>其中 θ<sub>i</sub> 是入射角，θ<sub>r</sub> 是反射角，n<sub>i</sub> 是入射介质的折射率，dΦ/dx 是沿界面方向的相位变化率。用公式写出来就是：</p>
+        <div class="math-equation" role="group" aria-label="广义斯涅尔定律"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="广义斯涅尔定律，可横向滚动">
+            <math display="block" aria-label="sin θr 减 sin θi 等于 λ 除以 2π ni 再乘以 dΦ 比 dx"><mrow><mi>sin</mi><msub><mi>θ</mi><mi>r</mi></msub><mo>−</mo><mi>sin</mi><msub><mi>θ</mi><mi>i</mi></msub><mo>=</mo><mfrac><mi>λ</mi><mrow><mn>2</mn><mi>π</mi><msub><mi>n</mi><mi>i</mi></msub></mrow></mfrac><mfrac><mrow><mi>d</mi><mi>Φ</mi></mrow><mrow><mi>d</mi><mi>x</mi></mrow></mfrac></mrow></math>
+        </div></div>
         <p>其中 θ<sub>i</sub> 是入射角，θ<sub>r</sub> 是反射角，n<sub>i</sub> 是入射介质的折射率，dΦ/dx 是沿界面方向的相位变化率。这个公式的意义在于：通过设计超表面的相位梯度，我们可以在不改变材料成分的情况下，将反射/透射波引导到任意方向。</p>
         <p>超表面的设计思路是：用一系列亚波长单元（meta-atoms）排列在表面上，每个单元对入射波引入一个特定的相位延迟 φ(x)。通过调整单元的几何尺寸（如纳米棒的长度、圆环的半径），使其覆盖 0 至 2π 的全相位范围。一个典型的超表面透镜设计，其相位分布需满足 φ(x) = (2π/λ)(√(x²+f²) − f)，其中 f 是焦距。</p>
 
@@ -193,6 +248,41 @@ print(f"折射角: {angle:.2f}°")   # 输出负值</code></pre>
             <strong>🔑 核心洞察：相位梯度如何工作</strong><br>
             回想一下我们在第15章学过的惠更斯原理——波面上的每一点都是次级球面波源。超表面的每个单元就像一个可控的次级波源，其振幅和相位可以独立设置。如果沿着表面设计一个线性相位梯度 dΦ/dx = 常数，反射波前就会偏转一个固定角度。如果相位分布是抛物线的，就得到一个聚焦透镜。更一般地说，<strong>任意波前形状都可以通过设计超表面的相位分布来实现</strong>——这正是全息术和任意光束生成的物理基础。
         </div>
+
+        <figure aria-labelledby="fig-ms-title">
+            <svg viewBox="0 0 460 210" role="img" aria-labelledby="fig-ms-title fig-ms-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-ms-title">超表面的相位梯度波前控制</title>
+                <desc id="fig-ms-desc">一排亚波长单元对入射平面波逐个引入递增的相位延迟，使透射波前整体倾斜，从而实现波束偏转与聚焦。</desc>
+                <rect width="460" height="210" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <g stroke="#93c5fd" stroke-width="1.4">
+                        <line x1="20" y1="40" x2="20" y2="150"/>
+                        <line x1="44" y1="40" x2="44" y2="150"/>
+                        <line x1="68" y1="40" x2="68" y2="150"/>
+                    </g>
+                    <text x="20" y="175" font-size="11" fill="#1d4ed8">入射平面波</text>
+                    <line x1="20" y1="185" x2="420" y2="185" stroke="#cbd5e1"/>
+                    <g fill="#b45309">
+                        <rect x="120" y="150" width="18" height="18"/><rect x="168" y="150" width="18" height="18"/>
+                        <rect x="216" y="150" width="18" height="18"/><rect x="264" y="150" width="18" height="18"/>
+                        <rect x="312" y="150" width="18" height="18"/><rect x="360" y="150" width="18" height="18"/>
+                    </g>
+                    <text x="60" y="147" font-size="10" fill="#b45309">亚波长单元 φ(x)</text>
+                    <g stroke="#16a34a" stroke-width="1.6">
+                        <line x1="129" y1="150" x2="129" y2="70"/>
+                        <line x1="177" y1="150" x2="187" y2="72"/>
+                        <line x1="225" y1="150" x2="245" y2="78"/>
+                        <line x1="273" y1="150" x2="303" y2="88"/>
+                        <line x1="321" y1="150" x2="361" y2="102"/>
+                        <line x1="369" y1="150" x2="419" y2="120"/>
+                    </g>
+                    <text x="300" y="40" font-size="11" fill="#16a34a">透射波前倾斜</text>
+                    <path d="M129 60 l-6 12 l14 -2 z" fill="#16a34a"/>
+                    <text x="150" y="205" font-size="11" fill="#475569">线性相位梯度 dΦ/dx = const → 波束偏转；抛物线相位 → 聚焦透镜</text>
+                </g>
+            </svg>
+            <figcaption>超表面的相位梯度波前控制（示意图）：入射平面波（蓝）到达一排亚波长单元（棕）时，每个单元引入不同相位延迟 φ(x)。当相位沿表面线性递增（dΦ/dx = 常数），透射波前（绿）整体倾斜，实现波束偏转；若相位分布是抛物线，则实现聚焦。任意波前形状都可由设计的相位分布实现。</figcaption>
+        </figure>
 
         <h2>惠更斯超表面</h2>
         <p>早期的超表面（如金属贴片型）存在一个根本问题：只能控制反射波或透射波中的一个，且效率受限于欧姆损耗。2013年提出的<strong>惠更斯超表面</strong>（Huygens' Metasurface）解决了这一难题。</p>
@@ -222,12 +312,25 @@ print(f"折射角: {angle:.2f}°")   # 输出负值</code></pre>
 
         <p>超构材料与超表面代表着从"发现材料"到"设计材料"的范式转变。我们不再受限于元素周期表，而是可以创造自己的"电磁原子"。这个领域的未来必将与AI深度融合——这正是下一章的主题。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>V. G. Veselago, <em>The electrodynamics of substances with simultaneously negative values of ε and μ</em>, <em>Sov. Phys. Usp.</em> 10(4): 509–514 (1968)。见 <a href="https://doi.org/10.1070/PU1968v010n04ABEH003699">DOI:10.1070/PU1968v010n04ABEH003699</a>。</li>
+                <li>J. B. Pendry, A. J. Holden, D. J. Robbins, W. J. Stewart, <em>Magnetism from conductors and enhanced nonlinear phenomena</em>, <em>IEEE Trans. MTT</em> 47(11): 2075–2084 (1999)：开口谐振环（SRR）与负磁导率。见 <a href="https://doi.org/10.1109/22.798002">DOI:10.1109/22.798002</a>。</li>
+                <li>D. R. Smith, W. J. Padilla, D. C. Vier, S. C. Nemat-Nasser, S. Schultz, <em>Composite medium with simultaneously negative permeability and permittivity</em>, <em>Phys. Rev. Lett.</em> 84: 4184 (2000)：首次实验验证负折射。见 <a href="https://doi.org/10.1103/PhysRevLett.84.4184">DOI:10.1103/PhysRevLett.84.4184</a>。</li>
+                <li>N. Yu <em>et al.</em>, <em>Light propagation with phase discontinuities: generalized laws of reflection and refraction</em>, <em>Science</em> 334: 333–337 (2011)：广义斯涅尔定律与相位梯度超表面。见 <a href="https://doi.org/10.1126/science.1210713">DOI:10.1126/science.1210713</a>。</li>
+                <li>M. Decker <em>et al.</em>, <em>High-efficiency dielectric Huygens' surfaces</em>, <em>Adv. Opt. Mater.</em> 3(6): 813–820 (2015)：惠更斯条件与高效透射超表面。见 <a href="https://doi.org/10.1002/adom.201400584">DOI:10.1002/adom.201400584</a>。</li>
+            </ol>
+            <p class="depth-note">文中“结构尺寸 &lt; λ/10 可用等效介质”与 S 参数反演的公式形式为常见工程约定；SRR/金属线阵列的等效等离子体频率、相位梯度与惠更斯条件等物理图像引自上述文献。2025–2026 年关于离子凝胶温度自适应表面、近零折射率“电磁欧姆定律”、突破 50% 吸收极限与时空调制超表面的进展为领域前沿教学概述，具体期刊、卷期与数值未在本文环境逐条核实，请以原文为准。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="25.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="27.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
