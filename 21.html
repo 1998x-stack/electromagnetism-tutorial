@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第21章 电磁场数值方法</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,10 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
-
-        <h2>第21章 电磁场数值方法</h2>
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第21章 电磁场数值方法</h1>
+            <p class="dek">能写出闭式解的电磁问题少之又少——现实中的 PCB 走线、人体、手机天线都不在其列。本章把麦克斯韦方程组从“只能欣赏”变成“可以计算”：FDTD、FEM、MoM 三种核心方法的原理、网格、稳定性与适用场景。</p>
+        </header>
 
         <p>能解析求解的电磁问题少之又少——球体、圆柱体、无限大平面，这是麦克斯韦方程组仅有的"宠儿"。现实世界中的 PCB 不规则走线、人体在 MRI 中的电磁响应、手机天线的近场分布，都无法写出闭式解。数值方法把麦克斯韦方程组从"只能欣赏"变成了"可以计算"。本章介绍三种最基本的电磁场数值方法。</p>
 
@@ -67,6 +77,27 @@
 
         <p><strong>Yee 网格</strong>是 FDTD 的基石。Yee 将计算区域划分为矩形网格，在每个网格单元上交错放置电场分量 E（网格棱边中点）和磁场分量 H（网格面心）。这种交错排布使得法拉第定律和安培定律的旋度可以自然地用中心差分近似。</p>
 
+        <figure aria-labelledby="fig-yee-title">
+            <svg viewBox="0 0 460 200" role="img" aria-labelledby="fig-yee-title fig-yee-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-yee-title">FDTD 的 Yee 元胞：E 在棱边、H 在面心</title>
+                <desc id="fig-yee-desc">Yee 元胞为一个矩形网格，电场分量放在网格棱边中点，磁场分量放在网格面心。E 与 H 在空间上交错半个网格，使旋度可用中心差分自然离散。</desc>
+                <rect width="460" height="200" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="ye-arr" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1d4ed8"/></marker></defs>
+                    <rect x="150" y="60" width="160" height="110" fill="#eef2ff" stroke="#1d4ed8" stroke-width="2.2"/>
+                    <line x1="180" y1="60" x2="285" y2="60" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#ye-arr)"/>
+                    <line x1="180" y1="170" x2="285" y2="170" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#ye-arr)"/>
+                    <line x1="150" y1="150" x2="150" y2="80" stroke="#0f766e" stroke-width="2.4" marker-end="url(#ye-arr)"/>
+                    <line x1="310" y1="150" x2="310" y2="80" stroke="#0f766e" stroke-width="2.4" marker-end="url(#ye-arr)"/>
+                    <circle cx="230" cy="115" r="5" fill="#b45309"/>
+                    <text x="238" y="112" font-size="12.5" fill="#b45309" font-weight="700">H</text>
+                    <text x="196" y="52" font-size="12.5" fill="#1d4ed8" font-weight="700">E&#8202;x</text>
+                    <text x="116" y="120" font-size="12.5" fill="#0f766e" font-weight="700">E&#8202;y</text>
+                </g>
+            </svg>
+            <figcaption>Yee 元胞（单格示意）：电场分量位于网格棱边中点（蓝箭头），磁场分量位于网格面心并垂直于该面（橙点）。E 与 H 在空间上相差半个网格，时间上也相差半个步长（蛙跳），于是麦克斯韦两个旋度方程都能写成干净的中心差分。这正是 FDTD 既简单又稳定的根源。</figcaption>
+        </figure>
+
         <p><strong>蛙跳时间推进（Leapfrog）</strong>：FDTD 在时间上交替更新 E 和 H：</p>
         <ol>
             <li>在 t = nΔt 时刻，根据旋度方程和 H<sup>n-1/2</sup> 更新 E<sup>n</sup></li>
@@ -76,7 +107,9 @@
 
         <p><strong>稳定性条件（CFL 条件）</strong>：时间步长必须满足：</p>
 
-        <p class="text-center"><strong>Δt ≤ 1 / (c · √(1/Δx² + 1/Δy² + 1/Δz²))</strong></p>
+        <div class="math-equation" role="group" aria-label="FDTD 的 CFL 稳定性条件"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="FDTD 的 CFL 稳定性条件，可横向滚动">
+            <math display="block" aria-label="时间步长 Δt 小于等于 1 除以 c 乘根号下 1 比 Δx 平方 加 1 比 Δy 平方 加 1 比 Δz 平方"><mrow><mi>Δ</mi><mi>t</mi><mo>≤</mo><mfrac><mn>1</mn><mrow><mi>c</mi><msqrt><mfrac><mn>1</mn><mrow><mi>Δ</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac><mo>+</mo><mfrac><mn>1</mn><mrow><mi>Δ</mi><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac><mo>+</mo><mfrac><mn>1</mn><mrow><mi>Δ</mi><msup><mi>z</mi><mn>2</mn></msup></mrow></mfrac></msqrt></mrow></mfrac></mrow></math>
+        </div></div>
 
         <p>其中 c 是光速，Δx、Δy、Δz 是空间步长。这个条件本质上是说：在一个时间步内，信息传播不能超过一个网格单元。</p>
 
@@ -137,19 +170,62 @@ print(f"最后时刻 Ez 的最大值: {np.max(np.abs(Ez)):.4f} V/m")</code></pre
 
         <p>FEM 的优势在于<strong>非结构化网格</strong>——四面体可以精确拟合任何复杂几何形状。Ansys HFSS 和 COMSOL Multiphysics 都采用 FEM 作为核心求解器。对于高频电磁问题，FEM 通常配合矢量基函数（边缘元）使用，以避免伪解（spurious modes）问题。</p>
 
+        <figure aria-labelledby="fig-fem-title">
+            <svg viewBox="0 0 460 200" role="img" aria-labelledby="fig-fem-title fig-fem-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-fem-title">有限元法的非结构化网格</title>
+                <desc id="fig-fem-desc">有限的单元（三角形或四面体）拼满整个求解区域，并沿弯曲边界自然贴合。网格可以在场变化剧烈的区域加密，在平缓区域放宽。</desc>
+                <rect width="460" height="200" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif" stroke="#1d4ed8" stroke-width="1.3" fill="none">
+                    <polygon points="302,100 281,151 230,172 179,151 158,100 179,49 230,28 281,49" fill="#eef2ff" stroke="#1d4ed8" stroke-width="2"/>
+                    <line x1="230" y1="100" x2="302" y2="100"/>
+                    <line x1="230" y1="100" x2="281" y2="151"/>
+                    <line x1="230" y1="100" x2="230" y2="172"/>
+                    <line x1="230" y1="100" x2="179" y2="151"/>
+                    <line x1="230" y1="100" x2="158" y2="100"/>
+                    <line x1="230" y1="100" x2="179" y2="49"/>
+                    <line x1="230" y1="100" x2="230" y2="28"/>
+                    <line x1="230" y1="100" x2="281" y2="49"/>
+                </g>
+                <text x="330" y="104" font-size="12.5" fill="#1e3a5f" font-weight="700">贴合弯曲边界</text>
+            </svg>
+            <figcaption>有限元法的非结构化网格（示意图）：单元（二维为三角形、三维为四面体）拼满整个求解区域，并能自然地贴合弯曲边界。网格可在场变化剧烈处加密、在平缓处放宽，这是 FEM 能处理任意复杂几何的关键。</figcaption>
+        </figure>
+
         <h2>矩量法（MoM）</h2>
 
         <p>矩量法（Method of Moments, MoM）采用完全不同的策略——它基于<strong>积分方程</strong>而不是微分方程。这意味着 MoM 不需要对自由空间进行网格划分，只对导体或介质表面/体积进行离散。</p>
 
         <p>以理想导体的散射问题为例：入射场 E<sup>inc</sup> 在导体表面 S 上感应出表面电流 J<sub>s</sub>，后者产生的散射场满足边界条件——总切向电场在导体表面为零。这导致电场积分方程（EFIE）：</p>
 
-        <p class="text-center"><strong>−E<sup>inc</sup><sub>tan</sub> = [jkη ∫<sub>S</sub> J<sub>s</sub> G dS']<sub>tan</sub></strong></p>
+        <div class="math-equation" role="group" aria-label="导体散射的电场积分方程"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="导体散射的电场积分方程，可横向滚动">
+            <math display="block" aria-label="负的 E 入射切向分量 等于 切向取 括号 jkη 乘以对 S 的面积分 Js 乘 G 乘 dS′"><mrow><mo>−</mo><msub><msup><mi>E</mi><mtext>inc</mtext></msup><mtext>tan</mtext></msub><mo>=</mo><msub><mrow><mo>[</mo><mi>j</mi><mi>k</mi><mi>η</mi><munder><mo>∫</mo><mi>S</mi></munder><msub><mi>J</mi><mi>s</mi></msub><mi>G</mi><mi>d</mi><msup><mi>S</mi><mo>′</mo></msup><mo>]</mo></mrow><mtext>tan</mtext></msub></mrow></math>
+        </div></div>
 
-        <p>其中 G = e<sup>−jkR</sup>/(4πR) 是自由空间格林函数。MoM 将表面离散为基函数，通过加权残量法构建线性方程组<br> <strong>Z</strong> · <strong>I</strong> = <strong>V</strong>。</p>
+        <p>其中自由空间格林函数为</p>
+        <div class="math-equation" role="group" aria-label="自由空间格林函数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="自由空间格林函数，可横向滚动">
+            <math display="block" aria-label="G 等于 e 的负 jkR 次方 除以 4πR"><mrow><mi>G</mi><mo>=</mo><mfrac><msup><mi>e</mi><mrow><mo>−</mo><mi>j</mi><mi>k</mi><mi>R</mi></mrow></msup><mrow><mn>4</mn><mi>π</mi><mi>R</mi></mrow></mfrac></mrow></math>
+        </div></div>
+        <p>MoM 将表面离散为基函数，通过加权残量法构建线性方程组 <strong>Z</strong> · <strong>I</strong> = <strong>V</strong>。</p>
 
         <div class="highlight">
             <strong>MoM 的核心优势：</strong>只有散射体表面需要网格划分，自由空间不需要。这意味着对于"小目标在大空间"的问题（例如天线辐射、雷达散射），MoM 的计算量远小于 FDTD 或 FEM。代价是矩阵 <strong>Z</strong> 是<strong>稠密矩阵</strong>（元素非零），存储复杂度 O(N²)。FEKO 是采用 MoM 的代表性商用软件。
         </div>
+
+        <figure aria-labelledby="fig-mom-title">
+            <svg viewBox="0 0 460 200" role="img" aria-labelledby="fig-mom-title fig-mom-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-mom-title">矩量法：只离散物体表面</title>
+                <desc id="fig-mom-desc">矩量法只把导体或介质的表面离散成面元（橙色分段），物体内部与周围自由空间都不需要网格划分，因为积分方程中的格林函数已解析地描述了自由空间传播。</desc>
+                <rect width="460" height="200" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <circle cx="215" cy="100" r="70" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <circle cx="215" cy="100" r="70" fill="none" stroke="#b45309" stroke-width="6" stroke-dasharray="12 8"/>
+                    <text x="300" y="86" font-size="12.5" fill="#b45309" font-weight="700">表面面元</text>
+                    <text x="300" y="108" font-size="12.5" fill="#1e3a5f" font-weight="700">内部与自由空间</text>
+                    <text x="300" y="128" font-size="12.5" fill="#1e3a5f" font-weight="700">不划网格</text>
+                </g>
+            </svg>
+            <figcaption>矩量法只需离散物体表面（橙色分段），而不像 FDTD/FEM 那样填满整个空间。自由空间的传播已由格林函数 e<sup>−jkR</sup>/(4πR) 解析地包含在积分方程中，因此“小目标在大空间”问题（天线辐射、雷达散射）用 MoM 特别经济；代价是矩阵稠密，存储量随未知量平方增长。</figcaption>
+        </figure>
 
         <h2>三种方法对比</h2>
 
@@ -186,12 +262,24 @@ print(f"最后时刻 Ez 的最大值: {np.max(np.abs(Ez)):.4f} V/m")</code></pre
 
         <p>数值方法真正让麦克斯韦方程组走出了教科书，进入了工程设计的最前线。无论是第 19 章的趋肤效应、第 20 章的 EMC 问题，还是接下来章节中涉及的仿真软件操作，背后都是这三种核心方法在支撑。下一章，我们将回望电磁学的理论根基——狭义相对论与电磁学的深刻联系。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Kane S. Yee, <em>Numerical solution of initial boundary value problems involving Maxwell's equations in isotropic media</em>, <em>IEEE Trans. Antennas Propag.</em> 14(3): 302–307 (1966)：FDTD 与交错网格（Yee 元胞）的奠基论文。见 <a href="https://doi.org/10.1109/TAP.1966.1138693">DOI:10.1109/TAP.1966.1138693</a>。</li>
+                <li>J.-P. Berenger, <em>A perfectly matched layer for the absorption of electromagnetic waves</em>, <em>J. Comput. Phys.</em> 114(2): 185–200 (1994)：PML 吸收边界条件。见 <a href="https://doi.org/10.1006/jcph.1994.1159">DOI:10.1006/jcph.1994.1159</a>。</li>
+                <li>R. F. Harrington, <em>Field Computation by Moment Methods</em>, IEEE Press, 1993：矩量法的经典教材（ISBN 978-0780310148）。</li>
+                <li>Jian-Ming Jin, <em>The Finite Element Method in Electromagnetics</em>, 3rd ed., Wiley, 2014：有限元变分形式、边缘元与伪解抑制（ISBN 978-1118571361）。</li>
+            </ol>
+            <p class="depth-note">文中网格分辨率阈值（λ/10、λ/20）、PML 厚度 8~16 层、内存复杂度 O(N³)/O(N²) 等均为主流教材与工程实践的经验量级，具体取值依赖所求精度与问题类型。文中的一维 FDTD 示例为教学最小实现：它只演示了蛙跳更新与高斯脉冲源，两端为简单截断，未加载吸收边界，因此不适合直接用于长时间仿真（真实代码需配 PML 或 Mur 边界）。三种方法的软件归类（如 CST、HFSS、FEKO 的默认求解器）可能随版本与求解类型而异。仿真边界设置不当导致伪反射波纹的案例为说明性场景。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="20.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="22.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
