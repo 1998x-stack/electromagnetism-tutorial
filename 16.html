@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第16章 电磁波的反射与折射</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第16章 电磁波的反射与折射</h1>
+            <p class="dek">第15章让电磁波在无限大均匀介质中自由传播；本章把它推到两种介质的分界面。从法向入射的反射系数，到 Snell 定律、Fresnel 公式、Brewster 角与全内反射，第14章的边界条件在此长出一整套光学与射频工程的语言。</p>
+        </header>
 
         <h2>开场：界面即世界</h2>
         <p>上一章我们学习的是电磁波在无限大均匀介质中的平面波传播——这是一个非常理想的模型。但在现实世界中，电磁波几乎总是在不同介质的交界面上传播的。水面为什么会反光？光纤为什么能传光？隐形战机为什么对雷达波"隐身"？这些问题的答案都指向同一个物理过程——<strong>电磁波在界面上的反射与折射</strong>。</p>
@@ -52,9 +64,10 @@
         <h2>法向入射</h2>
         <p>最简单也最基础的情形：平面波从介质1（η₁）垂直入射到介质2（η₂）的平坦界面。在 z=0 处，一部分波反射回介质1，一部分透射进介质2。</p>
         <p>定义<strong>反射系数</strong>和<strong>透射系数</strong>：</p>
-        <p>Γ = E_r / E_i = (η₂ − η₁) / (η₂ + η₁)</p>
-        <p>τ = E_t / E_i = 2η₂ / (η₂ + η₁)</p>
-        <p>其中 E_i、E_r、E_t 分别代表入射、反射、透射电场的幅度（切向分量）。注意 Γ 和 τ 之间的关系：1 + Γ = τ，这是由边界条件（电场切向连续）保证的。</p>
+        <div class="math-equation" role="group" aria-label="法向入射的反射系数与透射系数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="法向入射反射和透射系数，可横向滚动">
+            <math display="block" aria-label="反射系数 Γ 等于 Er 比 Ei 等于 η2 减 η1 除以 η2 加 η1；透射系数 τ 等于 Et 比 Ei 等于 2η2 除以 η2 加 η1"><mrow><mi>Γ</mi><mo>=</mo><mfrac><msub><mi>E</mi><mi>r</mi></msub><msub><mi>E</mi><mi>i</mi></msub></mfrac><mo>=</mo><mfrac><mrow><msub><mi>η</mi><mn>2</mn></msub><mo>−</mo><msub><mi>η</mi><mn>1</mn></msub></mrow><mrow><msub><mi>η</mi><mn>2</mn></msub><mo>+</mo><msub><mi>η</mi><mn>1</mn></msub></mrow></mfrac><mo>,</mo><mspace width="1.5em"/><mi>τ</mi><mo>=</mo><mfrac><msub><mi>E</mi><mi>t</mi></msub><msub><mi>E</mi><mi>i</mi></msub></mfrac><mo>=</mo><mfrac><mrow><mn>2</mn><msub><mi>η</mi><mn>2</mn></msub></mrow><mrow><msub><mi>η</mi><mn>2</mn></msub><mo>+</mo><msub><mi>η</mi><mn>1</mn></msub></mrow></mfrac></mrow></math>
+        </div></div>
+        <p>其中 E<sub>i</sub>、E<sub>r</sub>、E<sub>t</sub> 分别代表入射、反射、透射电场的幅度（切向分量）。注意 Γ 和 τ 之间的关系：<strong>1 + Γ = τ</strong>，这是由边界条件（电场切向连续）保证的。</p>
         <p>与反射系数相关的几个重要工程参数：</p>
         <ul>
             <li><strong>功率反射系数</strong>（反射率）：R = |Γ|²，表示入射功率中被反射的比例。</li>
@@ -67,6 +80,30 @@
             <li>波从空气入射到玻璃（η_glass≈377/√2.25≈251Ω）：Γ ≈ (251−377)/(251+377) ≈ −0.2，R ≈ 0.04。一扇玻璃窗约反射4%的入射光，这个数字虽然小，但它足以让你在暗房中看清窗外的夜景（室内亮、室外暗时，这4%的反射足以形成清晰的镜像）。</li>
         </ul>
 
+        <figure aria-labelledby="fig-ni-title">
+            <svg viewBox="0 0 460 220" role="img" aria-labelledby="fig-ni-title fig-ni-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-ni-title">法向入射：入射、反射与透射波</title>
+                <desc id="fig-ni-desc">平面波垂直入射到 η1 与 η2 两种介质的界面。左侧介质 1 中同时存在沿 +z 传播的入射波和沿 −z 返回的反射波；右侧介质 2 中是沿 +z 传播的透射波。</desc>
+                <rect width="460" height="220" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="ni-arr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#475569"/></marker></defs>
+                    <rect x="30" y="34" width="200" height="152" rx="10" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <rect x="230" y="34" width="200" height="152" rx="10" fill="#fef3e6" stroke="#fed7aa"/>
+                    <line x1="230" y1="34" x2="230" y2="186" stroke="#475569" stroke-width="2.2"/>
+                    <path d="M45 78 q 12 -11 24 0 t 24 0 t 24 0 t 24 0 t 24 0" fill="none" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#ni-arr)"/>
+                    <path d="M221 132 q -12 11 -24 0 t -24 0 t -24 0 t -24 0 t -24 0" fill="none" stroke="#0f766e" stroke-width="2.4" marker-end="url(#ni-arr)"/>
+                    <path d="M245 78 q 12 -11 24 0 t 24 0 t 24 0 t 24 0 t 24 0" fill="none" stroke="#b45309" stroke-width="2.4" marker-end="url(#ni-arr)"/>
+                    <text x="45" y="62" font-size="12.5" fill="#1d4ed8" font-weight="700">入射 E&#8202;ᵢ</text>
+                    <text x="150" y="158" font-size="12.5" fill="#0f766e" font-weight="700">反射 E&#8202;ᵣ</text>
+                    <text x="300" y="62" font-size="12.5" fill="#b45309" font-weight="700">透射 E&#8202;ₜ</text>
+                    <text x="44" y="204" font-size="12.5" fill="#1e3a5f" font-weight="700">介质 1：η₁</text>
+                    <text x="300" y="204" font-size="12.5" fill="#1e3a5f" font-weight="700">介质 2：η₂</text>
+                    <text x="238" y="31" font-size="12" fill="#475569">z = 0</text>
+                </g>
+            </svg>
+            <figcaption>法向入射的能量分流：反射系数 Γ = (η₂−η₁)/(η₂+η₁) 描述返回到介质 1 的幅度，透射系数 τ = 2η₂/(η₂+η₁) 描述传入介质 2 的幅度。两者由界面电场切向连续约束，满足 1 + Γ = τ。</figcaption>
+        </figure>
+
         <h2>斜入射与Snell定律</h2>
         <p>当平面波以入射角 θ_i（相对于法线）斜入射到界面时，几何关系变得丰富起来。核心思想是<strong>相位匹配</strong>（Phase Matching）：在界面上任何一点，入射波、反射波、透射波的相位必须一致，否则边界条件无法在整个界面上处处满足。</p>
         <p>相位匹配条件直接导出了两个基本定律：</p>
@@ -74,12 +111,40 @@
             <li><strong>反射定律</strong>：θ_r = θ_i（入射角等于反射角）。</li>
             <li><strong>Snell折射定律</strong>：n₁ sinθ_i = n₂ sinθ_t。</li>
         </ul>
+        <div class="math-equation" role="group" aria-label="Snell 折射定律与反射定律"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="Snell 折射定律，可横向滚动">
+            <math display="block" aria-label="反射定律 θr 等于 θi；Snell 折射定律 n1 sinθi 等于 n2 sinθt"><mrow><msub><mi>θ</mi><mi>r</mi></msub><mo>=</mo><msub><mi>θ</mi><mi>i</mi></msub><mo>,</mo><mspace width="1.5em"/><msub><mi>n</mi><mn>1</mn></msub><mi>sin</mi><msub><mi>θ</mi><mi>i</mi></msub><mo>=</mo><msub><mi>n</mi><mn>2</mn></msub><mi>sin</mi><msub><mi>θ</mi><mi>t</mi></msub></mrow></math>
+        </div></div>
         <p>其中折射率 n = c/v = √(ε_r μ_r)。对于非磁性材料（μ_r ≈ 1），n ≈ √ε_r。</p>
         <p>Snell定律的工程含义非常深刻：</p>
         <ul>
             <li>当波从光疏介质进入光密介质（n₁ < n₂），θ_t < θ_i——折射线偏向法线。</li>
             <li>当波从光密介质进入光疏介质（n₁ > n₂），θ_t > θ_i——折射线偏离法线。当 θ_i 足够大时，θ_t 达到 90°，此时发生<strong>全内反射</strong>（Total Internal Reflection）。</li>
         </ul>
+
+        <figure aria-labelledby="fig-sn-title">
+            <svg viewBox="0 0 460 250" role="img" aria-labelledby="fig-sn-title fig-sn-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-sn-title">斜入射：反射定律与 Snell 折射定律</title>
+                <desc id="fig-sn-desc">入射波与法线夹角为 θi，反射波与法线夹角为 θr 等于 θi；透射波与法线夹角为 θt。当 n1 大于 n2 时，折射波偏离法线，θt 大于 θi。</desc>
+                <rect width="460" height="250" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="sn-arr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#475569"/></marker></defs>
+                    <rect x="24" y="30" width="412" height="90" fill="#eef2ff"/>
+                    <rect x="24" y="120" width="412" height="100" fill="#fef3e6"/>
+                    <line x1="24" y1="120" x2="436" y2="120" stroke="#475569" stroke-width="2.2"/>
+                    <line x1="230" y1="36" x2="230" y2="214" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="6 4"/>
+                    <line x1="120" y1="50" x2="228" y2="118" stroke="#1d4ed8" stroke-width="2.6" marker-end="url(#sn-arr)"/>
+                    <line x1="232" y1="118" x2="340" y2="50" stroke="#0f766e" stroke-width="2.6" marker-end="url(#sn-arr)"/>
+                    <line x1="232" y1="122" x2="352" y2="212" stroke="#b45309" stroke-width="2.6" marker-end="url(#sn-arr)"/>
+                    <text x="120" y="42" font-size="12.5" fill="#1d4ed8" font-weight="700">入射 θᵢ</text>
+                    <text x="300" y="42" font-size="12.5" fill="#0f766e" font-weight="700">反射 θᵣ=θᵢ</text>
+                    <text x="356" y="200" font-size="12.5" fill="#b45309" font-weight="700">折射 θₜ</text>
+                    <text x="34" y="48" font-size="12.5" fill="#1e3a5f" font-weight="700">介质 1：n₁</text>
+                    <text x="34" y="208" font-size="12.5" fill="#1e3a5f" font-weight="700">介质 2：n₂（n₂&lt;n₁）</text>
+                    <text x="236" y="30" font-size="11.5" fill="#94a3b8">法线</text>
+                </g>
+            </svg>
+            <figcaption>斜入射的几何：入射角与反射角相等，折射角由 n₁ sinθᵢ = n₂ sinθₜ 决定。图中 n₁ 到 n₂ 的界面使折射波偏离法线；当 θᵢ 超过临界角 θ_c = arcsin(n₂/n₁) 时，折射波消失，能量全部返回介质 1，即全内反射。</figcaption>
+        </figure>
 
         <table>
             <tr>
@@ -149,10 +214,14 @@
         <p>Snell定律只告诉我们折射光的方向，但<strong>反射和透射的幅度各是多少</strong>？这正是 Fresnel 公式要回答的问题。斜入射时需要区分两种极化方式：</p>
         <h3>TE极化（s-极化）</h3>
         <p>电场方向垂直于入射面（即平行于界面，德语 senkrecht = 垂直）。反射系数：</p>
-        <p>Γ_TE = (η₂ cosθ_i − η₁ cosθ_t) / (η₂ cosθ_i + η₁ cosθ_t)</p>
+        <div class="math-equation" role="group" aria-label="TE 极化反射系数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="TE 极化反射系数，可横向滚动">
+            <math display="block" aria-label="Γ TE 等于 η2 cosθi 减 η1 cosθt 除以 η2 cosθi 加 η1 cosθt"><mrow><msub><mi>Γ</mi><mtext>TE</mtext></msub><mo>=</mo><mfrac><mrow><msub><mi>η</mi><mn>2</mn></msub><mi>cos</mi><msub><mi>θ</mi><mi>i</mi></msub><mo>−</mo><msub><mi>η</mi><mn>1</mn></msub><mi>cos</mi><msub><mi>θ</mi><mi>t</mi></msub></mrow><mrow><msub><mi>η</mi><mn>2</mn></msub><mi>cos</mi><msub><mi>θ</mi><mi>i</mi></msub><mo>+</mo><msub><mi>η</mi><mn>1</mn></msub><mi>cos</mi><msub><mi>θ</mi><mi>t</mi></msub></mrow></mfrac></mrow></math>
+        </div></div>
         <h3>TM极化（p-极化）</h3>
         <p>电场方向平行于入射面（德语 parallel）。反射系数：</p>
-        <p>Γ_TM = (η₂ cosθ_t − η₁ cosθ_i) / (η₂ cosθ_t + η₁ cosθ_i)</p>
+        <div class="math-equation" role="group" aria-label="TM 极化反射系数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="TM 极化反射系数，可横向滚动">
+            <math display="block" aria-label="Γ TM 等于 η2 cosθt 减 η1 cosθi 除以 η2 cosθt 加 η1 cosθi"><mrow><msub><mi>Γ</mi><mtext>TM</mtext></msub><mo>=</mo><mfrac><mrow><msub><mi>η</mi><mn>2</mn></msub><mi>cos</mi><msub><mi>θ</mi><mi>t</mi></msub><mo>−</mo><msub><mi>η</mi><mn>1</mn></msub><mi>cos</mi><msub><mi>θ</mi><mi>i</mi></msub></mrow><mrow><msub><mi>η</mi><mn>2</mn></msub><mi>cos</mi><msub><mi>θ</mi><mi>t</mi></msub><mo>+</mo><msub><mi>η</mi><mn>1</mn></msub><mi>cos</mi><msub><mi>θ</mi><mi>i</mi></msub></mrow></mfrac></mrow></math>
+        </div></div>
         <p>当 θ_i = 0 时（法向入射），两个公式退化为同一个：Γ = (η₂−η₁)/(η₂+η₁)，与上一节一致。</p>
         <p>Fresnel公式中蕴含着一个极其重要的现象——<strong>半波损失</strong>：当波从光疏介质射向光密介质（n₁ < n₂）时，Γ 为负值，意味着反射波电场与入射波电场方向相反（相位翻转180°）。这就是光学中著名的"半波损失"现象的本质。</p>
 
@@ -197,8 +266,35 @@
             • <strong>激光腔</strong>：激光器中常用 Brewster 窗口，使 TM 偏振光无损耗通过，TE 偏振光被反射出腔外，从而获得线偏振激光输出
         </div>
 
+        <figure aria-labelledby="fig-fr-title">
+            <svg viewBox="0 0 460 250" role="img" aria-labelledby="fig-fr-title fig-fr-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-fr-title">Fresnel 反射率随入射角变化（空气→玻璃，教学示意）</title>
+                <desc id="fig-fr-desc">横轴为入射角 0 到 90 度，纵轴为功率反射率 0 到 1。TE 极化反射率单调上升；TM 极化在 Brewster 角处降为零，然后急剧上升，两曲线在法向入射与擦入射时重合。</desc>
+                <rect width="460" height="250" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="60" y1="200" x2="425" y2="200" stroke="#475569" stroke-width="1.6"/>
+                    <line x1="60" y1="200" x2="60" y2="35" stroke="#475569" stroke-width="1.6"/>
+                    <line x1="285" y1="200" x2="285" y2="196" stroke="#dc2626" stroke-width="2"/>
+                    <polyline points="60,194 180,191 240,185 300,172 360,136 400,83 420,40" fill="none" stroke="#1d4ed8" stroke-width="2.4"/>
+                    <polyline points="60,194 180,196 240,199 285,200 300,200 360,183 400,121 420,40" fill="none" stroke="#b45309" stroke-width="2.4" stroke-dasharray="6 3"/>
+                    <text x="330" y="60" font-size="12.5" fill="#1d4ed8" font-weight="700">R&#8202;TE</text>
+                    <text x="330" y="150" font-size="12.5" fill="#b45309" font-weight="700">R&#8202;TM</text>
+                    <text x="272" y="216" font-size="11.5" fill="#dc2626" font-weight="700">θ&#8202;B</text>
+                    <text x="52" y="216" font-size="12" fill="#475569">0°</text>
+                    <text x="232" y="216" font-size="12" fill="#475569">45°</text>
+                    <text x="408" y="216" font-size="12" fill="#475569">90°</text>
+                    <text x="20" y="204" font-size="12" fill="#475569">R=0</text>
+                    <text x="24" y="44" font-size="12" fill="#475569">R=1</text>
+                </g>
+            </svg>
+            <figcaption>空气→玻璃界面的反射率随入射角变化（数值为按 Fresnel 公式计算的示意曲线）。TM 极化存在一个反射为零的 Brewster 角 θ_B = arctan(n₂/n₁)；TE 极化则单调上升，两者在法向与擦入射时殊途同归。</figcaption>
+        </figure>
+
         <h2>全反射与倏逝波</h2>
-        <p>当光从光密介质（n₁）射向光疏介质（n₂ < n₁），且入射角大于临界角 θ_c = arcsin(n₂/n₁) 时，发生<strong>全内反射</strong>（TIR）。此时：</p>
+        <p>当光从光密介质（n₁）射向光疏介质（n₂ &lt; n₁），且入射角大于临界角时，发生<strong>全内反射</strong>（TIR）。临界角与 Brewster 角由下式给出：</p>
+        <div class="math-equation" role="group" aria-label="临界角与 Brewster 角"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="临界角与 Brewster 角，可横向滚动">
+            <math display="block" aria-label="临界角 θc 等于 arcsin n2 比 n1；Brewster 角 θB 等于 arctan n2 比 n1"><mrow><msub><mi>θ</mi><mi>c</mi></msub><mo>=</mo><mi>arcsin</mi><mfrac><msub><mi>n</mi><mn>2</mn></msub><msub><mi>n</mi><mn>1</mn></msub></mfrac><mo>,</mo><mspace width="1.5em"/><msub><mi>θ</mi><mi>B</mi></msub><mo>=</mo><mi>arctan</mi><mfrac><msub><mi>n</mi><mn>2</mn></msub><msub><mi>n</mi><mn>1</mn></msub></mfrac></mrow></math>
+        </div></div>
         <ul>
             <li>反射系数 |Γ| = 1——所有能量被反射回介质1。</li>
             <li>透射波不再以传统方式传播——它的传播常数在法线方向变为纯虚数，意味着波在介质2中沿法线方向<strong>指数衰减</strong>。</li>
@@ -210,7 +306,9 @@
         <p>当两个或多个界面的反射波叠加时，会产生<strong>干涉</strong>现象。干涉的相长或相消取决于各反射波之间的相位差。利用这个原理，我们可以设计<strong>多层介质薄膜</strong>来实现特定的反射/透射特性。</p>
         <h3>四分之一波长阻抗变换层</h3>
         <p>在两种介质之间插入一层厚度为 λ/4、折射率为 n_m 的中间层，可以实现零反射条件：</p>
-        <p>n_m = √(n₁ · n₂)</p>
+        <div class="math-equation" role="group" aria-label="四分之一波长匹配层折射率"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="四分之一波长匹配层折射率，可横向滚动">
+            <math display="block" aria-label="匹配层折射率 nm 等于根号 n1 乘 n2"><mrow><msub><mi>n</mi><mi>m</mi></msub><mo>=</mo><msqrt><msub><mi>n</mi><mn>1</mn></msub><msub><mi>n</mi><mn>2</mn></msub></msqrt></mrow></math>
+        </div></div>
         <p>这就是<strong>抗反射（AR）镀膜</strong>的原理。在玻璃上镀一层 MgF₂（n≈1.38），使得 n_m ≈ √(1×1.5)≈1.22——MgF₂很接近这个理想值。单层 AR 镀膜可以将玻璃表面的反射率从约4%降到1%以下。</p>
         <h3>布喇格反射镜</h3>
         <p>交替堆叠两种不同折射率的 λ/4 厚薄膜，形成<strong>布喇格反射镜</strong>（Bragg Mirror / Distributed Bragg Reflector, DBR）。每个界面产生的小反射在特定带宽内相干叠加，可以实现接近100%的反射率（甚至超过金属反射镜）。应用包括：VCSEL激光器谐振腔、光纤光栅、光学滤波器。</p>
@@ -232,12 +330,24 @@
         </ul>
         <p>反射与折射讨论的核心是"自由空间中的电磁波遇到界面会发生什么"。而<strong>下一章</strong>我们将转向一个有界结构——传输线与波导。当电磁波被导体结构"约束"在特定路径中传播时，它将展现出与自由空间波截然不同的特性：特性阻抗、色散、截止频率、模式……这些概念是射频和微波工程的核心语言。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 9.3 节论述两种介质界面上的反射与透射、Fresnel 公式与 Brewster 角。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+                <li>Eugene Hecht, <em>Optics</em>, 5th ed., Pearson, 2017：第 4 章系统论述 Fresnel 方程、半波损失、全内反射与倏逝波（ISBN 978-0133977226）。</li>
+                <li>C. K. Kao &amp; G. A. Hockham, <em>Dielectric-fibre surface waveguides for optical frequencies</em>, <em>Proc. IEE</em> 113(7): 1151–1158 (1966)：全内反射光纤的原始奠基论文。见 <a href="https://doi.org/10.1049/piee.1966.0189">DOI:10.1049/piee.1966.0189</a>。</li>
+                <li>R. L. Fante &amp; M. T. McCormack, <em>Reflection properties of the Salisbury screen</em>, <em>IEEE Trans. Antennas Propag.</em> 36(10): 1443–1454 (1988)：单层 Salisbury 吸收屏的谐振吸收与带宽。见 <a href="https://doi.org/10.1109/8.8632">DOI:10.1109/8.8632</a>。</li>
+            </ol>
+            <p class="depth-note">文中给出的反射率数值（空气→水约 64%、空气→玻璃约 4%、单层 MgF₂ 抗反射膜降到 1% 以下）均按无损介质的 Fresnel 公式估算，为教学示意；实际值随频率、入射角与材料损耗而变。折射率表中“≈”数值取常用可见光/工程波段近似。Fresnel 反射率图是按 n₁=1、n₂=1.5 计算的示意曲线，未按比例标注刻度。光纤损耗 0.15 dB/km 为 1550 nm 波段商用单模光纤的典型量级。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="15.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="17.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
