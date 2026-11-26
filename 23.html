@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第23章 COMSOL电磁仿真实战</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,13 +48,48 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第23章 COMSOL电磁仿真实战</h1>
+            <p class="dek">理论讲完，工程上场。本章用 COMSOL Multiphysics 走三个完整案例——永磁电机静磁场、2.4GHz 微带贴片天线、感应加热的电磁-热耦合——把从几何建模到后处理的全流程落到实处，并回答“为什么仿真和实测不一样”。</p>
+        </header>
 
         <h2>从纸上方程到屏幕上的场</h2>
         <p>前面我们花了整整22章，从向量分析一路走到麦克斯韦方程组、电磁波的反射折射、再到相对论性电磁学。这些理论是电磁学的基石，但有一个问题始终困扰着工程师：<strong>对于任意复杂的三维结构，我们如何知道电场和磁场到底长什么样？</strong></p>
         <p>真实世界中的电磁系统——一台永磁电机、一块PCB天线、一个感应加热线圈——它们的几何形状远没有课本例题那么规则。解析解要么不存在，要么需要极度简化以致失去工程价值。答案是<strong>数值仿真</strong>，而COMSOL Multiphysics正是这个领域最强大的工具之一。</p>
         <p>COMSOL的核心是<strong>有限元法</strong>（FEM，Finite Element Method）。它将连续的空间离散化为一个个小单元（四面体或六面体），在每个单元内近似求解偏微分方程，然后通过连续性条件将所有单元的解拼接起来。当单元足够密时，数值解就趋近于真实解。本章我们将用三个实战案例，完整走一遍从几何建模到结果分析的全流程。</p>
+
+        <figure aria-labelledby="fig-flow-title">
+            <svg viewBox="0 0 460 140" role="img" aria-labelledby="fig-flow-title fig-flow-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-flow-title">COMSOL 仿真工作流</title>
+                <desc id="fig-flow-desc">仿真工作流依次为几何建模、材料定义、物理场设置、网格划分、求解与后处理六个步骤，构成一个从建模到结果分析的闭环。</desc>
+                <rect width="460" height="140" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="fl-arr" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#475569"/></marker></defs>
+                    <rect x="20" y="48" width="60" height="44" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="50" y="75" font-size="13" fill="#1e3a5f" text-anchor="middle">几何</text>
+                    <rect x="92" y="48" width="60" height="44" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="122" y="75" font-size="13" fill="#1e3a5f" text-anchor="middle">材料</text>
+                    <rect x="164" y="48" width="60" height="44" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="194" y="75" font-size="12" fill="#1e3a5f" text-anchor="middle">物理场</text>
+                    <rect x="236" y="48" width="60" height="44" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="266" y="75" font-size="13" fill="#1e3a5f" text-anchor="middle">网格</text>
+                    <rect x="308" y="48" width="60" height="44" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="338" y="75" font-size="13" fill="#1e3a5f" text-anchor="middle">求解</text>
+                    <rect x="380" y="48" width="60" height="44" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="410" y="75" font-size="12" fill="#1e3a5f" text-anchor="middle">后处理</text>
+                    <line x1="80" y1="70" x2="90" y2="70" stroke="#475569" stroke-width="1.6" marker-end="url(#fl-arr)"/>
+                    <line x1="152" y1="70" x2="162" y2="70" stroke="#475569" stroke-width="1.6" marker-end="url(#fl-arr)"/>
+                    <line x1="224" y1="70" x2="234" y2="70" stroke="#475569" stroke-width="1.6" marker-end="url(#fl-arr)"/>
+                    <line x1="296" y1="70" x2="306" y2="70" stroke="#475569" stroke-width="1.6" marker-end="url(#fl-arr)"/>
+                    <line x1="368" y1="70" x2="378" y2="70" stroke="#475569" stroke-width="1.6" marker-end="url(#fl-arr)"/>
+                    <text x="230" y="122" font-size="12" fill="#1e3a5f" text-anchor="middle">网格加密 / 参数修正 → 回到几何</text>
+                </g>
+            </svg>
+            <figcaption>COMSOL 仿真工作流：几何建模 → 材料定义 → 物理场设置 → 网格划分 → 求解 → 后处理。任何一步出错，结果都不可信；收敛性检验与参数扫描往往让流程回到网格或几何环节，形成迭代闭环。</figcaption>
+        </figure>
 
         <h2>COMSOL概述：平台与模块</h2>
         <p>COMSOL Multiphysics最大的特点在于它的名字——<strong>多物理场</strong>（Multiphysics）。传统上，电场、磁场、温度场、结构力学是各自独立求解的，但现实世界中它们密不可分：电流流过导线会产生焦耳热，热量改变材料电阻率，电阻率变化又反过来影响电流分布。COMSOL允许你在同一个模型中耦合任意多个物理场。</p>
@@ -105,6 +147,37 @@
             <li><strong>Step 6 — 后处理</strong>：绘制磁通密度模|B|云图，提取气隙中的径向B<sub>r</sub>分量，通过麦克斯韦应力张量积分计算转矩。好的设计气隙B<sub>peak</sub> ≈ 0.8~0.9T。</li>
         </ul>
 
+        <figure aria-labelledby="fig-pmsm-title">
+            <svg viewBox="0 0 460 220" role="img" aria-labelledby="fig-pmsm-title fig-pmsm-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-pmsm-title">永磁同步电机二维截面示意</title>
+                <desc id="fig-pmsm-desc">由外而内依次为定子铁芯与定子槽（含铜绕组）、气隙、转子铁芯与表贴永磁体，中心为转轴。仿真关注气隙中的径向磁通密度与齿槽转矩。</desc>
+                <rect width="460" height="220" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <circle cx="215" cy="110" r="95" fill="#eef2ff" stroke="#1d4ed8" stroke-width="2"/>
+                    <circle cx="215" cy="110" r="68" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+                    <circle cx="296" cy="110" r="7" fill="#7c3aed"/>
+                    <circle cx="272" cy="167" r="7" fill="#7c3aed"/>
+                    <circle cx="215" cy="191" r="7" fill="#7c3aed"/>
+                    <circle cx="158" cy="167" r="7" fill="#7c3aed"/>
+                    <circle cx="134" cy="110" r="7" fill="#7c3aed"/>
+                    <circle cx="158" cy="53" r="7" fill="#7c3aed"/>
+                    <circle cx="215" cy="29" r="7" fill="#7c3aed"/>
+                    <circle cx="272" cy="53" r="7" fill="#7c3aed"/>
+                    <circle cx="215" cy="110" r="56" fill="#fef3e6" stroke="#b45309" stroke-width="2"/>
+                    <rect x="262" y="102" width="16" height="16" fill="#b45309"/>
+                    <rect x="207" y="154" width="16" height="16" fill="#b45309"/>
+                    <rect x="152" y="102" width="16" height="16" fill="#b45309"/>
+                    <rect x="207" y="50" width="16" height="16" fill="#b45309"/>
+                    <circle cx="215" cy="110" r="12" fill="#94a3b8"/>
+                    <text x="336" y="70" font-size="12" fill="#1e3a5f" font-weight="700">定子槽（紫）</text>
+                    <text x="336" y="92" font-size="12" fill="#b45309" font-weight="700">永磁体（棕）</text>
+                    <text x="336" y="114" font-size="12" fill="#1e3a5f" font-weight="700">气隙 Br≈0.9T</text>
+                    <text x="336" y="136" font-size="12" fill="#475569" font-weight="700">转轴（灰）</text>
+                </g>
+            </svg>
+            <figcaption>永磁同步电机的二维截面（示意图）：定子铁芯槽内为铜绕组，转子表面贴有永磁体，两者之间是气隙，中心为转轴。仿真提取气隙中的径向磁通密度 B&#8202;r 与通过麦克斯韦应力张量积分得到的转矩，用于评估齿槽转矩与设计余量。</figcaption>
+        </figure>
+
         <pre><code>% COMSOL LiveLink for MATLAB — 参数化扫描与结果提取
 % 需要安装 COMSOL LiveLink for MATLAB 和 COMSOL Multiphysics
 
@@ -141,8 +214,32 @@ xlabel('Rotor angle (elec. deg)'); ylabel('Cogging torque (mNm)');</code></pre>
 
         <h2>RF模块实战：微带贴片天线</h2>
         <p>现在我们切换到高频领域——设计一个工作在2.4GHz的矩形微带贴片天线。微带天线因为其低剖面、易于制作的优点，广泛用于WiFi、蓝牙和5G小基站中。</p>
-        <p>理论给出贴片尺寸的近似公式：对于厚度h &lt; &lt; λ₀的FR4基板（ε<sub>r</sub>=4.4，h=1.6mm），贴片宽度W ≈ c/(2f√(ε<sub>r</sub>))，长度L ≈ c/(2f√(ε<sub>eff</sub>)) − 2ΔL。其中ε<sub>eff</sub>是有效介电常数，考虑了边缘场的影响，ΔL是边缘延伸补偿长度。带入f=2.4GHz，计算得W ≈ 38mm，L ≈ 29mm。</p>
+        <p>理论给出贴片尺寸的近似公式：对于厚度 h ≪ λ₀ 的 FR4 基板（ε<sub>r</sub>=4.4，h=1.6mm），贴片宽度与长度分别约为</p>
+        <div class="math-equation" role="group" aria-label="矩形微带贴片的宽度与长度近似式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="矩形微带贴片的宽度与长度近似式，可横向滚动">
+            <math display="block" aria-label="W 约等于 c 除以 2f 根号 εr；L 约等于 c 除以 2f 根号 εeff 再减 2ΔL"><mrow><mi>W</mi><mo>≈</mo><mfrac><mi>c</mi><mrow><mn>2</mn><mi>f</mi><msqrt><msub><mi>ε</mi><mi>r</mi></msub></msqrt></mrow></mfrac><mo>,</mo><mspace width="1.5em"/><mi>L</mi><mo>≈</mo><mfrac><mi>c</mi><mrow><mn>2</mn><mi>f</mi><msqrt><msub><mi>ε</mi><mtext>eff</mtext></msub></msqrt></mrow></mfrac><mo>−</mo><mn>2</mn><mi>Δ</mi><mi>L</mi></mrow></math>
+        </div></div>
+        <p>其中 ε<sub>eff</sub> 是有效介电常数，考虑了边缘场的影响，ΔL 是边缘延伸补偿长度。带入 f=2.4GHz，计算得 W ≈ 38mm，L ≈ 29mm。</p>
         <p>仿真流程：在COMSOL RF模块中创建3D模型，设置Perfectly Matched Layer（PML）吸收边界模拟自由空间，在贴片的馈电点设置集总端口（Lumped Port，50Ω阻抗），求解频率2.4GHz、扫频范围2~3GHz。后处理中查看S<sub>11</sub>参数和3D远场辐射方向图。</p>
+
+        <figure aria-labelledby="fig-patch-title">
+            <svg viewBox="0 0 460 180" role="img" aria-labelledby="fig-patch-title fig-patch-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-patch-title">微带贴片天线的截面结构</title>
+                <desc id="fig-patch-desc">自下而上依次为接地面、介质基板与顶层的矩形金属贴片，贴片由穿过基板的馈电点激励，馈电点设集总端口。</desc>
+                <rect width="460" height="180" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <rect x="110" y="88" width="240" height="42" fill="#fef3e6" stroke="#fed7aa"/>
+                    <rect x="110" y="130" width="240" height="9" fill="#94a3b8"/>
+                    <rect x="160" y="80" width="140" height="8" fill="#b45309"/>
+                    <line x1="200" y1="88" x2="200" y2="130" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/>
+                    <circle cx="200" cy="88" r="3.5" fill="#dc2626"/>
+                    <text x="306" y="74" font-size="12" fill="#b45309" font-weight="700">金属贴片</text>
+                    <text x="358" y="114" font-size="12" fill="#92400e" font-weight="700">基板 FR4</text>
+                    <text x="358" y="150" font-size="12" fill="#334155" font-weight="700">接地板</text>
+                    <text x="150" y="152" font-size="12" fill="#dc2626" font-weight="700">馈电点（集总端口 50Ω）</text>
+                </g>
+            </svg>
+            <figcaption>矩形微带贴片天线的截面（示意图）：顶层金属贴片、中间介质基板、底层接地面。馈电点（集总端口）激励贴片，贴片与地之间的边缘场向外辐射。仿真的关键是让空气域足够大、PML 足够厚（≳λ₀/4），并在贴片边缘与馈电点附近加密网格。</figcaption>
+        </figure>
         <p>关键仿真设置：PML厚度至少λ₀/4，空气域尺寸至少λ₀/2包围天线。网格尺寸在贴片边缘和馈电点处应小于λ/10（约6mm），PML中使用扫描网格（swept mesh）以减小单元数。求解器选择频域直接求解器（MUMPS），适应稀疏矩阵。</p>
         <p>良好的结果应该看到S<sub>11</sub>在2.4~2.48GHz频段低于−10dB，天线增益约5~6dBi，前后比（F/B ratio）大于10dB。如果谐振频率发生偏移，可以通过调整贴片长度L来修正——这是后面参数化扫描要完成的工作。</p>
 
@@ -189,12 +286,24 @@ xlabel('Rotor angle (elec. deg)'); ylabel('Cogging torque (mNm)');</code></pre>
         <p>今天我们第一次把电磁学的理论方程搬到了屏幕上。COMSOL Multiphysics作为有限元仿真平台的核心优势在于它的<strong>多物理场耦合能力和灵活的参数化设计</strong>。我们走过了三个完整案例：永磁电机的静磁场分析、微带贴片天线的全波仿真、以及感应加热的电磁-热双向耦合。每一案例都覆盖了几何、材料、物理场、网格、求解和后处理的完整工作流。</p>
         <p>下一章我们将进入<strong>Ansys HFSS</strong>——射频和天线仿真领域的"金标准"。HFSS在自适应网格加密和S参数提取方面有着行业领先的能力，特别适合天线阵列、高速数字电路和RFIC设计。你会看到它与COMSOL不同的仿真哲学和应用定位。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>COMSOL AB, <em>COMSOL Multiphysics Reference Manual</em>（AC/DC、RF 与 Heat Transfer 模块的官方文档）：控制方程、边界条件与求解器设置。</li>
+                <li>Jian-Ming Jin, <em>The Finite Element Method in Electromagnetics</em>, 3rd ed., Wiley, 2014：有限元离散、弱形式与边缘元（ISBN 978-1118571361）。</li>
+                <li>David M. Pozar, <em>Microwave Engineering</em>, 4th ed., Wiley, 2012：微带贴片谐振频率与有效介电常数近似公式（ISBN 978-0470631553）。</li>
+                <li>C. A. Balanis, <em>Antenna theory: a review</em>, <em>Proc. IEEE</em> 80(1): 7–23 (1992)：贴片天线与辐射机理的综述。见 <a href="https://doi.org/10.1109/5.119555">DOI:10.1109/5.119555</a>。</li>
+            </ol>
+            <p class="depth-note">文中模块适用频率（AC/DC、RF、Wave Optics、MEMS）为常见范围，“结构尺寸 &lt; λ/10 用准静态”为经验判据，具体应以 COMSOL 文档与版本为准。电机案例的参数（定子内径75mm、外径120mm、36槽、4极对；永磁体 Br=1.2T、Hc=890kA/m；硅钢牌号 M470-50A；气隙 B&#8202;peak≈0.8~0.9T）、天线尺寸（W≈38mm、L≈29mm）、感应加热的温度历史与网格单元数约15万，均为说明流程的教学示意值。MATLAB 示例仅为 LiveLink API 用法的示意，未在本文环境运行；SMA 接头导致 S&#8202;11 变差的案例为示意场景。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="22.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="24.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
