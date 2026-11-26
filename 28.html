@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第28章 综合项目：从理论到产品</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        .table-wrap { max-width: 100%; overflow-x: auto; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+        a { overflow-wrap: anywhere; word-break: break-word; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,12 +50,18 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html" class="active">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第28章 综合项目：从理论到产品</h1>
+            <p class="dek">28 章的旅程收束于一个真实工程实践。本章给出难度递增的三个项目——Qi 无线充电线圈、2.4GHz 微带天线阵、X 波段超表面隐身——把前 27 章的场论、天线、超构材料与仿真工具串成从规格、建模到制板、VNA 测试与仿真-实测闭环的完整流程。</p>
+        </header>
 
         <h2>28章的旅程，一个完整的工程实践</h2>
         <p>恭喜你走到了这一步。从库仑定律到麦克斯韦方程组，从传输线到天线，从超构材料到AI电磁建模——28章的旅程，你已经走过了电磁学从理论到前沿的完整路径。现在是时候把所有知识串联起来，完成一个<strong>真实的工程实践项目</strong>了。本章提供了三个难度递增的备选项目，你可以根据自己的背景、工具掌握程度和兴趣选择其中一个来完成。</p>
 
+        <div class="table-wrap">
         <table>
             <tr>
                 <th>项目</th>
@@ -81,10 +96,45 @@
                 <td>第16章（反射折射）、第26章（超构材料）</td>
             </tr>
         </table>
+        </div>
+
+        <figure aria-labelledby="fig-proj-title">
+            <svg viewBox="0 0 460 160" role="img" aria-labelledby="fig-proj-title fig-proj-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-proj-title">三个综合项目的知识跨度</title>
+                <desc id="fig-proj-desc">项目 A 为低频无线充电线圈，基于电感与谐振；项目 B 为微波微带天线阵，基于传输线与天线理论；项目 C 为 X 波段超表面隐身，基于反射折射与超构材料。</desc>
+                <rect width="460" height="160" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <rect x="16" y="22" width="138" height="120" rx="10" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="85" y="46" font-size="13" fill="#1e3a5f" text-anchor="middle" font-weight="700">项目 A · 中等</text>
+                    <text x="85" y="70" font-size="11" fill="#334155" text-anchor="middle">Qi 无线充电线圈</text>
+                    <text x="85" y="90" font-size="11" fill="#334155" text-anchor="middle">110–205kHz，L≈24μH</text>
+                    <text x="85" y="110" font-size="11" fill="#1d4ed8" text-anchor="middle">COMSOL AC/DC</text>
+                    <text x="85" y="130" font-size="10.5" fill="#b45309" text-anchor="middle">电感·谐振·耦合</text>
+                    <rect x="161" y="22" width="138" height="120" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/>
+                    <text x="230" y="46" font-size="13" fill="#065f46" text-anchor="middle" font-weight="700">项目 B · 较高</text>
+                    <text x="230" y="70" font-size="11" fill="#334155" text-anchor="middle">2.4GHz 天线阵</text>
+                    <text x="230" y="90" font-size="11" fill="#334155" text-anchor="middle">2.4–2.48GHz，增益&gt;12dBi</text>
+                    <text x="230" y="110" font-size="11" fill="#1d4ed8" text-anchor="middle">Ansys HFSS</text>
+                    <text x="230" y="130" font-size="10.5" fill="#b45309" text-anchor="middle">传输线·天线·阵列</text>
+                    <rect x="306" y="22" width="138" height="120" rx="10" fill="#fef3e6" stroke="#fed7aa"/>
+                    <text x="375" y="46" font-size="13" fill="#92400e" text-anchor="middle" font-weight="700">项目 C · 高</text>
+                    <text x="375" y="70" font-size="11" fill="#334155" text-anchor="middle">X 波段超表面隐身</text>
+                    <text x="375" y="90" font-size="11" fill="#334155" text-anchor="middle">8–12GHz，RCS 减缩&gt;10dB</text>
+                    <text x="375" y="110" font-size="11" fill="#1d4ed8" text-anchor="middle">CST / COMSOL RF</text>
+                    <text x="375" y="130" font-size="10.5" fill="#b45309" text-anchor="middle">反射折射·超构材料</text>
+                </g>
+            </svg>
+            <figcaption>三个综合项目的知识跨度与推荐工具（示意图）：项目 A 处于低频，围绕电感、谐振与线圈耦合；项目 B 进入微波，考察传输线、天线与阵列馈电；项目 C 走向前沿，综合反射折射与超构材料。难度、预计时间与前置章节见上表，可按自身背景选其一完成。</figcaption>
+        </figure>
 
         <h2>项目A：Qi无线充电线圈设计与仿真</h2>
         <p>Qi无线充电标准已发展到Qi 1.3版本（2025年发布），工作频率110-205kHz，支持5-15W功率传输。本项目将设计一个符合Qi标准的基本充电线圈系统。</p>
         <p><strong>设计规格</strong>：螺旋线圈，电感值 L≈24μH，在100kHz处串联谐振（配谐振电容 C=100nF），基板FR4。使用COMSOL AC/DC模块进行二维轴对称或三维仿真。</p>
+        <p>平面螺旋线圈的电感可先用 Wheeler 公式估算：</p>
+        <div class="math-equation" role="group" aria-label="Wheeler 公式估算平面螺旋线圈电感"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="Wheeler 公式估算平面螺旋线圈电感，可横向滚动">
+            <math display="block" aria-label="L 等于 μ0 N 平方 R 平方 除以 0.8 R 加 0.2 a"><mrow><mi>L</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><msup><mi>N</mi><mn>2</mn></msup><msup><mi>R</mi><mn>2</mn></msup></mrow><mrow><mn>0.8</mn><mi>R</mi><mo>+</mo><mn>0.2</mn><mi>a</mi></mrow></mfrac></mrow></math>
+        </div></div>
+        <p>其中 N 为匝数，R 为平均半径，a 为线圈截面半径。耦合系数与传输效率分别为 k = M/√(L₁L₂) 与 η = P<sub>out</sub>/P<sub>in</sub>，均可用仿真结果代入计算。</p>
         <p><strong>仿真流程</strong>：</p>
         <ol>
             <li>构建线圈几何结构——设定匝数（通常8-12匝）、线圈内外半径、线径和间距。</li>
@@ -152,6 +202,30 @@ for k in [0.1, 0.2, 0.3, 0.5, 0.7]:
         </ol>
         <p><strong>挑战</strong>：带宽与RCS减缩深度之间的权衡。薄型超表面的带宽受限于其Q值，通常需要多层设计或电路模拟吸收体（CAA）技术来扩展带宽。建议从窄带目标起步（如10%带宽、中心频率10GHz），逐步迭代。</p>
 
+        <figure aria-labelledby="fig-loop-title">
+            <svg viewBox="0 0 460 180" role="img" aria-labelledby="fig-loop-title fig-loop-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-loop-title">从仿真到实物的迭代闭环</title>
+                <desc id="fig-loop-desc">流程为规格设计、仿真建模、制板打样、VNA 测试、对比修正参数，再回到仿真；测试与仿真的差异用来校准板材介电常数与连接器寄生参数。</desc>
+                <rect width="460" height="180" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="loop-arr" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#475569"/></marker></defs>
+                    <rect x="24" y="36" width="92" height="46" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="70" y="64" font-size="12" fill="#1e3a5f" text-anchor="middle">仿真建模</text>
+                    <rect x="146" y="36" width="92" height="46" rx="8" fill="#fef3e6" stroke="#fed7aa"/>
+                    <text x="192" y="64" font-size="12" fill="#92400e" text-anchor="middle">制板打样</text>
+                    <rect x="268" y="36" width="92" height="46" rx="8" fill="#ecfdf5" stroke="#6ee7b7"/>
+                    <text x="314" y="58" font-size="12" fill="#065f46" text-anchor="middle">VNA 测试</text>
+                    <text x="314" y="74" font-size="10.5" fill="#065f46" text-anchor="middle">S₁₁ / 方向图</text>
+                    <line x1="116" y1="59" x2="144" y2="59" stroke="#475569" stroke-width="1.6" marker-end="url(#loop-arr)"/>
+                    <line x1="238" y1="59" x2="266" y2="59" stroke="#475569" stroke-width="1.6" marker-end="url(#loop-arr)"/>
+                    <text x="314" y="110" font-size="12" fill="#b45309" text-anchor="middle">不吻合？</text>
+                    <path d="M314 88 L314 132 L70 132 L70 88" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#loop-arr)"/>
+                    <text x="192" y="150" font-size="11" fill="#b45309" text-anchor="middle">修正 εr / tanδ、SMA 寄生参数、制板公差 → 重新仿真</text>
+                </g>
+            </svg>
+            <figcaption>从仿真到实物的迭代闭环（示意图）：规格设计后进入仿真建模、制板打样与 VNA 测试；当实测与仿真不吻合时，回到仿真并修正板材介电常数 ε&#8202;r 与损耗角正切 tanδ、SMA 连接器寄生参数和制板公差。每一轮差异都是校准模型、积累经验的机会。</figcaption>
+        </figure>
+
         <h2>从仿真到实物</h2>
         <p>仿真只是第一步。真正考验一名电磁工程师的，是让实物与仿真吻合的过程。</p>
         <p><strong>原型制作</strong>：对于PCB微带天线和阵列，推荐JLCPCB或OSH Park进行打样。关键注意事项：（1）确认板材的介电常数 ε<sub>r</sub> 和损耗角正切 tanδ 是否与仿真中使用的参数一致——不同批次FR4的ε<sub>r</sub>可以在4.2到4.8之间变化；（2）铜箔厚度（通常1oz=35μm）对微带线特性阻抗有显著影响；（3）SMA连接器的焊盘寄生电容将影响高频匹配。</p>
@@ -177,6 +251,7 @@ for k in [0.1, 0.2, 0.3, 0.5, 0.7]:
         <h2>电磁学的工具箱</h2>
         <p>28章的内容即将结束，但你的电磁学之旅才刚刚开始。以下是值得持续关注的资源和学习路径：</p>
 
+        <div class="table-wrap">
         <table>
             <tr>
                 <th>资源类型</th>
@@ -245,6 +320,7 @@ for k in [0.1, 0.2, 0.3, 0.5, 0.7]:
                 <td>仿真技术交流</td>
             </tr>
         </table>
+        </div>
 
         <p><strong>推荐继续教育路径</strong>：电磁学（本科基础）→ 电动力学（研究生理论）→ 微波工程（传输线、网络、器件）→ 天线理论（辐射、阵列、测量）→ 计算电磁学（FEM、FDTD、MoM）→ 电磁兼容工程。</p>
 
@@ -264,12 +340,25 @@ for k in [0.1, 0.2, 0.3, 0.5, 0.7]:
             感谢你完成了这28章的旅程。愿电磁场的力量与你同在。
         </div>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Wireless Power Consortium, <em>The Qi Wireless Power Transfer System Power Class 0 Specification</em>：工作频段 110–205kHz、线圈偏移容限与谐振拓扑。</li>
+                <li>C. A. Balanis, <em>Antenna Theory: Analysis and Design</em>, 4th ed., Wiley, 2016：微带贴片尺寸公式、阵列馈电与栅瓣条件（ISBN 978-1118642061）。</li>
+                <li>D. M. Pozar, <em>Microwave Engineering</em>, 4th ed., Wiley, 2012：T 型功分器、S 参数与 VNA 校准（ISBN 978-0470631553）。</li>
+                <li>N. Yu <em>et al.</em>, <em>Light propagation with phase discontinuities</em>, <em>Science</em> 334: 333–337 (2011)：广义斯涅尔定律与相位梯度超表面（RCS 减缩原理）。见 <a href="https://doi.org/10.1126/science.1210713">DOI:10.1126/science.1210713</a>。</li>
+                <li>R. P. Feynman, R. B. Leighton, M. Sands, <em>The Feynman Lectures on Physics, Vol. II</em>, Addison-Wesley, 1964：麦克斯韦方程组与场论思维的经典论述。</li>
+            </ol>
+            <p class="depth-note">文中线圈电感 L≈24μH、谐振电容 C=100nF、阵列增益&gt;12dBi、S₁₁&lt;−15dB、RCS 减缩&gt;10dB 与各项目周期（1–4 周）均为教学目标示例值，实际需以 Qi 规范、板材数据手册与具体设计为准。Wheeler 公式与效率估算代码为教学示意，未在本文环境运行；“理论与工程之间的距离”一段为示意性工程经验，非特定产品的实测记录。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="27.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
-            <a href="javascript:void(0)">下一章 →</a>
+            <a href="index.html">🏁 完成课程</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
