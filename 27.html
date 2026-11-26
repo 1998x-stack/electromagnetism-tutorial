@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第27章 AI驱动的电磁场建模</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        .table-wrap { max-width: 100%; overflow-x: auto; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+        a { overflow-wrap: anywhere; word-break: break-word; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +50,13 @@
             <li><a href="27.html" class="active">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第27章 AI驱动的电磁场建模</h1>
+            <p class="dek">当麦克斯韦方程组遇见神经网络。本章按数据驱动、物理驱动（PINN）、知识嵌入三大范式，讲清“用几毫秒代替几小时全波仿真”的原理与边界：采样与代理模型、自动微分与 PDE 残差、生成式逆设计，以及为什么 AI 永远不能替代全波验证。</p>
+        </header>
 
         <h2>从电磁仿真到AI：当麦克斯韦方程组遇见神经网络</h2>
         <p>如果你用过HFSS或COMSOL进行全波仿真，你一定有过这样的体验：一次参数扫描需要几小时甚至几天。你调整了一个天线的贴片宽度，然后喝杯咖啡、吃顿午饭、甚至睡一觉，回来时仿真可能还没跑完。现在想象一下：输入同样的几何参数，神经网络在<strong>几毫秒</strong>内就给出几乎完全一致的S参数——这就是AI驱动的电磁场建模正在实现的事情。正如2025年Nature Reviews Physics上的一篇综述所指出的，AI与电磁学的融合正从三个范式改变这个领域。</p>
@@ -50,6 +64,7 @@
         <h2>三大AI+EM范式</h2>
         <p>根据2025年发表的系统综述，当前AI驱动的电磁场建模可分为三大范式：</p>
 
+        <div class="table-wrap">
         <table>
             <tr>
                 <th>范式</th>
@@ -84,6 +99,39 @@
                 <td>较高</td>
             </tr>
         </table>
+        </div>
+
+        <figure aria-labelledby="fig-ai-title">
+            <svg viewBox="0 0 460 190" role="img" aria-labelledby="fig-ai-title fig-ai-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-ai-title">AI 驱动电磁建模的三大范式</title>
+                <desc id="fig-ai-desc">数据驱动从大量全波仿真数据学习几何到 S 参数的映射；物理驱动将麦克斯韦 PDE 嵌入损失函数；知识嵌入融合多保真度数据与算子学习。</desc>
+                <rect width="460" height="190" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <rect x="18" y="30" width="136" height="138" rx="10" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="86" y="52" font-size="12.5" fill="#1e3a5f" text-anchor="middle" font-weight="700">数据驱动</text>
+                    <text x="86" y="76" font-size="10.5" fill="#334155" text-anchor="middle">几何 → 全波仿真</text>
+                    <text x="86" y="94" font-size="10.5" fill="#334155" text-anchor="middle">→ NN 学习映射</text>
+                    <text x="86" y="112" font-size="10.5" fill="#334155" text-anchor="middle">→ 毫秒级推理</text>
+                    <text x="86" y="140" font-size="10.5" fill="#b45309" text-anchor="middle">数据需求：大</text>
+                    <text x="86" y="158" font-size="10.5" fill="#b45309" text-anchor="middle">外推能力：低</text>
+                    <rect x="162" y="30" width="136" height="138" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/>
+                    <text x="230" y="52" font-size="12.5" fill="#065f46" text-anchor="middle" font-weight="700">物理驱动 PINN</text>
+                    <text x="230" y="76" font-size="10.5" fill="#334155" text-anchor="middle">输入 (x,t) → V</text>
+                    <text x="230" y="94" font-size="10.5" fill="#334155" text-anchor="middle">损失含 PDE 残差</text>
+                    <text x="230" y="112" font-size="10.5" fill="#334155" text-anchor="middle">+ 边界条件</text>
+                    <text x="230" y="140" font-size="10.5" fill="#b45309" text-anchor="middle">数据需求：小</text>
+                    <text x="230" y="158" font-size="10.5" fill="#b45309" text-anchor="middle">高频难收敛</text>
+                    <rect x="306" y="30" width="136" height="138" rx="10" fill="#fef3e6" stroke="#fed7aa"/>
+                    <text x="374" y="52" font-size="12.5" fill="#92400e" text-anchor="middle" font-weight="700">知识嵌入</text>
+                    <text x="374" y="76" font-size="10.5" fill="#334155" text-anchor="middle">低保真大量</text>
+                    <text x="374" y="94" font-size="10.5" fill="#334155" text-anchor="middle">+ 高保真少量</text>
+                    <text x="374" y="112" font-size="10.5" fill="#334155" text-anchor="middle">+ 算子学习</text>
+                    <text x="374" y="140" font-size="10.5" fill="#b45309" text-anchor="middle">数据需求：中</text>
+                    <text x="374" y="158" font-size="10.5" fill="#b45309" text-anchor="middle">泛化：较高</text>
+                </g>
+            </svg>
+            <figcaption>AI 驱动电磁建模的三大范式（示意图）：数据驱动靠大量全波仿真数据拟合“几何 → 性能”映射，在训练域内极快但外推弱；物理驱动 PINN 把麦克斯韦 PDE 残差写进损失，几乎不需标签但高频波场收敛困难；知识嵌入用多保真度与算子学习在数据量和泛化之间取折中。三者的取舍与上表一致。</figcaption>
+        </figure>
 
         <h2>数据驱动建模</h2>
         <p>数据驱动方法是最直接、目前在工业界应用最广的范式。其流程如下：</p>
@@ -107,12 +155,42 @@
 
         <h2>物理驱动：PINN求解电磁PDE</h2>
         <p>物理信息神经网络（Physics-Informed Neural Network, PINN）由Raissi等在2019年提出，其核心思想是将物理定律的约束直接嵌入神经网络的训练过程。PINN的损失函数包含三个部分：</p>
-        <p>Loss = Loss<sub>data</sub> + λ<sub>PDE</sub> · Loss<sub>PDE</sub> + λ<sub>BC</sub> · Loss<sub>BC</sub></p>
+        <div class="math-equation" role="group" aria-label="PINN 的复合损失函数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="PINN 的复合损失函数，可横向滚动">
+            <math display="block" aria-label="Loss 等于 Loss data 加 λ PDE 乘 Loss PDE 加 λ BC 乘 Loss BC"><mrow><mi>L</mi><mo>=</mo><msub><mi>L</mi><mtext>data</mtext></msub><mo>+</mo><msub><mi>λ</mi><mtext>PDE</mtext></msub><msub><mi>L</mi><mtext>PDE</mtext></msub><mo>+</mo><msub><mi>λ</mi><mtext>BC</mtext></msub><msub><mi>L</mi><mtext>BC</mtext></msub></mrow></math>
+        </div></div>
         <ul>
             <li><strong>Loss<sub>data</sub></strong>：训练数据点的拟合误差（如果存在标签数据，如端口激励的电场值）。</li>
             <li><strong>Loss<sub>PDE</sub></strong>：残差项，即在配置点（collocation points）上计算神经网络输出代入PDE方程后的残差——通过<strong>自动微分</strong>（Automatic Differentiation）计算场的空间和时间导数。</li>
             <li><strong>Loss<sub>BC</sub></strong>：边界条件误差，包括Dirichlet（电场切向分量为零在PEC表面）、Neumann或阻抗边界条件。</li>
         </ul>
+        <figure aria-labelledby="fig-pinn-title">
+            <svg viewBox="0 0 460 200" role="img" aria-labelledby="fig-pinn-title fig-pinn-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-pinn-title">PINN 求解泊松方程的结构</title>
+                <desc id="fig-pinn-desc">神经网络接收坐标 (x,t)，输出电位 V；自动微分得到二阶导数并代入泊松方程得到 PDE 残差；残差、边界条件误差与数据误差加权求和作为训练损失。</desc>
+                <rect width="460" height="200" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="pinn-arr" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#475569"/></marker></defs>
+                    <rect x="20" y="80" width="90" height="40" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+                    <text x="65" y="105" font-size="12" fill="#1e3a5f" text-anchor="middle">输入 (x,t)</text>
+                    <rect x="140" y="70" width="120" height="60" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/>
+                    <text x="200" y="96" font-size="12" fill="#065f46" text-anchor="middle">神经网络</text>
+                    <text x="200" y="114" font-size="11" fill="#334155" text-anchor="middle">输出 V(x,t)</text>
+                    <line x1="110" y1="100" x2="138" y2="100" stroke="#475569" stroke-width="1.6" marker-end="url(#pinn-arr)"/>
+                    <rect x="300" y="30" width="140" height="40" rx="8" fill="#fef3e6" stroke="#fed7aa"/>
+                    <text x="370" y="55" font-size="11.5" fill="#92400e" text-anchor="middle">自动微分 → ∇²V + ρ/ε₀ = 0</text>
+                    <rect x="300" y="82" width="140" height="36" rx="8" fill="#e0f2fe" stroke="#7dd3fc"/>
+                    <text x="370" y="105" font-size="11.5" fill="#0c4a6e" text-anchor="middle">边界条件 Loss_BC</text>
+                    <rect x="300" y="130" width="140" height="36" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+                    <text x="370" y="153" font-size="11.5" fill="#334155" text-anchor="middle">数据 Loss_data</text>
+                    <line x1="260" y1="95" x2="298" y2="55" stroke="#475569" stroke-width="1.4" marker-end="url(#pinn-arr)"/>
+                    <line x1="260" y1="100" x2="298" y2="100" stroke="#475569" stroke-width="1.4" marker-end="url(#pinn-arr)"/>
+                    <line x1="260" y1="105" x2="298" y2="148" stroke="#475569" stroke-width="1.4" marker-end="url(#pinn-arr)"/>
+                    <text x="200" y="175" font-size="11" fill="#b45309" text-anchor="middle">三项损失加权求和，反向传播更新网络权重</text>
+                </g>
+            </svg>
+            <figcaption>PINN 求解泊松方程的结构（示意图）：网络以坐标 (x,t) 为输入、电位 V 为输出；自动微分计算二阶导数代入 ∇²V + ρ/ε₀ = 0 得到 PDE 残差，再与边界条件误差、数据误差加权求和作为训练损失。PDE 残差只依赖方程本身，因此无需大量标签数据；代价是高频波场存在频谱偏好、收敛较慢。</figcaption>
+        </figure>
+
         <p>下面是一个用PINN求解一维泊松方程 ∇²V = −ρ/ε₀ 的简化示例：</p>
 
         <pre><code>import deepxde as dde
@@ -192,12 +270,24 @@ V_pred = model.predict(x_test)</code></pre>
 
         <p>AI与电磁学的融合才刚刚开始。随着算子学习、自监督学习和物理嵌入方法的进一步成熟，未来的电磁工程师将不再只是"搞仿真的"，而是"设计AI模型来驱动仿真的"。这将是我们下一章综合项目中需要考虑的重要维度。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>M. Raissi, P. Perdikaris, G. E. Karniadakis, <em>Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations</em>, <em>J. Comput. Phys.</em> 378: 686–707 (2019)。见 <a href="https://doi.org/10.1016/j.jcp.2018.10.045">DOI:10.1016/j.jcp.2018.10.045</a>。</li>
+                <li>L. Lu, X. Meng, Z. Mao, G. E. Karniadakis, <em>DeepXDE: A deep learning library for solving differential equations</em>, <em>SIAM Rev.</em> 63(1): 208–228 (2021)：PINN 开源框架 DeepXDE。见 <a href="https://doi.org/10.1137/19M1274067">DOI:10.1137/19M1274067</a>。</li>
+                <li>Z. Li <em>et al.</em>, <em>Fourier neural operator for parametric partial differential equations</em>, ICLR 2021：傅里叶神经算子（FNO）与算子学习。见 <a href="https://arxiv.org/abs/2010.08895">arXiv:2010.08895</a>。</li>
+                <li>COMSOL AB, <em>COMSOL Multiphysics — Deep Learning (Surrogate Model) Toolbox</em> 与 Ansys optiSLang：工业界代理模型与多目标优化工具链。</li>
+            </ol>
+            <p class="depth-note">文中“三大范式”分类与训练/推理时间（全连接网络训练约 2 小时、推理约 1ms、HFSS 单次仿真约 5 分钟、加速比约 30 万倍）以及 S 参数 MAE &lt; 0.5dB、场分布相对 L2 误差 &lt; 3% 等指标均为教学示意值，未在本文环境复现，实际数值依赖具体问题、硬件与网络规模。PINN 代码仅为 DeepXDE API 用法示意，未在本文环境运行；文中引用的期刊综述与论文以原文为准。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="26.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="28.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
