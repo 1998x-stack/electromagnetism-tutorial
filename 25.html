@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第25章 EMC设计与测试实战</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        .table-wrap { max-width: 100%; overflow-x: auto; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +49,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第25章 EMC设计与测试实战</h1>
+            <p class="dek">仿真做得再好，产品最终要通过 EMC 标准测试才能上市。本章从电波暗室与预合规环境讲起，以 CISPR 25 辐射发射测试为主线，梳理天线与检波器选择、近场探头诊断、低成本整改方案，以及 PCB 布局阶段的 EMC 检查清单与仿真-测试闭环。</p>
+        </header>
 
         <h2>从仿真到合规：产品的最后一道关</h2>
         <p>前面两章我们学了如何用COMSOL和HFSS进行电磁仿真——设计了天线、优化了电机、分析了高速信号。但仿真做得再好，你的产品最终要通过<strong>EMC（电磁兼容）标准测试</strong>才能合法上市。FCC Part 15（美国）、CISPR 25（汽车电子）、EN 55032（欧盟）——这些标准的名字背后是每年数百亿美元的产品召回和重新设计成本。</p>
@@ -62,9 +75,34 @@
             一次正式3米法暗室测试的费用大约是￥2000~¥5000/小时，大多数产品需要半天到一天才能完成全部测试。如果你的产品辐射超标，重新整改后还需要再预约测试——这个循环每次花费数万元和时间2~4周。预合规测试设备的总投资（频谱仪+近场探头套件）约¥50000，相当于2~3次正式测试的费用，之后几乎免费使用。更重要的是：<strong>你可以随时测试、随时调整、随时验证</strong>。一个有经验的EMC工程师用预合规工具可以在半天内定位并解决80%的EMI问题。
         </div>
 
+        <figure aria-labelledby="fig-cispr-title">
+            <svg viewBox="0 0 460 210" role="img" aria-labelledby="fig-cispr-title fig-cispr-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-cispr-title">CISPR 25 辐射发射测试布置（示意）</title>
+                <desc id="fig-cispr-desc">侧视图：EUT 置于接地铜板上方，接收天线距离 EUT 边缘 1 米，天线高度与 EUT 等高；不同频段选用杆状、双锥、对数周期和喇叭天线。</desc>
+                <rect width="460" height="210" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="30" y1="70" x2="330" y2="70" stroke="#94a3b8" stroke-width="6"/>
+                    <text x="30" y="60" font-size="11" fill="#334155">接地铜板（参考地平面）</text>
+                    <rect x="60" y="40" width="60" height="30" rx="5" fill="#eef2ff" stroke="#1d4ed8"/>
+                    <text x="90" y="60" font-size="12" fill="#1e3a5f" text-anchor="middle">EUT</text>
+                    <line x1="60" y1="70" x2="60" y2="150" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+                    <text x="66" y="145" font-size="11" fill="#475569">80cm（车辆/零部件布置）</text>
+                    <path d="M120 55 L330 55" stroke="#dc2626" stroke-width="1.6"/>
+                    <text x="225" y="48" font-size="11" fill="#dc2626" text-anchor="middle">d = 1m</text>
+                    <line x1="330" y1="30" x2="330" y2="70" stroke="#475569" stroke-width="2"/>
+                    <path d="M330 40 l12 8 l-12 8 z" fill="#475569"/>
+                    <text x="348" y="55" font-size="11" fill="#334155">接收天线</text>
+                    <text x="30" y="182" font-size="11.5" fill="#1e3a5f">150kHz–30MHz 杆状 · 30–200MHz 双锥 · 200MHz–1GHz 对数周期 · 1–2.5GHz 喇叭</text>
+                    <text x="30" y="200" font-size="11" fill="#b45309">接收机读数 (dBμV) = 场强 (dBμV/m) − 天线因子 AF (dB/m)</text>
+                </g>
+            </svg>
+            <figcaption>CISPR 25 辐射发射测试布置（示意图）：EUT 放在接地铜板上，接收天线距 EUT 边缘 1 米并与 EUT 等高；随频段更换杆状、双锥、对数周期和喇叭天线，水平与垂直极化都要测。接收机读数是电压单位（dBμV），需减去天线因子 AF 才换算到场强（dBμV/m）。</figcaption>
+        </figure>
+
         <h2>辐射发射测试：以CISPR 25为例</h2>
         <p>CISPR 25是汽车电子EMC测试的标杆标准，涵盖150kHz~2.5GHz频段。测试布置要求：EUT放置在接地铜板（参考地平面）上80cm高处，天线距离EUT边缘1m。根据频段使用不同的天线：</p>
 
+        <div class="table-wrap">
         <table>
             <tr>
                 <th>频段</th>
@@ -102,10 +140,15 @@
                 <td>50~54 dBμV/m</td>
             </tr>
         </table>
+        </div>
 
         <p>三种检波器的区别：<strong>峰值检波</strong>（Peak）响应最快，读数最高（真实包络的最大值）；<strong>准峰值检波</strong>（Quasi-Peak）引入充放电时间常数，模拟人耳对噪声的主观感知，读数通常比峰值低几dB至十几dB；<strong>平均值检波</strong>（Average）反映噪声的平均能量。同一信号，三类检波的读数从大到小为：峰值 > 准峰值 > 平均值。如果峰值已经低于限值，后面的都可以免测。</p>
 
-        <p>下面是dBμV与dBm之间的常用换算公式——这两个单位在EMC测试中频繁出现：</p>
+        <p>下面是 dBμV 与 dBm 之间的常用换算关系——这两个单位在 EMC 测试中频繁出现。在 50Ω 系统中，由于 P = V²/R，两者只差一个常数：</p>
+        <div class="math-equation" role="group" aria-label="50欧姆系统中 dBm 与 dBμV 的换算"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="50欧姆系统中 dBm 与 dBμV 的换算，可横向滚动">
+            <math display="block" aria-label="P 以 dBm 为单位等于 V 以 dBμV 为单位减 107"><mrow><mi>P</mi><mo stretchy="false">(</mo><mtext>dBm</mtext><mo stretchy="false">)</mo><mo>=</mo><mi>V</mi><mo stretchy="false">(</mo><mtext>dBμV</mtext><mo stretchy="false">)</mo><mo>−</mo><mn>107</mn><mspace width="1em"/><mo stretchy="false">(</mo><mn>50</mn><mi>Ω</mi><mo stretchy="false">)</mo></mrow></math>
+        </div></div>
+        <p>推导依据：0&nbsp;dBm = 1&nbsp;mW，在 50Ω 上对应电压 √(1&nbsp;mW × 50Ω) ≈ 0.2236&nbsp;V = 107&nbsp;dBμV，因此差值为 107&nbsp;dB。注意场强单位 dBμV/m 与电压单位 dBμV 之间还差一个天线因子 AF：接收机读数 (dBμV) = 场强 (dBμV/m) − AF (dB/m)。</p>
 
         <pre><code># dBμV 与 dBm 换算（50Ω系统）
 # 适用于频谱仪和EMC接收机的常见单位转换
@@ -134,6 +177,31 @@ af_100mhz = 12  # dB/m, 天线因子
 receiver_reading = 50 - af_100mhz  # dBμV
 print(f"接收机读数 = {receiver_reading:.0f} dBμV = {dbuv_to_dbm(receiver_reading):.0f} dBm")</code></pre>
 
+        <figure aria-labelledby="fig-probe-title">
+            <svg viewBox="0 0 460 190" role="img" aria-labelledby="fig-probe-title fig-probe-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-probe-title">近场 H 探头定位辐射源</title>
+                <desc id="fig-probe-desc">小环磁场探头在 PCB 上方逐点扫描，当探头靠近开关电源 MOSFET 时，频谱仪上对应基频奇次谐波的尖峰随距离迅速升高，从而定位噪声源。</desc>
+                <rect width="460" height="190" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <rect x="30" y="90" width="170" height="70" rx="6" fill="#ecfdf5" stroke="#6ee7b7"/>
+                    <text x="115" y="82" font-size="11" fill="#047857" text-anchor="middle">PCB（俯视）</text>
+                    <rect x="60" y="115" width="34" height="26" rx="3" fill="#fca5a5" stroke="#dc2626"/>
+                    <text x="77" y="132" font-size="10" fill="#7f1d1d" text-anchor="middle">MOS</text>
+                    <rect x="140" y="115" width="40" height="26" rx="3" fill="#bfdbfe" stroke="#1d4ed8"/>
+                    <text x="160" y="132" font-size="10" fill="#1e3a5f" text-anchor="middle">IC</text>
+                    <circle cx="140" cy="128" r="16" fill="none" stroke="#b45309" stroke-width="2" stroke-dasharray="4 3"/>
+                    <text x="250" y="60" font-size="11" fill="#b45309">小环 H 探头（5mm）</text>
+                    <path d="M156 128 L230 75" stroke="#b45309" stroke-width="1.4" stroke-dasharray="4 3"/>
+                    <text x="300" y="108" font-size="11" fill="#475569" text-anchor="middle">随探头靠近</text>
+                    <text x="300" y="124" font-size="11" fill="#475569" text-anchor="middle">尖峰迅速升高</text>
+                    <path d="M330 150 L420 150" stroke="#94a3b8"/>
+                    <path d="M330 150 L332 120 L338 150 L344 132 L350 150 L356 100 L362 150 L368 138 L374 150 L380 144 L386 150 L392 148 L400 150" fill="none" stroke="#dc2626" stroke-width="1.6"/>
+                    <text x="356" y="170" font-size="10" fill="#dc2626" text-anchor="middle">f₀ 3f₀ 5f₀（基频奇次谐波）</text>
+                </g>
+            </svg>
+            <figcaption>近场 H 探头定位辐射源（示意图）：小环磁场探头在 PCB 上方 2–5mm 逐点扫描，当探头靠近开关电源 MOSFET 或接地过流走线时，频谱仪上对应基频奇次谐波（f₀、3f₀、5f₀…）的尖峰随距离迅速升高。先用探头确定“是哪个器件辐射”，再与时钟/开关频率比对，往往比直接加屏蔽更高效。</figcaption>
+        </figure>
+
         <h2>EMI诊断工具</h2>
         <p>当你的产品辐射超标时，第一件事不是盲目加屏蔽或加磁环，而是<strong>定位噪声源</strong>。以下是EMC工程师最常用的诊断工具：</p>
         <ul>
@@ -151,6 +219,7 @@ print(f"接收机读数 = {receiver_reading:.0f} dBμV = {dbuv_to_dbm(receiver_r
         <h2>常见EMI根源与整改</h2>
         <p>根据实际案例统计，电子产品80%以上的EMI问题可以归为以下几类。下面是各类问题的根源分析和经过验证的解决方案：</p>
 
+        <div class="table-wrap">
         <table>
             <tr>
                 <th>噪声源</th>
@@ -202,6 +271,7 @@ print(f"接收机读数 = {receiver_reading:.0f} dBμV = {dbuv_to_dbm(receiver_r
                 <td>★★★★☆</td>
             </tr>
         </table>
+        </div>
 
         <p>上表中的所有方案都有一个共同特征：<strong>在噪声源处解决问题</strong>。在噪声源处花费￥0.01的方案比在电缆处加￥10的磁环效果更好，因为一旦噪声以辐射形式传播出去，耦合路径就变得非常复杂——你在这个频段解决了，它可能在另一个频段重新出现。</p>
 
@@ -241,12 +311,24 @@ print(f"接收机读数 = {receiver_reading:.0f} dBμV = {dbuv_to_dbm(receiver_r
         <p>EMC是产品从实验室走向市场的最后一道关，也是最容易被忽视的一关。今天我们学习了：从电波暗室到预合规测试的不同测试环境和适用场景；CISPR 25标准下的辐射发射测试方法和天线选择；近场探头、电流钳和LISN等诊断工具的使用技巧；常见EMI问题的根源和经过验证的低成本解决方案；PCB布局阶段的关键EMC设计规则；以及仿真和测试如何形成闭环迭代来提高设计效率。</p>
         <p>接下来，我们进入第26章——一个真正前沿且令人兴奋的领域：<strong>超构材料与超表面</strong>。你会看到如何通过人工设计的亚波长结构，实现自然界不存在的神奇电磁特性：负折射率、完美透镜、电磁隐身——这不再是科幻，而是正在走向工程应用的现实。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>International Electrotechnical Commission, <em>CISPR 25: Vehicles, boats and internal combustion engines — Radio disturbance characteristics — Limits and methods of measurement for the protection of on-board receivers</em>：频段划分、天线选用与 Class 1–5 限值。</li>
+                <li>Henry W. Ott, <em>Electromagnetic Compatibility Engineering</em>, Wiley, 2009：dBμV/dBm 换算、共模辐射与 PCB 布局规则（20H、缝合过孔、去耦电容 ESL）（ISBN 978-0470189306）。</li>
+                <li>Clayton R. Paul, <em>Introduction to Electromagnetic Compatibility</em>, 2nd ed., Wiley, 2006：辐射发射测量布置、天线因子与检波器（峰值/准峰值/平均值）差异（ISBN 978-0471755005）。</li>
+                <li>Federal Communications Commission, <em>47 CFR Part 15 — Radio Frequency Devices</em>：美国民用设备的发射限值与测试方法。见 <a href="https://www.ecfr.gov/current/title-47/chapter-I/subchapter-A/part-15">eCFR Title 47, Part 15</a>。</li>
+            </ol>
+            <p class="depth-note">文中测试布置参数（EUT 离地 80cm、天线距离 1m）、Class 3 典型限值（不同频段 40~70&nbsp;dBμV/m）与双锥天线在 100MHz 的天线因子 AF≈12&nbsp;dB/m 为常见工程范围与教学示意值，具体限值与天线因子以相应 CISPR/FCC 标准版本及天线校准证书为准。各类 EMI 整改方案的成本（￥0.01~￥10）与“节省 300 万元项目”案例为教学示意，未在本文环境复现。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="24.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="26.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
