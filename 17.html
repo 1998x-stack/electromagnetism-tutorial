@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第17章 传输线与波导</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,8 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第17章 传输线与波导</h1>
+            <p class="dek">当信号波长缩短到与导线长度同量级，导线就不再是“无辜的连线”，而变成一个分布参数系统。本章从电报方程推出特性阻抗与传播常数，走过反射、驻波、Smith 圆图，最后落到矩形波导的模式与微带线的 PCB 设计。</p>
+        </header>
 
         <h2>开场：当导线不再只是导线</h2>
         <p>在低频电路（如50Hz电力线或1kHz音频线）中，导线就是导线——它仅仅是连接元器件的导电通路。你不需要考虑信号在导线上的"延迟"，因为电压和电流在整个电路中的变化几乎是瞬时的（相比信号周期）。这就是<strong>集总参数</strong>（Lumped Element）模型的适用范围。</p>
@@ -59,21 +71,54 @@
             <li><strong>并联电导 G</strong>（S/m）：介质中的漏电流产生的损耗。</li>
             <li><strong>并联电容 C</strong>（F/m）：两导体之间的电场存储。</li>
         </ul>
+
+        <figure aria-labelledby="fig-tl-title">
+            <svg viewBox="0 0 460 190" role="img" aria-labelledby="fig-tl-title fig-tl-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-tl-title">传输线的微分段等效电路</title>
+                <desc id="fig-tl-desc">把传输线分成无数长度为 dz 的小段。每一段的上导体带串联电阻 R·dz 与串联电感 L·dz，上下导体之间带并联电容 C·dz 与并联电导 G·dz。</desc>
+                <rect width="460" height="190" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="40" y1="72" x2="140" y2="72" stroke="#475569" stroke-width="2"/>
+                    <rect x="140" y="63" width="50" height="18" rx="2" fill="#fff" stroke="#1d4ed8" stroke-width="2"/>
+                    <path d="M190 72 q11 -18 22 0 q11 -18 22 0 q11 -18 22 0" fill="none" stroke="#1d4ed8" stroke-width="2.2"/>
+                    <line x1="256" y1="72" x2="420" y2="72" stroke="#475569" stroke-width="2"/>
+                    <line x1="40" y1="150" x2="420" y2="150" stroke="#475569" stroke-width="2"/>
+                    <line x1="300" y1="72" x2="300" y2="106" stroke="#475569" stroke-width="1.6"/>
+                    <line x1="282" y1="106" x2="318" y2="106" stroke="#0f766e" stroke-width="2.6"/>
+                    <line x1="282" y1="116" x2="318" y2="116" stroke="#0f766e" stroke-width="2.6"/>
+                    <line x1="300" y1="116" x2="300" y2="150" stroke="#475569" stroke-width="1.6"/>
+                    <line x1="380" y1="72" x2="380" y2="96" stroke="#475569" stroke-width="1.6"/>
+                    <rect x="369" y="96" width="22" height="30" rx="2" fill="#fff" stroke="#b45309" stroke-width="2"/>
+                    <line x1="380" y1="126" x2="380" y2="150" stroke="#475569" stroke-width="1.6"/>
+                    <line x1="140" y1="48" x2="140" y2="168" stroke="#94a3b8" stroke-width="1.3" stroke-dasharray="5 4"/>
+                    <line x1="420" y1="48" x2="420" y2="168" stroke="#94a3b8" stroke-width="1.3" stroke-dasharray="5 4"/>
+                    <text x="150" y="56" font-size="12" fill="#1d4ed8" font-weight="700">R·dz</text>
+                    <text x="206" y="50" font-size="12" fill="#1d4ed8" font-weight="700">L·dz</text>
+                    <text x="256" y="128" font-size="12" fill="#0f766e" font-weight="700">C·dz</text>
+                    <text x="352" y="96" font-size="12" fill="#b45309" font-weight="700">G·dz</text>
+                    <text x="86" y="176" font-size="12" fill="#475569" font-weight="700">一段长度 dz</text>
+                </g>
+            </svg>
+            <figcaption>把传输线切成无数长度为 dz 的微分段：每段以串联阻抗 (R + jωL)·dz 和并联导纳 (G + jωC)·dz 建模。对每段应用基尔霍夫定律并取 dz→0，即得电报方程。</figcaption>
+        </figure>
         <p>从基尔霍夫定律作用于微分段，可以得到著名的<strong>电报方程</strong>（Telegraph Equations）：</p>
-        <p>−∂v(z,t)/∂z = R i(z,t) + L ∂i(z,t)/∂t</p>
-        <p>−∂i(z,t)/∂z = G v(z,t) + C ∂v(z,t)/∂t</p>
+        <div class="math-equation" role="group" aria-label="时域电报方程"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="时域电报方程，可横向滚动">
+            <math display="block" aria-label="负的 v 对 z 偏导等于 R i 加 L i 对 t 偏导；负的 i 对 z 偏导等于 G v 加 C v 对 t 偏导"><mrow><mo>−</mo><mfrac><mrow><mo>∂</mo><mi>v</mi></mrow><mrow><mo>∂</mo><mi>z</mi></mrow></mfrac><mo>=</mo><mi>R</mi><mi>i</mi><mo>+</mo><mi>L</mi><mfrac><mrow><mo>∂</mo><mi>i</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>,</mo><mspace width="1.5em"/><mo>−</mo><mfrac><mrow><mo>∂</mo><mi>i</mi></mrow><mrow><mo>∂</mo><mi>z</mi></mrow></mfrac><mo>=</mo><mi>G</mi><mi>v</mi><mo>+</mo><mi>C</mi><mfrac><mrow><mo>∂</mo><mi>v</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac></mrow></math>
+        </div></div>
         <p>在时谐稳态（正弦信号）下，电报方程简化为：</p>
-        <p>−dV/dz = (R + jωL) I</p>
-        <p>−dI/dz = (G + jωC) V</p>
+        <div class="math-equation" role="group" aria-label="时谐电报方程"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="时谐电报方程，可横向滚动">
+            <math display="block" aria-label="负的 V 对 z 导数等于 R 加 jωL 乘 I；负的 I 对 z 导数等于 G 加 jωC 乘 V"><mrow><mo>−</mo><mfrac><mrow><mi>d</mi><mi>V</mi></mrow><mrow><mi>d</mi><mi>z</mi></mrow></mfrac><mo>=</mo><mrow><mo>(</mo><mi>R</mi><mo>+</mo><mi>j</mi><mi>ω</mi><mi>L</mi><mo>)</mo></mrow><mi>I</mi><mo>,</mo><mspace width="1.5em"/><mo>−</mo><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>z</mi></mrow></mfrac><mo>=</mo><mrow><mo>(</mo><mi>G</mi><mo>+</mo><mi>j</mi><mi>ω</mi><mi>C</mi><mo>)</mo></mrow><mi>V</mi></mrow></math>
+        </div></div>
 
         <h2>特性阻抗</h2>
         <p>将两个一阶方程合并，得到电压和电流分别满足的波动方程：</p>
-        <p>d²V/dz² = γ² V,  d²I/dz² = γ² I</p>
-        <p>其中 γ = √((R + jωL)(G + jωC)) = α + jβ 称为<strong>传播常数</strong>。</p>
-        <p>波动方程的解为 V(z) = V₀⁺e^{−γz} + V₀⁻e^{γz}，对应的电流为 I(z) = (V₀⁺e^{−γz} − V₀⁻e^{γz}) / Z₀。这里 Z₀——<strong>特性阻抗</strong>——是最最关键的参数：</p>
-        <p>Z₀ = √((R + jωL) / (G + jωC))</p>
-        <p>对于无损传输线（R=0, G=0）：</p>
-        <p>Z₀ = √(L / C)</p>
+        <div class="math-equation" role="group" aria-label="传输线波动方程与传播常数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="传输线波动方程与传播常数，可横向滚动">
+            <math display="block" aria-label="V 对 z 的二阶导数等于 γ 平方 V；γ 等于根号下（R 加 jωL）（G 加 jωC）等于 α 加 jβ"><mrow><mfrac><mrow><msup><mi>d</mi><mn>2</mn></msup><mi>V</mi></mrow><mrow><mi>d</mi><msup><mi>z</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><msup><mi>γ</mi><mn>2</mn></msup><mi>V</mi><mo>,</mo><mspace width="1.5em"/><mi>γ</mi><mo>=</mo><msqrt><mrow><mo>(</mo><mi>R</mi><mo>+</mo><mi>j</mi><mi>ω</mi><mi>L</mi><mo>)</mo><mo>(</mo><mi>G</mi><mo>+</mo><mi>j</mi><mi>ω</mi><mi>C</mi><mo>)</mo></mrow></msqrt><mo>=</mo><mi>α</mi><mo>+</mo><mi>j</mi><mi>β</mi></mrow></math>
+        </div></div>
+        <p>波动方程的解为 V(z) = V₀⁺e<sup>−γz</sup> + V₀⁻e<sup>γz</sup>，对应的电流为 I(z) = (V₀⁺e<sup>−γz</sup> − V₀⁻e<sup>γz</sup>)/Z₀。这里 Z₀——<strong>特性阻抗</strong>——是最最关键的参数：</p>
+        <div class="math-equation" role="group" aria-label="特性阻抗一般式与无损情形"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="特性阻抗一般式与无损情形，可横向滚动">
+            <math display="block" aria-label="Z0 等于根号下（R 加 jωL）除以（G 加 jωC）；无损时 Z0 等于根号 L 比 C"><mrow><msub><mi>Z</mi><mn>0</mn></msub><mo>=</mo><msqrt><mfrac><mrow><mi>R</mi><mo>+</mo><mi>j</mi><mi>ω</mi><mi>L</mi></mrow><mrow><mi>G</mi><mo>+</mo><mi>j</mi><mi>ω</mi><mi>C</mi></mrow></mfrac></msqrt><mo>,</mo><mspace width="1.5em"/><msub><mi>Z</mi><mn>0</mn></msub><mo>=</mo><msqrt><mfrac><mi>L</mi><mi>C</mi></mfrac></msqrt><mspace width="1em"/><mrow><mo>(</mo><mi>R</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>G</mi><mo>=</mo><mn>0</mn><mo>)</mo></mrow></mrow></math>
+        </div></div>
         <p>这意味着 Z₀ 完全由传输线的几何结构和介质材料决定，与传输线的长度无关！常见的特性阻抗值：</p>
         <ul>
             <li><strong>同轴电缆</strong>：50Ω（射频通用标准）或75Ω（电视/广播）。为什么是50Ω？历史原因是兼顾最小损耗（≈77Ω）和最大功率容量（≈30Ω）之间的折中。</li>
@@ -85,7 +130,9 @@
         <h2>传输线终端效应</h2>
         <p>传输线的核心问题之一是<strong>终端不匹配导致的反射</strong>。当传输线端接的负载阻抗 Z_L 不等于特性阻抗 Z₀ 时，一部分能量被反射回源端。</p>
         <p>在负载端（z=0），电压和电流满足 V(0)/I(0) = Z_L。由此可推导出<strong>反射系数</strong>：</p>
-        <p>Γ = V₀⁻/V₀⁺ = (Z_L − Z₀) / (Z_L + Z₀)</p>
+        <div class="math-equation" role="group" aria-label="负载端反射系数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="负载端反射系数，可横向滚动">
+            <math display="block" aria-label="反射系数 Γ 等于 V0 负 比 V0 正 等于 ZL 减 Z0 除以 ZL 加 Z0"><mrow><mi>Γ</mi><mo>=</mo><mfrac><msubsup><mi>V</mi><mn>0</mn><mo>−</mo></msubsup><msubsup><mi>V</mi><mn>0</mn><mo>+</mo></msubsup></mfrac><mo>=</mo><mfrac><mrow><msub><mi>Z</mi><mi>L</mi></msub><mo>−</mo><msub><mi>Z</mi><mn>0</mn></msub></mrow><mrow><msub><mi>Z</mi><mi>L</mi></msub><mo>+</mo><msub><mi>Z</mi><mn>0</mn></msub></mrow></mfrac></mrow></math>
+        </div></div>
         <p>几种特殊情形：</p>
         <ul>
             <li><strong>匹配</strong>：Z_L = Z₀ → Γ = 0，无反射，所有功率传输到负载。</li>
@@ -93,8 +140,28 @@
             <li><strong>短路</strong>：Z_L = 0 → Γ = −1，全反射，电压反射波相位翻转（在短路端电压为零、电流加倍）。</li>
             <li><strong>纯电抗</strong>：Z_L = jX → |Γ| = 1，全反射但相位连续可调。</li>
         </ul>
+
+        <figure aria-labelledby="fig-sw-title">
+            <svg viewBox="0 0 460 200" role="img" aria-labelledby="fig-sw-title fig-sw-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-sw-title">失配传输线上的驻波与包络</title>
+                <desc id="fig-sw-desc">入射波与反射波叠加形成驻波。电压幅值在最大值 Vmax 与最小值 Vmin 之间振荡，二者之比即驻波比 VSWR。相邻波节之间相隔半个波长。</desc>
+                <rect width="460" height="200" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <line x1="40" y1="160" x2="420" y2="160" stroke="#475569" stroke-width="1.6"/>
+                    <line x1="40" y1="55" x2="420" y2="55" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="6 4"/>
+                    <line x1="40" y1="125" x2="420" y2="125" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="6 4"/>
+                    <polyline points="40,55 63,90 87,125 110,90 133,55 157,90 180,125 203,90 227,55 250,90 273,125 297,90 320,55 343,90 367,125 390,90 413,55" fill="none" stroke="#1d4ed8" stroke-width="2.4"/>
+                    <text x="424" y="59" font-size="11.5" fill="#475569">V&#8202;max</text>
+                    <text x="424" y="129" font-size="11.5" fill="#475569">V&#8202;min</text>
+                    <text x="150" y="182" font-size="12" fill="#1e3a5f" font-weight="700">VSWR = V&#8202;max / V&#8202;min = (1+|Γ|)/(1−|Γ|)</text>
+                </g>
+            </svg>
+            <figcaption>失配时入射波与反射波叠加产生驻波：电压幅值在 V&#8202;max 与 V&#8202;min 之间周期性起伏，两者的比值就是驻波比。匹配良好时 V&#8202;min→V&#8202;max，VSWR→1；全反射时 V&#8202;min→0，VSWR→∞。</figcaption>
+        </figure>
         <p>反射使传输线上形成<strong>驻波</strong>（Standing Wave）——入射波和反射波叠加产生固定的波腹和波节分布。驻波比 VSWR 由反射系数幅度决定：</p>
-        <p>VSWR = (1 + |Γ|) / (1 − |Γ|)</p>
+        <div class="math-equation" role="group" aria-label="驻波比"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="驻波比，可横向滚动">
+            <math display="block" aria-label="驻波比 VSWR 等于 1 加 Γ 的模 除以 1 减 Γ 的模"><mrow><mtext>VSWR</mtext><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><mrow><mo>|</mo><mi>Γ</mi><mo>|</mo></mrow></mrow><mrow><mn>1</mn><mo>−</mo><mrow><mo>|</mo><mi>Γ</mi><mo>|</mo></mrow></mrow></mfrac></mrow></math>
+        </div></div>
         <p>理想的 VSWR = 1（完全匹配），实际工程中 VSWR < 1.5 通常认为是良好匹配。</p>
         <p><strong>阻抗匹配</strong>是解决不匹配问题的关键技术。常用方法包括：</p>
         <ul>
@@ -149,7 +216,9 @@
         </ul>
         <p>模式用下标 mn 标记（如 TE₁₀、TE₂₀、TM₁₁），m 和 n 表示场在 x 和 y 方向的半周期数。TE₁₀ 是矩形波导的<strong>主模</strong>（最低截止频率的模式）。</p>
         <p>关键参数——<strong>截止频率</strong>（Cut-off Frequency）：</p>
-        <p>f_c(mn) = (c/(2π√μ_rε_r)) √((mπ/a)² + (nπ/b)²)</p>
+        <div class="math-equation" role="group" aria-label="矩形波导截止频率"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="矩形波导截止频率，可横向滚动">
+            <math display="block" aria-label="截止频率 fc 等于 c 除以 2π根号 μr εr 再乘根号下（mπ 比 a）平方加（nπ 比 b）平方"><mrow><msub><mi>f</mi><mi>c</mi></msub><mo>=</mo><mfrac><mi>c</mi><mrow><mn>2</mn><mi>π</mi><msqrt><msub><mi>μ</mi><mi>r</mi></msub><msub><mi>ε</mi><mi>r</mi></msub></msqrt></mrow></mfrac><msqrt><msup><mrow><mo>(</mo><mfrac><mrow><mi>m</mi><mi>π</mi></mrow><mi>a</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mfrac><mrow><mi>n</mi><mi>π</mi></mrow><mi>b</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup></msqrt></mrow></math>
+        </div></div>
         <p>对于 TE₁₀ 模：f_c = c/(2a√μ_rε_r)。例如宽边 a=22.86mm 的 WR-90 波导（X频段），f_c ≈ 6.56GHz。工作频率通常选在 f_c 到 2f_c 之间（单模传输范围）。</p>
 
         <div class="tip">
@@ -163,10 +232,37 @@
             因此，雷达发射机、卫星通信上行链路、粒子加速器等高功率射频系统无一例外地使用波导。
         </div>
 
+        <figure aria-labelledby="fig-wg-title">
+            <svg viewBox="0 0 460 220" role="img" aria-labelledby="fig-wg-title fig-wg-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-wg-title">矩形波导 TE₁₀ 模的电场分布</title>
+                <desc id="fig-wg-desc">矩形波导截面（宽边 a、窄边 b），TE₁₀ 模的电场只有沿窄边的分量。电场幅度沿宽边呈半个正弦分布，在宽边中央最大、在两侧壁为零。</desc>
+                <rect width="460" height="220" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="e-arr" markerWidth="8" markerHeight="8" refX="4" refY="7" orient="auto"><path d="M0 8 L4 0 L8 8 z" fill="#1d4ed8"/></marker></defs>
+                    <rect x="80" y="80" width="300" height="90" fill="#eef2ff" stroke="#475569" stroke-width="2.2"/>
+                    <line x1="100" y1="160" x2="100" y2="152" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#e-arr)"/>
+                    <line x1="140" y1="160" x2="140" y2="139" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#e-arr)"/>
+                    <line x1="180" y1="160" x2="180" y2="129" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#e-arr)"/>
+                    <line x1="220" y1="160" x2="220" y2="124" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#e-arr)"/>
+                    <line x1="260" y1="160" x2="260" y2="126" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#e-arr)"/>
+                    <line x1="300" y1="160" x2="300" y2="133" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#e-arr)"/>
+                    <line x1="340" y1="160" x2="340" y2="145" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#e-arr)"/>
+                    <line x1="360" y1="160" x2="360" y2="152" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#e-arr)"/>
+                    <line x1="80" y1="192" x2="380" y2="192" stroke="#475569" stroke-width="1.4"/>
+                    <text x="220" y="208" font-size="12.5" fill="#1e3a5f" font-weight="700">宽边 a</text>
+                    <text x="388" y="128" font-size="12.5" fill="#1e3a5f" font-weight="700">窄边 b</text>
+                    <text x="100" y="70" font-size="12.5" fill="#1d4ed8" font-weight="700">E 沿窄边，峰值在宽边中央</text>
+                </g>
+            </svg>
+            <figcaption>TE₁₀ 主模的电场分布：电场只有沿窄边 b 的分量，幅度沿宽边 a 呈半个正弦，中央最大、两侧壁为零。截止波长 λ_c = 2a，因此宽边 a = 22.86 mm 的 WR-90 波导截止频率约 6.56 GHz。</figcaption>
+        </figure>
+
         <h2>微带线与实际PCB</h2>
         <p>微带线（Microstrip）是电路板上最常用的平面传输线结构——一条窄带金属走线、一个介质层、一个完整参考地平面。</p>
         <p>微带线的电场和磁场部分在空气中、部分在介质中，因此用一个<strong>有效介电常数</strong> ε_eff 来描述：</p>
-        <p>ε_eff = (ε_r + 1)/2 + (ε_r − 1)/2 · 1/√(1 + 12h/w)</p>
+        <div class="math-equation" role="group" aria-label="微带线有效介电常数"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="微带线有效介电常数，可横向滚动">
+            <math display="block" aria-label="εeff 等于（εr 加 1）除以 2 加（εr 减 1）除以 2 乘 1 除以根号 1 加 12h 比 w"><mrow><msub><mi>ε</mi><mtext>eff</mtext></msub><mo>=</mo><mfrac><mrow><msub><mi>ε</mi><mi>r</mi></msub><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac><mo>+</mo><mfrac><mrow><msub><mi>ε</mi><mi>r</mi></msub><mo>−</mo><mn>1</mn></mrow><mn>2</mn></mfrac><mo>·</mo><mfrac><mn>1</mn><msqrt><mn>1</mn><mo>+</mo><mn>12</mn><mi>h</mi><mo>/</mo><mi>w</mi></msqrt></mfrac></mrow></math>
+        </div></div>
         <p>其中 w 是线宽，h 是介质厚度。对于 50Ω 微带线的线宽公式（近似）：</p>
 
         <pre><code># 微带线特性阻抗计算（Hammerstad-Jensen公式）
@@ -274,12 +370,24 @@
         </ul>
         <p>传输线和波导把电磁能量从一点引导到另一点。而接下来的问题是：<strong>如何把能量从引导结构中"辐射"到自由空间？</strong><strong>下一章</strong>我们将研究天线——电磁波的"发射端"和"接收端"。你会看到，从一个简单的半波振子到复杂的相控阵天线，天线设计的核心理念是如何将传输线中的"束缚波"高效地转化为自由空间中的"辐射波"。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>David M. Pozar, <em>Microwave Engineering</em>, 4th ed., Wiley, 2012：第 2 章传输线理论与 Smith 圆图、第 3 章矩形波导与微带线（ISBN 978-0470631553）。</li>
+                <li>Phillip H. Smith, <em>Transmission Line Calculator</em>, <em>Electronics</em> 12(1): 29–31 (1939)：Smith 圆图的原始论文。</li>
+                <li>E. Hammerstad &amp; O. Jensen, <em>Accurate models for microstrip computer-aided design</em>, IEEE MTT-S Int. Microwave Symp. Dig. (1980): 407–409：微带线特性阻抗与有效介电常数的闭合公式。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 9 章电磁波与边界条件的场论背景。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">文中 λ/10 集总/分布判别阈值、VSWR &lt; 1.5 为“良好匹配”的工程经验值；各传输线 Z₀ 范围、FR4/Rogers/PTFE 参数与线宽估算均为常用量级的教学示意，实际值随叠层、铜箔粗糙度与频率而变。5G 基站馈线松动导致 VSWR=3:1 的案例为说明失配后果的示意场景，非特定实测记录。WR-90 波导 TE₁₀ 截止频率 6.56 GHz 由 f_c = c/(2a√μᵣεᵣ) 在 a=22.86 mm 下算得。Python 示例中的 Z₀≈50.2 Ω、ε_eff≈3.482 为代码自身的输出值。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="16.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="18.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
