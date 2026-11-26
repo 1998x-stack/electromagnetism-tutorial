@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>第22章 相对论与电磁学</title>
     <link rel="stylesheet" href="theme.css">
+    <style>
+        pre { max-width: 100%; overflow-x: auto; }
+        table { max-width: 100%; }
+        math[display="block"] { max-width: 100%; overflow-x: auto; }
+        figure svg { max-width: 100%; height: auto; }
+    </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳转至正文</a>
 <div class="double-border">
 <div class="container">
-    <div class="sidebar">
+    <nav class="sidebar" aria-label="课程目录">
         <h3>⚡ 课程目录</h3>
         <ul class="chapter-list">
             <li><a href="01.html">第1章 向量分析与场论基础</a></li>
@@ -41,10 +48,13 @@
             <li><a href="27.html">第27章 AI驱动的电磁场建模</a></li>
             <li><a href="28.html">第28章 综合项目：从理论到产品</a></li>
         </ul>
-    </div>
-    <div class="main-content">
-
-        <h2>第22章 相对论与电磁学</h2>
+    </nav>
+    <main class="main-content" id="content">
+    <article>
+        <header class="article-header">
+            <h1>第22章 相对论与电磁学</h1>
+            <p class="dek">爱因斯坦 16 岁追问“追着光跑会看到什么”，10 年后用狭义相对论作答——而电磁学正是这场革命的出生地。本章从法拉第悖论与以太零结果讲到洛伦兹变换，最终把 E 和 B 统一进同一个电磁场张量。</p>
+        </header>
 
         <p>爱因斯坦 16 岁时问了自己一个问题："如果我以光速追着一束光跑，会看到什么？"10 年后，他用狭义相对论回答了这个问题——而电磁学正是相对论的"出生地"。没有麦克斯韦方程组与经典力学的矛盾，就不会有相对论。从某种意义上说，<strong>相对论是从电磁学的内在矛盾中诞生的</strong>。</p>
 
@@ -65,6 +75,31 @@
 
         <p>1887 年，Michelson 和 Morley 设计了精巧的干涉实验试图测量地球穿过以太的运动，结果是：<strong>零</strong>。不管地球怎么运动，光速在所有方向上都相同。这个"零结果"是经典物理学史上最著名的实验结果——它直接摧毁了以太假说。</p>
 
+        <figure aria-labelledby="fig-mm-title">
+            <svg viewBox="0 0 460 210" role="img" aria-labelledby="fig-mm-title fig-mm-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-mm-title">迈克耳孙–莫雷实验：两束垂直光路的干涉</title>
+                <desc id="fig-mm-desc">光源发出的光经分束器分成两束，分别沿两条垂直光路到镜面后返回，再在探测器处重叠干涉。若以太存在，地球运动会使两路光程差随方向变化，干涉条纹应随之移动。</desc>
+                <rect width="460" height="210" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <rect x="40" y="88" width="34" height="24" rx="4" fill="#1d4ed8"/>
+                    <text x="28" y="132" font-size="12" fill="#1e3a5f" font-weight="700">光源</text>
+                    <line x1="74" y1="100" x2="196" y2="100" stroke="#b45309" stroke-width="2"/>
+                    <line x1="186" y1="90" x2="214" y2="118" stroke="#475569" stroke-width="2.4"/>
+                    <line x1="200" y1="100" x2="200" y2="52" stroke="#b45309" stroke-width="2"/>
+                    <line x1="200" y1="100" x2="340" y2="100" stroke="#b45309" stroke-width="2"/>
+                    <line x1="188" y1="52" x2="212" y2="52" stroke="#0f766e" stroke-width="3"/>
+                    <line x1="340" y1="88" x2="340" y2="112" stroke="#0f766e" stroke-width="3"/>
+                    <line x1="200" y1="100" x2="200" y2="166" stroke="#b45309" stroke-width="2"/>
+                    <rect x="188" y="166" width="24" height="20" rx="3" fill="#7c3aed"/>
+                    <text x="150" y="200" font-size="12" fill="#1e3a5f" font-weight="700">探测器</text>
+                    <text x="216" y="46" font-size="11.5" fill="#0f766e" font-weight="700">镜</text>
+                    <text x="346" y="82" font-size="11.5" fill="#0f766e" font-weight="700">镜</text>
+                    <text x="188" y="124" font-size="11.5" fill="#475569" font-weight="700">分束器</text>
+                </g>
+            </svg>
+            <figcaption>迈克耳孙–莫雷干涉仪的示意：分束器把一束光分成沿两条互相垂直光路往返的分量，再在探测器处干涉。如果光速像声速那样相对于“以太”固定，地球的漂移会让两路光程差随仪器转动而改变，条纹应当移动；实测条纹移动为零，直接否定了以太假说。</figcaption>
+        </figure>
+
         <h2>洛伦兹变换</h2>
 
         <p>1905 年，爱因斯坦发表了狭义相对论，以两个简洁的公设彻底解决了上述矛盾：</p>
@@ -75,11 +110,9 @@
 
         <p>从这两个公设可以推导出联系两个惯性系的<strong>洛伦兹变换</strong>：</p>
 
-        <p class="text-center">
-            <strong>x' = γ(x − vt)</strong><br>
-            <strong>t' = γ(t − vx/c²)</strong><br>
-            <strong>γ = 1 / √(1 − v²/c²)</strong>
-        </p>
+        <div class="math-equation" role="group" aria-label="洛伦兹变换与洛伦兹因子"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="洛伦兹变换与洛伦兹因子，可横向滚动">
+            <math display="block" aria-label="x′ 等于 γ 乘（x 减 vt）；t′ 等于 γ 乘（t 减 vx 除以 c 平方）；γ 等于 1 除以根号 1 减 v 平方 除以 c 平方"><mrow><msup><mi>x</mi><mo>′</mo></msup><mo>=</mo><mi>γ</mi><mrow><mo>(</mo><mi>x</mi><mo>−</mo><mi>v</mi><mi>t</mi><mo>)</mo></mrow><mo>,</mo><mspace width="1.5em"/><msup><mi>t</mi><mo>′</mo></msup><mo>=</mo><mi>γ</mi><mrow><mo>(</mo><mi>t</mi><mo>−</mo><mfrac><mrow><mi>v</mi><mi>x</mi></mrow><msup><mi>c</mi><mn>2</mn></msup></mfrac><mo>)</mo></mrow><mo>,</mo><mspace width="1.5em"/><mi>γ</mi><mo>=</mo><mfrac><mn>1</mn><msqrt><mn>1</mn><mo>−</mo><mfrac><msup><mi>v</mi><mn>2</mn></msup><msup><mi>c</mi><mn>2</mn></msup></mfrac></msqrt></mfrac></mrow></math>
+        </div></div>
 
         <p>洛伦兹变换取代了经典物理中的伽利略变换，带来了革命性的物理意义：</p>
 
@@ -92,7 +125,33 @@
             <tr><td>同时性</td><td>绝对</td><td>相对（取决于参考系）</td></tr>
         </table>
 
-        <p>相对论速度叠加公式：</p>
+        <figure aria-labelledby="fig-lz-title">
+            <svg viewBox="0 0 460 200" role="img" aria-labelledby="fig-lz-title fig-lz-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-lz-title">两个惯性系：S 系与以速度 v 运动的 S′ 系</title>
+                <desc id="fig-lz-desc">S′ 系相对 S 系以速度 v 向右运动。同一束光在两个参考系中都以光速 c 传播，两组坐标由洛伦兹变换联系。</desc>
+                <rect width="460" height="200" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="lz-arr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#475569"/></marker></defs>
+                    <line x1="90" y1="150" x2="90" y2="50" stroke="#1d4ed8" stroke-width="1.8" marker-end="url(#lz-arr)"/>
+                    <line x1="90" y1="150" x2="235" y2="150" stroke="#1d4ed8" stroke-width="1.8" marker-end="url(#lz-arr)"/>
+                    <text x="72" y="168" font-size="13" fill="#1d4ed8" font-weight="700">S</text>
+                    <line x1="270" y1="150" x2="270" y2="50" stroke="#b45309" stroke-width="1.8" marker-end="url(#lz-arr)"/>
+                    <line x1="270" y1="150" x2="415" y2="150" stroke="#b45309" stroke-width="1.8" marker-end="url(#lz-arr)"/>
+                    <text x="252" y="168" font-size="13" fill="#b45309" font-weight="700">S′</text>
+                    <line x1="90" y1="150" x2="150" y2="90" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/>
+                    <line x1="270" y1="150" x2="330" y2="90" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/>
+                    <text x="156" y="84" font-size="11.5" fill="#dc2626" font-weight="700">c</text>
+                    <text x="336" y="84" font-size="11.5" fill="#dc2626" font-weight="700">c</text>
+                    <line x1="90" y1="184" x2="270" y2="184" stroke="#475569" stroke-width="1.6" marker-end="url(#lz-arr)"/>
+                    <text x="168" y="198" font-size="12.5" fill="#475569" font-weight="700">速度 v</text>
+                </g>
+            </svg>
+            <figcaption>两个惯性系：S′ 系相对 S 系以速度 v 向右运动。洛伦兹变换把同一事件在两系中的坐标 (x, t) 与 (x′, t′) 联系起来。关键之处在于：无论在哪一个参考系中测量，那束红色虚线所代表的光都以同一个速度 c 传播——这正是伽利略变换做不到、而洛伦兹变换天然满足的。</figcaption>
+        </figure>
+
+        <div class="math-equation" role="group" aria-label="相对论速度叠加"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="相对论速度叠加，可横向滚动">
+            <math display="block" aria-label="u′ 等于（u 减 v）除以（1 减 uv 除以 c 平方）"><mrow><msup><mi>u</mi><mo>′</mo></msup><mo>=</mo><mfrac><mrow><mi>u</mi><mo>−</mo><mi>v</mi></mrow><mrow><mn>1</mn><mo>−</mo><mfrac><mrow><mi>u</mi><mi>v</mi></mrow><msup><mi>c</mi><mn>2</mn></msup></mfrac></mrow></mfrac></mrow></math>
+        </div></div>
 
         <pre><code>def relativistic_add(u, v):
     """
@@ -126,18 +185,44 @@ print(f"光: u' = {relativistic_add(1.0, 0.8):.4f}c")
 
         <p>电磁场从一个惯性系变换到另一个惯性系的变换规则：</p>
         <ul>
-            <li><strong>平行于运动方向的分量</strong>：不变
-                <br>E'<sub>∥</sub> = E<sub>∥</sub>，B'<sub>∥</sub> = B<sub>∥</sub></li>
-            <li><strong>垂直于运动方向的分量</strong>：混合变换
-                <br>E'<sub>⊥</sub> = γ(E + v × B)<sub>⊥</sub>
-                <br>B'<sub>⊥</sub> = γ(B − v × E / c²)<sub>⊥</sub></li>
+            <li><strong>平行于运动方向的分量</strong>：不变，E&#8202;′<sub>∥</sub> = E<sub>∥</sub>，B&#8202;′<sub>∥</sub> = B<sub>∥</sub>。</li>
+            <li><strong>垂直于运动方向的分量</strong>：电场与磁场相互混合（见下式）。</li>
         </ul>
+
+        <div class="math-equation" role="group" aria-label="电磁场的洛伦兹变换"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电磁场的洛伦兹变换，可横向滚动">
+            <math display="block" aria-label="垂直于运动方向：E′⊥ 等于 γ 乘（E 加 v 叉乘 B）的垂直分量；B′⊥ 等于 γ 乘（B 减 v 叉乘 E 除以 c 平方）的垂直分量"><mrow><msub><msup><mi>E</mi><mo>′</mo></msup><mo>⊥</mo></msub><mo>=</mo><mi>γ</mi><msub><mrow><mo>(</mo><mi>E</mi><mo>+</mo><mi>v</mi><mo>×</mo><mi>B</mi><mo>)</mo></mrow><mo>⊥</mo></msub><mo>,</mo><mspace width="1.5em"/><msub><msup><mi>B</mi><mo>′</mo></msup><mo>⊥</mo></msub><mo>=</mo><mi>γ</mi><msub><mrow><mo>(</mo><mi>B</mi><mo>−</mo><mfrac><mrow><mi>v</mi><mo>×</mo><mi>E</mi></mrow><msup><mi>c</mi><mn>2</mn></msup></mfrac><mo>)</mo></mrow><mo>⊥</mo></msub></mrow></math>
+        </div></div>
 
         <p>这些变换公式表明：在一个参考系中只有电场、没有磁场的物理情境，在另一个参考系中会同时出现电场和磁场——反过来也一样。这就是为什么"运动磁铁产生电场"这个看似矛盾的现象在相对论中变得自然。</p>
 
         <div class="tip">
             <strong>一个简单的记忆方法：</strong>电场和磁场的关系类似于时间和空间的关系。就像"过去和未来"取决于观察者的运动状态一样，"电场和磁场"也取决于观察者的运动状态。E 和 B 是同一个物理实体——电磁场——在不同"截面"上的投影。
         </div>
+
+        <figure aria-labelledby="fig-eb-title">
+            <svg viewBox="0 0 460 190" role="img" aria-labelledby="fig-eb-title fig-eb-desc" xmlns="http://www.w3.org/2000/svg">
+                <title id="fig-eb-title">电场与磁场随参考系相互转化</title>
+                <desc id="fig-eb-desc">静止电荷周围只有径向电场；当观察者与电荷有相对运动时，同一个电荷在观察者看来同时产生环形磁场。电场与磁场是同一电磁场在不同参考系下的不同分量。</desc>
+                <rect width="460" height="190" rx="18" fill="#f3f7fb"/>
+                <g font-family="system-ui, 'PingFang SC', sans-serif">
+                    <defs><marker id="eb-arr" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1d4ed8"/></marker></defs>
+                    <circle cx="120" cy="90" r="7" fill="#dc2626"/>
+                    <line x1="120" y1="73" x2="120" y2="45" stroke="#1d4ed8" stroke-width="2" marker-end="url(#eb-arr)"/>
+                    <line x1="120" y1="107" x2="120" y2="135" stroke="#1d4ed8" stroke-width="2" marker-end="url(#eb-arr)"/>
+                    <line x1="103" y1="90" x2="75" y2="90" stroke="#1d4ed8" stroke-width="2" marker-end="url(#eb-arr)"/>
+                    <line x1="137" y1="90" x2="165" y2="90" stroke="#1d4ed8" stroke-width="2" marker-end="url(#eb-arr)"/>
+                    <text x="60" y="174" font-size="12.5" fill="#1e3a5f" font-weight="700">静止电荷：只有 E</text>
+                    <circle cx="340" cy="90" r="7" fill="#dc2626"/>
+                    <line x1="340" y1="73" x2="340" y2="45" stroke="#1d4ed8" stroke-width="2" marker-end="url(#eb-arr)"/>
+                    <line x1="340" y1="107" x2="340" y2="135" stroke="#1d4ed8" stroke-width="2" marker-end="url(#eb-arr)"/>
+                    <line x1="323" y1="90" x2="295" y2="90" stroke="#1d4ed8" stroke-width="2" marker-end="url(#eb-arr)"/>
+                    <line x1="357" y1="90" x2="385" y2="90" stroke="#1d4ed8" stroke-width="2" marker-end="url(#eb-arr)"/>
+                    <path d="M340 45 A45 45 0 1 0 340 135" fill="none" stroke="#b45309" stroke-width="2" stroke-dasharray="6 4"/>
+                    <text x="352" y="174" font-size="12.5" fill="#1e3a5f" font-weight="700">相对运动：E 与 B 共存</text>
+                </g>
+            </svg>
+            <figcaption>同一颗电荷，在不同参考系里看到的东西不同：与电荷相对静止的观察者只能测到径向电场 E；与电荷有相对运动的观察者，除了电场还会测到环绕的磁场 B（橙色虚线）。这就是“磁场是电场的相对论修正”的直观含义——E 与 B 只是电磁场在不同参考系下的分量。</figcaption>
+        </figure>
 
         <h2>重新理解"动生电动势"</h2>
 
@@ -155,26 +240,30 @@ print(f"光: u' = {relativistic_add(1.0, 0.8):.4f}c")
         <p>相对论将电磁学提升到了前所未有的优雅和统一。引入四维时空坐标 x<sup>μ</sup> = (ct, x, y, z)，电磁学可以写成极其紧凑的四维形式：</p>
 
         <p><strong>四维势：</strong></p>
-        <p class="text-center"><strong>A<sup>μ</sup> = (V/c, A)</strong></p>
+        <div class="math-equation" role="group" aria-label="四维势"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="四维势，可横向滚动">
+            <math display="block" aria-label="四维势 A 的 μ 分量 等于（V 除以 c, A）"><mrow><msup><mi>A</mi><mi>μ</mi></msup><mo>=</mo><mrow><mo>(</mo><mfrac><mi>V</mi><mi>c</mi></mfrac><mo>,</mo><mstyle><mspace width="0.2em"/></mstyle><mi>A</mi><mo>)</mo></mrow></mrow></math>
+        </div></div>
         <p>其中 V 是标量势，A 是矢量势。四维势在洛伦兹变换下像一个四维矢量一样变换。</p>
 
         <p><strong>电磁场张量：</strong></p>
-        <p class="text-center"><strong>F<sup>μν</sup> = ∂<sup>μ</sup>A<sup>ν</sup> − ∂<sup>ν</sup>A<sup>μ</sup></strong></p>
+        <div class="math-equation" role="group" aria-label="电磁场张量定义"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电磁场张量定义，可横向滚动">
+            <math display="block" aria-label="F 的 μν 分量 等于 ∂ 的 μ 分量 A 的 ν 分量 减 ∂ 的 ν 分量 A 的 μ 分量"><mrow><msup><mi>F</mi><mrow><mi>μ</mi><mi>ν</mi></mrow></msup><mo>=</mo><msup><mo>∂</mo><mi>μ</mi></msup><msup><mi>A</mi><mi>ν</mi></msup><mo>−</mo><msup><mo>∂</mo><mi>ν</mi></msup><msup><mi>A</mi><mi>μ</mi></msup></mrow></math>
+        </div></div>
         <p>这是一个 4×4 反对称张量。其分量正好对应电场和磁场：</p>
 
-        <p class="text-center">
-            F<sup>μν</sup> =
-            [0, −E<sub>x</sub>/c, −E<sub>y</sub>/c, −E<sub>z</sub>/c;<br>
-            &nbsp;E<sub>x</sub>/c, 0, −B<sub>z</sub>, B<sub>y</sub>;<br>
-            &nbsp;E<sub>y</sub>/c, B<sub>z</sub>, 0, −B<sub>x</sub>;<br>
-            &nbsp;E<sub>z</sub>/c, −B<sub>y</sub>, B<sub>x</sub>, 0]
-        </p>
+        <div class="math-equation" role="group" aria-label="电磁场张量的分量矩阵"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="电磁场张量的分量矩阵，可横向滚动">
+            <math display="block" aria-label="F 的分量矩阵：第一行 0，负 Ex/c，负 Ey/c，负 Ez/c；第二行 Ex/c，0，负 Bz，By；第三行 Ey/c，Bz，0，负 Bx；第四行 Ez/c，负 By，Bx，0"><mrow><msup><mi>F</mi><mrow><mi>μ</mi><mi>ν</mi></mrow></msup><mo>=</mo><mo>[</mo><mtable>
+                <mtr><mtd><mn>0</mn></mtd><mtd><mo>−</mo><mfrac><msub><mi>E</mi><mi>x</mi></msub><mi>c</mi></mfrac></mtd><mtd><mo>−</mo><mfrac><msub><mi>E</mi><mi>y</mi></msub><mi>c</mi></mfrac></mtd><mtd><mo>−</mo><mfrac><msub><mi>E</mi><mi>z</mi></msub><mi>c</mi></mfrac></mtd></mtr>
+                <mtr><mtd><mfrac><msub><mi>E</mi><mi>x</mi></msub><mi>c</mi></mfrac></mtd><mtd><mn>0</mn></mtd><mtd><mo>−</mo><msub><mi>B</mi><mi>z</mi></msub></mtd><mtd><msub><mi>B</mi><mi>y</mi></msub></mtd></mtr>
+                <mtr><mtd><mfrac><msub><mi>E</mi><mi>y</mi></msub><mi>c</mi></mfrac></mtd><mtd><msub><mi>B</mi><mi>z</mi></msub></mtd><mtd><mn>0</mn></mtd><mtd><mo>−</mo><msub><mi>B</mi><mi>x</mi></msub></mtd></mtr>
+                <mtr><mtd><mfrac><msub><mi>E</mi><mi>z</mi></msub><mi>c</mi></mfrac></mtd><mtd><mo>−</mo><msub><mi>B</mi><mi>y</mi></msub></mtd><mtd><msub><mi>B</mi><mi>x</mi></msub></mtd><mtd><mn>0</mn></mtd></mtr>
+            </mtable><mo>]</mo></mrow></math>
+        </div></div>
 
         <p><strong>麦克斯韦方程组的协变形式：</strong></p>
-        <p class="text-center">
-            <strong>∂<sub>μ</sub>F<sup>μν</sup> = μ₀ J<sup>ν</sup></strong> （由电荷电流产生场）<br>
-            <strong>∂<sub>μ</sub>̃F<sup>μν</sup> = 0</strong> （无磁单极）
-        </p>
+        <div class="math-equation" role="group" aria-label="麦克斯韦方程组的协变形式"><div class="math-scroll" data-math-scroll tabindex="0" role="region" aria-label="麦克斯韦方程组的协变形式，可横向滚动">
+            <math display="block" aria-label="∂ 下标 μ 作用在 F 的 μν 分量上 等于 μ0 J 的 ν 分量；∂ 下标 μ 作用在对偶张量上 等于 0"><mrow><msub><mo>∂</mo><mi>μ</mi></msub><msup><mi>F</mi><mrow><mi>μ</mi><mi>ν</mi></mrow></msup><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><msup><mi>J</mi><mi>ν</mi></msup><mo>,</mo><mspace width="1.5em"/><msub><mo>∂</mo><mi>μ</mi></msub><msup><mover accent="true"><mi>F</mi><mo>~</mo></mover><mrow><mi>μ</mi><mi>ν</mi></mrow></msup><mo>=</mo><mn>0</mn></mrow></math>
+        </div></div>
 
         <p>其中 J<sup>ν</sup> = (cρ, J) 是四维电流密度，̃F<sup>μν</sup> 是对偶张量。这四个方程（ν = 0,1,2,3 各一个分量）等价于麦克斯韦方程组原来的四个方程。</p>
 
@@ -198,12 +287,23 @@ print(f"光: u' = {relativistic_add(1.0, 0.8):.4f}c")
 
         <p>从第 1 章的向量分析到本章的相对论，我们完整走过了电磁学的理论大厦。下一章开始，我们将进入实践环节——用 COMSOL 和 Ansys HFSS 等专业软件进行电磁场仿真，将理论转化为工程能力。</p>
 
+        <section class="references" aria-labelledby="refs-heading">
+            <h2 id="refs-heading">延伸阅读与史料出处</h2>
+            <ol>
+                <li>Albert Einstein, <em>Zur Elektrodynamik bewegter Körper</em>（论动体的电动力学）, <em>Annalen der Physik</em> 17: 891–921 (1905)：狭义相对论的奠基论文。见 <a href="https://doi.org/10.1002/andp.19053221004">DOI:10.1002/andp.19053221004</a>。</li>
+                <li>A. A. Michelson &amp; E. W. Morley, <em>On the Relative Motion of the Earth and the Luminiferous Ether</em>, <em>American Journal of Science</em> 34: 333–345 (1887)：以太漂移的零结果实验。见 <a href="https://doi.org/10.2475/ajs.s3-34.203.333">DOI:10.2475/ajs.s3-34.203.333</a>。</li>
+                <li>David J. Griffiths, <em>Introduction to Electrodynamics</em>, 4th ed., Cambridge University Press, 2017：第 12 章“电动力学与相对论”，包括电磁场的洛伦兹变换与四维张量形式。见 <a href="https://doi.org/10.1017/9781108333511">DOI:10.1017/9781108333511</a>。</li>
+            </ol>
+            <p class="depth-note">“磁场是电场的相对论修正、数量级 v²/c²”是帮助理解的启发式说法，严格而言 E 与 B 是同一电磁场张量在不同参考系的分量，并不存在谁包含谁的关系；本文的电荷“只有 E / E 与 B 共存”图为说明参考系依赖性的示意。文中“研究生与教授”的对话为阐明“相对论不解释永磁体起源”的示意场景；永磁性的根源是电子自旋与交换作用，属量子现象。注：历史上以太假说的式微是多个实验与理论逐步累积的结果，迈克耳孙–莫雷实验是关键但非唯一的一步。</p>
+        </section>
+
         <div class="footer-nav">
             <a href="21.html">← 上一章</a>
             <a href="index.html">📖 返回目录</a>
             <a href="23.html">下一章 →</a>
         </div>
-    </div>
+    </article>
+    </main>
 </div>
 </div>
 </body>
