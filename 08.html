@@ -10,6 +10,15 @@
         table { max-width: 100%; }
         math[display="block"] { max-width: 100%; overflow-x: auto; }
         figure svg { max-width: 100%; height: auto; }
+        .iw { display: grid; grid-template-columns: 1fr 220px; gap: 18px; align-items: center; background: #f3f7fb; border: 1px solid #dbe3ec; border-radius: 14px; padding: 16px; }
+        .iw svg { width: 100%; height: auto; }
+        .iw-controls { display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: #334155; }
+        .iw-controls label { display: flex; justify-content: space-between; gap: 8px; }
+        .iw-controls input[type="range"] { width: 100%; }
+        .iw-controls button { align-self: flex-start; cursor: pointer; border: 1px solid #94a3b8; background: #fff; color: #1e3a5f; padding: 6px 12px; border-radius: 10px; font-size: 0.85rem; }
+        .iw-controls button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 1px; }
+        .iw-result { font-weight: 700; color: #1e3a5f; margin: 0; }
+        @media (max-width: 640px) { .iw { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -239,6 +248,39 @@
         </div></div>
         <p>其中 <em>n</em> 是单位长度的匝数。这是一条非常重要的公式——它表明只要螺线管足够长，内部磁场与轴向位置无关。</p>
 
+        <section class="interactive" aria-labelledby="bs8-title">
+            <h2 id="bs8-title">交互：电流与距离如何决定导线磁场</h2>
+            <p>无限长直导线外一点的磁感应强度为 B = μ₀I/(2πr)。拖动滑块改变电流 I 与探测距离 r，观察 B 的量级如何变化——B 与 I 成正比、与 r 成反比。</p>
+            <div class="iw">
+                <svg viewBox="0 0 300 240" role="img" aria-label="长直导线磁场探索器：同心磁感线与随距离移动的探测点">
+                    <title>长直导线磁场探索器</title>
+                    <rect width="300" height="240" rx="12" fill="#ffffff"/>
+                    <text x="16" y="24" font-size="12" fill="#64748b">磁感线（俯视：导线垂直纸面）</text>
+                    <g fill="none" stroke="#7dd3fc" stroke-width="1.6">
+                        <circle cx="110" cy="130" r="24"/><circle cx="110" cy="130" r="48"/>
+                        <circle cx="110" cy="130" r="72"/><circle cx="110" cy="130" r="96"/>
+                    </g>
+                    <line x1="110" y1="10" x2="110" y2="230" stroke="#b91c1c" stroke-width="4"/>
+                    <circle cx="110" cy="130" r="5" fill="#b91c1c"/>
+                    <text x="116" y="126" font-size="12" fill="#b91c1c">导线 I</text>
+                    <line id="bs8-radial" x1="110" y1="130" x2="134" y2="130" stroke="#0e7490" stroke-width="2" stroke-dasharray="5 4"/>
+                    <circle id="bs8-probe" cx="134" cy="130" r="6" fill="#0e7490"/>
+                    <text id="bs8-probe-label" x="142" y="116" font-size="12" fill="#0e7490">r=5.0cm</text>
+                    <text x="16" y="232" font-size="12" fill="#64748b">圆环半径 24/48/72/96 像素 ↔ 距离 5/10/15/20 cm</text>
+                </svg>
+                <div class="iw-controls">
+                    <label for="bs8-i">电流 I <output id="bs8-i-out" for="bs8-i">10 A</output></label>
+                    <input id="bs8-i" type="range" min="1" max="50" value="10" step="1">
+                    <label for="bs8-r">距离 r <output id="bs8-r-out" for="bs8-r">5.0 cm</output></label>
+                    <input id="bs8-r" type="range" min="1" max="20" value="5" step="0.5">
+                    <button type="button" id="bs8-preset">示例：I=50 A，r=2 cm</button>
+                    <button type="button" id="bs8-reset">重置为 I=10 A，r=5 cm</button>
+                    <p class="iw-result" id="bs8-result" aria-live="polite"></p>
+                </div>
+            </div>
+            <p class="depth-note">该交互按无限长直导线的理想公式 B = μ₀I/(2πr) 计算（μ₀ = 4π×10⁻⁷ T·m/A），为教学示意，忽略导线有限长度与近场修正。</p>
+        </section>
+
         <h2>洛伦兹力与带电粒子运动</h2>
         <p>我们已经知道运动电荷在磁场中受力 <strong>F</strong> = q<strong>v</strong> × <strong>B</strong>。一个关键的物理特征：<strong>磁场力总是垂直于速度，因此不做功</strong>——磁场可以改变带电粒子的运动方向，但不能改变其速率（动能不变）。</p>
 
@@ -350,5 +392,39 @@ print(f"|B| = {np.linalg.norm(B_center):.2e} T")</code></pre>
     </main>
 </div>
 </div>
+    <script>
+        (function () {
+            var i = document.getElementById('bs8-i');
+            var r = document.getElementById('bs8-r');
+            var iOut = document.getElementById('bs8-i-out');
+            var rOut = document.getElementById('bs8-r-out');
+            var result = document.getElementById('bs8-result');
+            var probe = document.getElementById('bs8-probe');
+            var radial = document.getElementById('bs8-radial');
+            var label = document.getElementById('bs8-probe-label');
+            if (!i || !r || !result || !probe) { return; }
+            function update() {
+                var cur = Number(i.value) || 0;
+                var rc = Number(r.value) || 0;
+                var rm = rc / 100;
+                var Bt = (2e-7 * cur / rm) * 1e6;
+                var px = 110 + rc * 4.8;
+                probe.setAttribute('cx', px);
+                radial.setAttribute('x2', px);
+                label.setAttribute('x', px + 8);
+                label.textContent = 'r=' + rc.toFixed(1) + 'cm';
+                iOut.textContent = cur + ' A';
+                rOut.textContent = rc.toFixed(1) + ' cm';
+                result.textContent = 'B = μ₀I/(2πr) = ' + Bt.toFixed(1) + ' \u00b5T（= ' + (Bt / 1000).toFixed(3) + ' mT）';
+            }
+            i.addEventListener('input', update);
+            r.addEventListener('input', update);
+            var reset = document.getElementById('bs8-reset');
+            if (reset) { reset.addEventListener('click', function () { i.value = 10; r.value = 5; update(); }); }
+            var preset = document.getElementById('bs8-preset');
+            if (preset) { preset.addEventListener('click', function () { i.value = 50; r.value = 2; update(); }); }
+            update();
+        })();
+    </script>
 </body>
 </html>
