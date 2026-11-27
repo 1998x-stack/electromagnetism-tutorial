@@ -10,6 +10,15 @@
         table { max-width: 100%; }
         math[display="block"] { max-width: 100%; overflow-x: auto; }
         figure svg { max-width: 100%; height: auto; }
+        .iw { display: grid; grid-template-columns: 1fr 220px; gap: 18px; align-items: center; background: #f3f7fb; border: 1px solid #dbe3ec; border-radius: 14px; padding: 16px; }
+        .iw svg { width: 100%; height: auto; }
+        .iw-controls { display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: #334155; }
+        .iw-controls label { display: flex; justify-content: space-between; gap: 8px; }
+        .iw-controls input[type="range"] { width: 100%; }
+        .iw-controls button { align-self: flex-start; cursor: pointer; border: 1px solid #94a3b8; background: #fff; color: #1e3a5f; padding: 6px 12px; border-radius: 10px; font-size: 0.85rem; }
+        .iw-controls button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 1px; }
+        .iw-result { font-weight: 700; color: #1e3a5f; margin: 0; }
+        @media (max-width: 640px) { .iw { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -113,6 +122,36 @@
             我能告诉你一个残酷的真相吗？高斯定理<strong>总是成立</strong>，但它并不总是<strong>有用</strong>。为什么？因为要利用 ∮E·dS = q/ε₀ 求出 E，你需要把 E 从积分号里提出来——这要求 E 在闭合曲面上的大小处处相等、方向处处垂直于曲面（或与曲面平行从而贡献为零）。换句话说，<strong>你必须选择与电荷分布对称性匹配的高斯面</strong>。<br>
             初学者最容易犯的错误是：看到任意一个电荷分布就试图用高斯定理求电场，结果选了错误形状的高斯面，积分算不出来，然后抱怨高斯定理"没用"。记住口诀：<strong>"有对称性，用高斯；没对称性，老老实实积分"</strong>。
         </div>
+
+        <section class="interactive" aria-labelledby="gauss3-title">
+            <h2 id="gauss3-title">交互：高斯面半径改变时，通量不变而场强变化</h2>
+            <p>把点电荷 q 包在一个半径为 r 的球形高斯面内。拖动滑块改变 r 与 q：穿过闭合面的电通量 Φ=∮E·dA 恒等于 q/ε₀（与 r 无关），而面上场强 E=q/(4πε₀r²) 随 r² 衰减。</p>
+            <div class="iw">
+                <svg viewBox="0 0 300 240" role="img" aria-label="高斯面探索器：球面半径与包围电荷决定通量与场强">
+                    <title>高斯面探索器</title>
+                    <rect width="300" height="240" rx="12" fill="#ffffff"/>
+                    <g stroke="#0e7490" stroke-width="1.4" stroke-dasharray="3 3">
+                        <line x1="150" y1="120" x2="150" y2="55"/><line x1="150" y1="120" x2="215" y2="120"/>
+                        <line x1="150" y1="120" x2="150" y2="185"/><line x1="150" y1="120" x2="85" y2="120"/>
+                    </g>
+                    <circle id="gauss3-sphere" cx="150" cy="120" r="22.5" fill="none" stroke="#b91c1c" stroke-width="2" stroke-dasharray="6 4"/>
+                    <circle cx="150" cy="120" r="8" fill="#b91c1c"/>
+                    <text x="150" y="118" font-size="11" fill="#ffffff" text-anchor="middle">q</text>
+                    <text id="gauss3-rlabel" x="172" y="98" font-size="12" fill="#b91c1c">r</text>
+                    <text x="20" y="232" font-size="11" fill="#64748b">红色虚线：半径可调的高斯球面（径向截面的示意）</text>
+                </svg>
+                <div class="iw-controls">
+                    <label for="gauss3-r">半径 r <output id="gauss3-r-out" for="gauss3-r">5.0 cm</output></label>
+                    <input id="gauss3-r" type="range" min="1" max="20" value="5" step="0.5">
+                    <label for="gauss3-q">电荷 q <output id="gauss3-q-out" for="gauss3-q">1.0 nC</output></label>
+                    <input id="gauss3-q" type="range" min="0.5" max="5" value="1" step="0.5">
+                    <button type="button" id="gauss3-big">放大高斯面到 r=15 cm</button>
+                    <button type="button" id="gauss3-reset">重置为 r=5 cm</button>
+                    <p class="iw-result" id="gauss3-result" aria-live="polite"></p>
+                </div>
+            </div>
+            <p class="depth-note">该交互为教学示意：按点电荷的精确公式 E=q/(4πε₀r²)、Φ=q/ε₀ 计算，取 k=8.988×10⁹ N·m²/C²、ε₀=8.854×10⁻¹² F/m，未考虑高斯面内多电荷叠加与介质修正。</p>
+        </section>
 
         <h2>高斯定理应用技巧</h2>
         <p>利用高斯定理求电场的核心在于选择合适的高斯面。以下是三种标准的对称性及其对应的高斯面选择：</p>
@@ -241,5 +280,39 @@ plt.show()
     </main>
 </div>
 </div>
+    <script>
+        (function () {
+            var k = 8.988e9, eps0 = 8.854e-12;
+            var r = document.getElementById('gauss3-r');
+            var q = document.getElementById('gauss3-q');
+            var rOut = document.getElementById('gauss3-r-out');
+            var qOut = document.getElementById('gauss3-q-out');
+            var result = document.getElementById('gauss3-result');
+            var sphere = document.getElementById('gauss3-sphere');
+            var rlabel = document.getElementById('gauss3-rlabel');
+            if (!r || !q || !result || !sphere) { return; }
+            function update() {
+                var rc = Number(r.value) || 0;
+                var charge = (Number(q.value) || 0) * 1e-9;
+                var rm = rc / 100;
+                var E = k * charge / (rm * rm);
+                var flux = charge / eps0;
+                var Rpx = rc * 4.5;
+                sphere.setAttribute('r', Rpx.toFixed(1));
+                rlabel.setAttribute('x', (150 + Rpx * 0.7 + 6).toFixed(0));
+                rlabel.setAttribute('y', (120 - Rpx * 0.7 - 6).toFixed(0));
+                rOut.textContent = rc.toFixed(1) + ' cm';
+                qOut.textContent = Number(q.value).toFixed(1) + ' nC';
+                result.textContent = 'Φ = q/ε₀ = ' + flux.toFixed(1) + ' V·m（与 r 无关）；面上 E = ' + E.toFixed(0) + ' V/m。';
+            }
+            r.addEventListener('input', update);
+            q.addEventListener('input', update);
+            var big = document.getElementById('gauss3-big');
+            if (big) { big.addEventListener('click', function () { r.value = 15; update(); }); }
+            var reset = document.getElementById('gauss3-reset');
+            if (reset) { reset.addEventListener('click', function () { r.value = 5; update(); }); }
+            update();
+        })();
+    </script>
 </body>
 </html>
