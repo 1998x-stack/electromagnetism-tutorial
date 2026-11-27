@@ -10,6 +10,15 @@
         table { max-width: 100%; }
         math[display="block"] { max-width: 100%; overflow-x: auto; }
         figure svg { max-width: 100%; height: auto; }
+        .iw { display: grid; grid-template-columns: 1fr 220px; gap: 18px; align-items: center; background: #f3f7fb; border: 1px solid #dbe3ec; border-radius: 14px; padding: 16px; }
+        .iw svg { width: 100%; height: auto; }
+        .iw-controls { display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: #334155; }
+        .iw-controls label { display: flex; justify-content: space-between; gap: 8px; }
+        .iw-controls input[type="range"] { width: 100%; }
+        .iw-controls button { align-self: flex-start; cursor: pointer; border: 1px solid #94a3b8; background: #fff; color: #1e3a5f; padding: 6px 12px; border-radius: 10px; font-size: 0.85rem; }
+        .iw-controls button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 1px; }
+        .iw-result { font-weight: 700; color: #1e3a5f; margin: 0; }
+        @media (max-width: 640px) { .iw { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -218,6 +227,31 @@
             发射天线和接收天线的极化必须匹配，否则会产生严重的极化失配损耗。垂直极化天线接收水平极化信号时，理论上接收功率为零（正交极化隔离）。这也是为什么卫星通信常使用圆极化——卫星姿态变化不影响信号接收，因为圆极化波对接收天线的朝向不敏感。而GPS卫星使用右旋圆极化（RHCP），所以GPS接收天线也是RHCP的。如果你用线极化天线去接收GPS信号，会有约3dB的极化损耗。
         </div>
 
+        <section class="interactive" aria-labelledby="pol15-title">
+            <h2 id="pol15-title">交互：相位差决定极化轨迹</h2>
+            <p>取等幅的两正交分量 E<sub>x</sub>=A cos(ωt)、E<sub>y</sub>=A cos(ωt+δ)。固定 A，只改变相位差 δ，电场矢量末端在 x–y 平面画出的轨迹从直线变为椭圆、再到圆。拖动滑块观察这一连续过渡。</p>
+            <div class="iw">
+                <svg viewBox="0 0 300 240" role="img" aria-label="极化轨迹探索器：电场矢量末端随相位差变化的轨迹">
+                    <title>极化轨迹探索器</title>
+                    <rect width="300" height="240" rx="12" fill="#ffffff"/>
+                    <line x1="20" y1="120" x2="280" y2="120" stroke="#e2e8f0"/>
+                    <line x1="150" y1="15" x2="150" y2="225" stroke="#e2e8f0"/>
+                    <circle cx="150" cy="120" r="70" fill="none" stroke="#cbd5e1" stroke-dasharray="4 4"/>
+                    <path id="pol15-locus" d="M80 190 L220 50" fill="none" stroke="#b91c1c" stroke-width="3"/>
+                    <text x="222" y="46" font-size="12" fill="#b91c1c">δ=0°：直线</text>
+                    <text x="24" y="236" font-size="11" fill="#64748b">x 为 E_x，y 为 E_y；虚线为单位圆参考</text>
+                </svg>
+                <div class="iw-controls">
+                    <label for="pol15-d">相位差 δ <output id="pol15-d-out" for="pol15-d">0°</output></label>
+                    <input id="pol15-d" type="range" min="0" max="360" value="0" step="5">
+                    <button type="button" id="pol15-circ">设为 δ=90°（圆极化）</button>
+                    <button type="button" id="pol15-reset">重置为 δ=0°</button>
+                    <p class="iw-result" id="pol15-result" aria-live="polite"></p>
+                </div>
+            </div>
+            <p class="depth-note">该交互为教学示意：取等幅分量 A 相同，轨迹按 E<sub>x</sub>=A cos(ωt)、E<sub>y</sub>=A cos(ωt+δ) 精确绘制；左/右旋约定与上文琼斯矢量表一致（δ=+90° 左旋，δ=−90° 右旋）。</p>
+        </section>
+
         <h2>电磁波在导电介质中的传播</h2>
         <p>在实际工程中，电磁波很少在真空中传播，更多是在有损耗的介质（如土壤、海水、混凝土、生物组织）中传播。导电介质中，麦克斯韦方程组的解会发生质的变化。</p>
         <h3>复介电常数</h3>
@@ -394,5 +428,37 @@
     </main>
 </div>
 </div>
+    <script>
+        (function () {
+            var slider = document.getElementById('pol15-d');
+            var out = document.getElementById('pol15-d-out');
+            var result = document.getElementById('pol15-result');
+            var locus = document.getElementById('pol15-locus');
+            if (!slider || !locus || !result) { return; }
+            function update() {
+                var d = Number(slider.value) || 0;
+                var de = (((d + 180) % 360) + 360) % 360 - 180;
+                var dr = de * Math.PI / 180, pts = [];
+                for (var i = 0; i <= 72; i++) {
+                    var t = i * Math.PI / 36;
+                    var ex = Math.cos(t), ey = Math.cos(t + dr);
+                    pts.push((150 + 70 * ex).toFixed(1) + ' ' + (120 - 70 * ey).toFixed(1));
+                }
+                locus.setAttribute('d', 'M ' + pts.join(' L'));
+                var s = Math.sin(dr), type;
+                if (Math.abs(s) < 0.05) { type = '线极化'; }
+                else if (Math.abs(s) > 0.98) { type = (de > 0 ? '左旋圆极化' : '右旋圆极化'); }
+                else { type = '椭圆极化'; }
+                out.textContent = d + '\u00b0';
+                result.textContent = 'δ=' + d + '° → 等幅分量下为 ' + type + '（|sinδ|=' + Math.abs(s).toFixed(2) + '）。';
+            }
+            slider.addEventListener('input', update);
+            var circ = document.getElementById('pol15-circ');
+            if (circ) { circ.addEventListener('click', function () { slider.value = 90; update(); }); }
+            var reset = document.getElementById('pol15-reset');
+            if (reset) { reset.addEventListener('click', function () { slider.value = 0; update(); }); }
+            update();
+        })();
+    </script>
 </body>
 </html>
