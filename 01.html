@@ -10,6 +10,16 @@
         table { max-width: 100%; }
         math[display="block"] { max-width: 100%; overflow-x: auto; }
         figure svg { max-width: 100%; height: auto; }
+        .dd-widget { display: grid; grid-template-columns: 1fr 210px; gap: 18px; align-items: center; background: #f3f7fb; border: 1px solid #dbe3ec; border-radius: 14px; padding: 16px; }
+        .dd-widget svg { width: 100%; height: auto; }
+        .dd-widget svg g { transition: transform 0.12s ease-out; }
+        .dd-controls { display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: #334155; }
+        .dd-controls input[type="range"] { width: 100%; }
+        .dd-controls button { align-self: flex-start; cursor: pointer; border: 1px solid #94a3b8; background: #fff; color: #1e3a5f; padding: 6px 12px; border-radius: 10px; font-size: 0.85rem; }
+        .dd-controls button:hover, .dd-controls button:focus-visible { background: #e2e8f0; outline: 2px solid #3b82f6; outline-offset: 1px; }
+        .dd-result { font-weight: 700; color: #1e3a5f; margin: 0; }
+        @media (max-width: 640px) { .dd-widget { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .dd-widget svg g { transition: none; } }
     </style>
 </head>
 <body>
@@ -204,6 +214,40 @@
             <figcaption>三种微分运算的几何含义：梯度作用在标量场、给出方向；散度作用在向量场、给出“源密度”标量；旋度作用在向量场、给出旋转轴向量。三格箭头颜色只用于区分语义，不代表不同物理量。</figcaption>
         </figure>
 
+        <section class="interactive" aria-labelledby="dd-title">
+            <h3 id="dd-title">交互：方向导数与最速上升方向</h3>
+            <p>取标量场 <em>f</em>(x,y)=x²+2y²，在点 P=(1,1) 处梯度 ∇<em>f</em>=(2x,4y)=(2,4)。拖动滑块转动探测方向 <strong>u</strong>（单位向量），观察方向导数 D<sub>u</sub>f = ∇<em>f</em> · <strong>u</strong> 如何随方向改变。</p>
+            <div class="dd-widget">
+                <svg viewBox="0 0 360 240" role="img" aria-label="方向导数探索器：固定的梯度向量与随滑块旋转的单位方向向量">
+                    <title>方向导数探索器</title>
+                    <defs>
+                        <marker id="dd-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#1e3a5f"/></marker>
+                    </defs>
+                    <rect width="360" height="240" rx="12" fill="#ffffff"/>
+                    <g stroke="#e2e8f0" stroke-width="1">
+                        <line x1="60" y1="30" x2="60" y2="200"/><line x1="120" y1="30" x2="120" y2="200"/><line x1="180" y1="30" x2="180" y2="200"/>
+                        <line x1="20" y1="180" x2="330" y2="180"/><line x1="20" y1="130" x2="330" y2="130"/><line x1="20" y1="80" x2="330" y2="80"/>
+                    </g>
+                    <text x="20" y="224" font-size="12" fill="#64748b">等值线为同心椭圆（示意）；x 向右为正</text>
+                    <line x1="60" y1="180" x2="110" y2="80" stroke="#b91c1c" stroke-width="3" marker-end="url(#dd-arrow)"/>
+                    <text x="116" y="78" font-size="12" fill="#b91c1c">∇f = (2, 4)</text>
+                    <g id="dd-u-arrow">
+                        <line x1="60" y1="180" x2="140" y2="180" stroke="#0e7490" stroke-width="3" marker-end="url(#dd-arrow)"/>
+                    </g>
+                    <text x="146" y="184" font-size="12" fill="#0e7490">u（可旋转）</text>
+                    <circle cx="60" cy="180" r="5" fill="#1e3a5f"/>
+                    <text x="30" y="200" font-size="12" fill="#1e3a5f">P(1,1)</text>
+                </svg>
+                <div class="dd-controls">
+                    <label for="dd-angle">探测方向角 θ = <output id="dd-angle-out" for="dd-angle">0°</output></label>
+                    <input id="dd-angle" type="range" min="0" max="360" value="0" step="1">
+                    <button type="button" id="dd-align">对齐梯度方向（最快上升）</button>
+                    <p class="dd-result" id="dd-result" aria-live="polite"></p>
+                </div>
+            </div>
+            <p class="depth-note">该交互为教学示意：场 f 与点 P 为举例取值，用于演示 D<sub>u</sub>f = ∇f · u 的方向依赖，不对应具体实验。</p>
+        </section>
+
         <h2>散度（Divergence）</h2>
         <p>散度是作用于向量场的运算。对于一个向量场 <strong>F</strong> = (F<sub>x</sub>, F<sub>y</sub>, F<sub>z</sub>)，其散度定义为：</p>
         <p>∇ · <strong>F</strong> = ∂F<sub>x</sub>/∂x + ∂F<sub>y</sub>/∂y + ∂F<sub>z</sub>/∂z</p>
@@ -341,5 +385,26 @@
     </main>
 </div>
 </div>
+    <script>
+        (function () {
+            var slider = document.getElementById('dd-angle');
+            var out = document.getElementById('dd-angle-out');
+            var res = document.getElementById('dd-result');
+            var arrow = document.getElementById('dd-u-arrow');
+            var btn = document.getElementById('dd-align');
+            if (!slider || !out || !res || !arrow) { return; }
+            function update() {
+                var deg = Number(slider.value) || 0;
+                var rad = deg * Math.PI / 180;
+                var val = 2 * Math.cos(rad) + 4 * Math.sin(rad);
+                arrow.setAttribute('transform', 'rotate(' + (-deg) + ' 60 180)');
+                out.textContent = deg + '\u00b0';
+                res.textContent = 'D_u f = ' + val.toFixed(2) + '（θ=' + deg + '°）；梯度方向 θ≈63° 时取最大值 |∇f|=√20≈4.47。';
+            }
+            slider.addEventListener('input', update);
+            if (btn) { btn.addEventListener('click', function () { slider.value = 63; update(); }); }
+            update();
+        })();
+    </script>
 </body>
 </html>
