@@ -10,6 +10,15 @@
         table { max-width: 100%; }
         math[display="block"] { max-width: 100%; overflow-x: auto; }
         figure svg { max-width: 100%; height: auto; }
+        .iw { display: grid; grid-template-columns: 1fr 230px; gap: 18px; align-items: center; background: #f3f7fb; border: 1px solid #dbe3ec; border-radius: 14px; padding: 16px; }
+        .iw svg { width: 100%; height: auto; }
+        .iw-controls { display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: #334155; }
+        .iw-controls label { display: flex; justify-content: space-between; gap: 8px; }
+        .iw-controls input[type="range"] { width: 100%; }
+        .iw-controls button { align-self: flex-start; cursor: pointer; border: 1px solid #94a3b8; background: #fff; color: #1e3a5f; padding: 6px 12px; border-radius: 10px; font-size: 0.85rem; }
+        .iw-controls button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 1px; }
+        .iw-result { font-weight: 700; color: #1e3a5f; margin: 0; }
+        @media (max-width: 640px) { .iw { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -374,6 +383,32 @@
             更棘手的是，用户的<strong>手握持姿势</strong>会显著改变天线的辐射环境。苹果的"天线门"（iPhone 4）就是握持导致天线短路、信号骤降的著名案例。现代手机天线设计必须从第一天就把"手"作为天线的一部分来仿真——这就是所谓的<strong>人头+人手模型</strong>（SAM Head + Hand Phantom）测试。
         </div>
 
+        <section class="interactive" aria-labelledby="pa18-title">
+            <h2 id="pa18-title">交互：馈电相位差如何扫描波束</h2>
+            <p>8 单元等间距直线阵（间距 d=λ/2，故 kd=π）。相邻单元相位差 Δφ 决定主波束方向 sinθ₀ = −Δφ/(kd)。拖动滑块改变 Δφ，观察主瓣如何随相位扫描。</p>
+            <div class="iw">
+                <svg viewBox="0 0 300 240" role="img" aria-label="相控阵波束扫描探索器：主瓣方向随馈电相位差变化">
+                    <title>相控阵波束扫描探索器</title>
+                    <rect width="300" height="240" rx="12" fill="#ffffff"/>
+                    <line x1="20" y1="225" x2="280" y2="225" stroke="#cbd5e1"/>
+                    <line x1="150" y1="40" x2="150" y2="225" stroke="#e2e8f0" stroke-dasharray="4 4"/>
+                    <text x="154" y="52" font-size="12" fill="#94a3b8">θ=0（正前方）</text>
+                    <path id="pa18-pattern" d="M 150 225 L150 225 L149 225 L147 224 L144 224 L141 223 L138 221 L135 219 L133 217 L131 215 L131 214 L133 214 L138 216 L144 220 L149 224 L141 216 L136 210 L134 205 L136 206 L142 212 L150 225 L142 209 L137 195 L136 189 L140 196 L148 219 L143 192 L137 145 L137 100 L142 67 L150 55 L158 67 L163 100 L163 145 L157 192 L152 219 L160 196 L164 189 L163 195 L158 209 L150 225 L158 212 L164 206 L166 205 L164 210 L159 216 L151 224 L156 220 L162 216 L167 214 L169 214 L169 215 L167 217 L165 219 L162 221 L159 223 L156 224 L153 224 L151 225 L150 225" fill="rgba(14,116,144,0.18)" stroke="#0e7490" stroke-width="1.6"/>
+                    <line id="pa18-beam" x1="150" y1="225" x2="150" y2="55" stroke="#b91c1c" stroke-width="2" stroke-dasharray="6 4"/>
+                    <text id="pa18-beam-label" x="156" y="70" font-size="12" fill="#b91c1c">θ₀=0°</text>
+                    <text x="20" y="238" font-size="11" fill="#64748b">极坐标：半径 ∝ |阵因子|，方向为偏离正前方的角度 θ</text>
+                </svg>
+                <div class="iw-controls">
+                    <label for="pa18-dphi">馈电相位差 Δφ <output id="pa18-dphi-out" for="pa18-dphi">0°</output></label>
+                    <input id="pa18-dphi" type="range" min="-180" max="180" value="0" step="5">
+                    <button type="button" id="pa18-scan">扫描到 θ₀ = 30°（Δφ=−90°）</button>
+                    <button type="button" id="pa18-reset">重置为 Δφ=0°</button>
+                    <p class="iw-result" id="pa18-result" aria-live="polite"></p>
+                </div>
+            </div>
+            <p class="depth-note">该交互按 N=8、d=λ/2 的理想阵因子 AF(ψ)=|sin(Nψ/2)/(N sin(ψ/2))| 计算，ψ=π sinθ+Δφ；未计单元方向图、互耦与副瓣电平的实际设计约束，为教学示意。</p>
+        </section>
+
         <h2>本章总结与展望</h2>
         <p>本章我们完成了从"引导波"到"辐射波"的跨越：</p>
         <ul>
@@ -406,5 +441,50 @@
     </main>
 </div>
 </div>
+    <script>
+        (function () {
+            var N = 8, kd = Math.PI;
+            var slider = document.getElementById('pa18-dphi');
+            var out = document.getElementById('pa18-dphi-out');
+            var result = document.getElementById('pa18-result');
+            var pattern = document.getElementById('pa18-pattern');
+            var beam = document.getElementById('pa18-beam');
+            var beamLabel = document.getElementById('pa18-beam-label');
+            if (!slider || !pattern || !result) { return; }
+            function af(th, dphi) {
+                var psi = kd * Math.sin(th * Math.PI / 180) + dphi;
+                var s = Math.sin(psi / 2);
+                if (Math.abs(s) < 1e-9) { return 1; }
+                return Math.abs(Math.sin(N * psi / 2) / (N * s));
+            }
+            function update() {
+                var dphi = Number(slider.value) || 0, drad = dphi * Math.PI / 180;
+                var pts = [];
+                for (var th = -90; th <= 90; th += 3) {
+                    var a = af(th, drad), R = 170 * a;
+                    pts.push((150 + R * Math.sin(th * Math.PI / 180)).toFixed(0) + ' ' + (225 - R * Math.cos(th * Math.PI / 180)).toFixed(0));
+                }
+                pattern.setAttribute('d', 'M ' + pts.join(' L'));
+                var s0 = -dphi / 180, theta0 = Math.abs(s0) <= 1 ? Math.asin(s0) * 180 / Math.PI : NaN;
+                out.textContent = dphi + '\u00b0';
+                if (isFinite(theta0)) {
+                    var x2 = 150 + 170 * Math.sin(theta0 * Math.PI / 180), y2 = 225 - 170 * Math.cos(theta0 * Math.PI / 180);
+                    beam.setAttribute('x2', x2.toFixed(0)); beam.setAttribute('y2', y2.toFixed(0)); beam.setAttribute('opacity', '1');
+                    beamLabel.setAttribute('x', (x2 + 8).toFixed(0)); beamLabel.setAttribute('y', (y2 + 13).toFixed(0));
+                    beamLabel.textContent = 'θ₀=' + theta0.toFixed(0) + '°';
+                    result.textContent = 'Δφ=' + dphi + '° → sinθ₀=' + s0.toFixed(2) + '，主瓣指向 θ₀≈' + theta0.toFixed(0) + '°。';
+                } else {
+                    beam.setAttribute('opacity', '0'); beamLabel.textContent = '不可实现（|sinθ₀|>1）';
+                    result.textContent = 'Δφ=' + dphi + '° → sinθ₀=' + s0.toFixed(2) + '，超出 |sinθ₀|≤1，主瓣无法实现。';
+                }
+            }
+            slider.addEventListener('input', update);
+            var scan = document.getElementById('pa18-scan');
+            if (scan) { scan.addEventListener('click', function () { slider.value = -90; update(); }); }
+            var reset = document.getElementById('pa18-reset');
+            if (reset) { reset.addEventListener('click', function () { slider.value = 0; update(); }); }
+            update();
+        })();
+    </script>
 </body>
 </html>
